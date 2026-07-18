@@ -1,6 +1,7 @@
-"use client";
+"use client"
 
-import { useFinance } from "@/lib/finance-context";
+import { useFinance } from "@/lib/finance-context"
+import { useTheme } from "@/lib/theme-context"
 import {
   PieChart,
   Pie,
@@ -14,308 +15,364 @@ import {
   Legend,
   LineChart,
   Line,
-} from "recharts";
+} from "recharts"
+
+const tooltipStyle = {
+  background: "var(--bg-secondary)",
+  border: "1px solid var(--border-color)",
+  borderRadius: "12px",
+  color: "var(--text-primary)",
+}
 
 export default function ResumoPage() {
-  const {
-    gastos,
-    renda,
-    totalGastos,
-    totalRenda,
-    saldo,
-    gastosPorCategoria,
-    gastosPorPeriodicidade,
-  } = useFinance();
+  const { gastos, renda, totalGastos, totalRenda, saldo, gastosPorCategoria, gastosPorPeriodicidade } = useFinance()
+  const { theme } = useTheme()
 
-  const formatar = (v: number) =>
-    v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  const textColor = theme === "dark" ? "#94a3b8" : "#64748b"
 
-  const totalGastosCalc = totalGastos();
-  const totalRendaCalc = totalRenda();
-  const saldoCalc = saldo();
-  const porCategoria = gastosPorCategoria();
-  const porPeriodicidade = gastosPorPeriodicidade();
+  const totalR = totalRenda()
+  const totalG = totalGastos()
+  const saldoFinal = saldo()
+  const porCategoria = gastosPorCategoria()
+  const porPeriodicidade = gastosPorPeriodicidade()
 
-  const resumoGeral = [
-    { name: "Renda", valor: totalRendaCalc, fill: "#22c55e" },
-    { name: "Gastos", valor: totalGastosCalc, fill: "#ef4444" },
-  ];
+  const comparativoData = [
+    { name: "Renda", value: totalR },
+    { name: "Gastos", value: totalG },
+  ]
 
-  const evolucaoMensal = (() => {
-    const meses = new Map<string, { gastos: number; renda: number }>();
-    gastos.forEach((g) => {
-      const mes = g.data.substring(0, 7);
-      const atual = meses.get(mes) || { gastos: 0, renda: 0 };
-      atual.gastos += g.valor;
-      meses.set(mes, atual);
-    });
-    renda.forEach((r) => {
-      const mes = r.data.substring(0, 7);
-      const atual = meses.get(mes) || { gastos: 0, renda: 0 };
-      atual.renda += r.valor;
-      meses.set(mes, atual);
-    });
-    return Array.from(meses.entries())
-      .map(([mes, v]) => ({
-        mes,
-        Gastos: v.gastos,
-        Renda: v.renda,
-        Saldo: v.renda - v.gastos,
-      }))
-      .sort((a, b) => a.mes.localeCompare(b.mes));
-  })();
+  const categoriaData = porCategoria.map((c) => ({
+    name: c.nome,
+    value: c.valor,
+    color: c.cor,
+  }))
+
+  const periodicidadeData = [
+    { name: "Semanal", value: porPeriodicidade.semanal, fill: "#6366f1" },
+    { name: "Mensal", value: porPeriodicidade.mensal, fill: "#8b5cf6" },
+    { name: "Anual", value: porPeriodicidade.anual / 12, fill: "#f59e0b" },
+  ]
+
+  const monthMap = new Map<string, { renda: number; gastos: number }>()
+  renda.forEach((r) => {
+    const key = new Date(r.data).toLocaleDateString("pt-BR", { year: "2-digit", month: "short" })
+    const cur = monthMap.get(key) || { renda: 0, gastos: 0 }
+    cur.renda += r.valor
+    monthMap.set(key, cur)
+  })
+  gastos.forEach((g) => {
+    const key = new Date(g.data).toLocaleDateString("pt-BR", { year: "2-digit", month: "short" })
+    const cur = monthMap.get(key) || { renda: 0, gastos: 0 }
+    cur.gastos += g.valor
+    monthMap.set(key, cur)
+  })
+
+  const evolucaoData = Array.from(monthMap.entries())
+    .map(([mes, v]) => ({ mes, renda: v.renda, gastos: v.gastos, saldo: v.renda - v.gastos }))
+    .sort((a, b) => {
+      const parseMonth = (m: string) => {
+        const parts = m.split("/")
+        const monthNames: Record<string, number> = {
+          jan: 0, fev: 1, mar: 2, abr: 3, mai: 4, jun: 5,
+          jul: 6, ago: 7, set: 8, out: 9, nov: 10, dez: 11,
+        }
+        const month = parts[0]?.toLowerCase().replace(".", "")
+        return (parseInt(parts[1]) || 0) * 12 + (monthNames[month] ?? 0)
+      }
+      return parseMonth(a.mes) - parseMonth(b.mes)
+    })
+
+  const maxCategoria = Math.max(...porCategoria.map((c) => c.valor), 1)
+
+  const monthlyRenda = totalR / Math.max(monthMap.size, 1)
+  const monthlyGastos = totalG / Math.max(monthMap.size, 1)
+  const monthlySaldo = monthlyRenda - monthlyGastos
+
+  if (gastos.length === 0 && renda.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 p-8">
+        <div className="text-6xl opacity-30">📊</div>
+        <h1
+          className="text-2xl font-bold"
+          style={{ color: "var(--text-primary)" }}
+        >
+          Nenhum dado encontrado
+        </h1>
+        <p
+          className="text-center max-w-md"
+          style={{ color: "var(--text-secondary)" }}
+        >
+          Adicione suas receitas e despesas para visualizar o resumo financeiro
+          completo.
+        </p>
+      </div>
+    )
+  }
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Resumo Geral</h1>
+    <div className="max-w-7xl mx-auto px-4 py-8 space-y-10">
+      <h1
+        className="text-3xl font-bold animate-fade-in"
+        style={{ color: "var(--text-primary)", animationDelay: "0ms" }}
+      >
+        Resumo Financeiro
+      </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-[var(--card)] border border-[var(--success)] rounded-2xl p-6">
-          <p className="text-[var(--muted)] text-sm mb-1">💰 Renda Total</p>
-          <p className="text-3xl font-bold text-[var(--success)]">
-            {formatar(totalRendaCalc)}
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div
+          className="bg-[var(--bg-secondary)] border-2 border-green-500/60 rounded-2xl p-6 animate-fade-in"
+          style={{ animationDelay: "50ms" }}
+        >
+          <p className="text-sm font-medium uppercase tracking-wide" style={{ color: "var(--text-secondary)" }}>
+            Renda Total
           </p>
-          <p className="text-xs text-[var(--muted)] mt-2">
-            Entradas registradas: {renda.length}
-          </p>
-        </div>
-        <div className="bg-[var(--card)] border border-[var(--danger)] rounded-2xl p-6">
-          <p className="text-[var(--muted)] text-sm mb-1">💸 Gastos Totais</p>
-          <p className="text-3xl font-bold text-[var(--danger)]">
-            {formatar(totalGastosCalc)}
-          </p>
-          <p className="text-xs text-[var(--muted)] mt-2">
-            Saídas registradas: {gastos.length}
+          <p className="text-3xl font-bold mt-2 text-green-500">
+            {totalR.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
           </p>
         </div>
         <div
-          className={`bg-[var(--card)] border rounded-2xl p-6 ${
-            saldoCalc >= 0 ? "border-[var(--success)]" : "border-[var(--danger)]"
-          }`}
+          className="bg-[var(--bg-secondary)] border-2 border-red-500/60 rounded-2xl p-6 animate-fade-in"
+          style={{ animationDelay: "100ms" }}
         >
-          <p className="text-[var(--muted)] text-sm mb-1">📊 Saldo Final</p>
-          <p
-            className={`text-3xl font-bold ${
-              saldoCalc >= 0 ? "text-[var(--success)]" : "text-[var(--danger)]"
-            }`}
-          >
-            {formatar(saldoCalc)}
+          <p className="text-sm font-medium uppercase tracking-wide" style={{ color: "var(--text-secondary)" }}>
+            Gastos Totais
           </p>
-          <p className="text-xs text-[var(--muted)] mt-2">
-            {saldoCalc >= 0
-              ? "Parabéns! Está no lucro"
-              : "Atenção! Gastos maiores que renda"}
+          <p className="text-3xl font-bold mt-2 text-red-500">
+            {totalG.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+          </p>
+        </div>
+        <div
+          className="bg-[var(--bg-secondary)] border-2 rounded-2xl p-6 animate-fade-in"
+          style={{
+            animationDelay: "150ms",
+            borderColor: saldoFinal >= 0 ? "#22c55e" : "#ef4444",
+          }}
+        >
+          <p className="text-sm font-medium uppercase tracking-wide" style={{ color: "var(--text-secondary)" }}>
+            Saldo Final
+          </p>
+          <p
+            className="text-3xl font-bold mt-2"
+            style={{ color: saldoFinal >= 0 ? "#22c55e" : "#ef4444" }}
+          >
+            {saldoFinal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
           </p>
         </div>
       </div>
 
-      <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 mb-8">
-        <h2 className="text-lg font-bold mb-4">Comparativo Renda vs Gastos</h2>
-        {totalRendaCalc > 0 || totalGastosCalc > 0 ? (
+      {/* Comparativo Renda vs Gastos */}
+      <section
+        className="bg-[var(--bg-secondary)] border rounded-2xl p-6 animate-fade-in"
+        style={{ animationDelay: "200ms" }}
+      >
+        <h2 className="text-xl font-semibold mb-6" style={{ color: "var(--text-primary)" }}>
+          Comparativo Renda vs Gastos
+        </h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart>
+            <Pie
+              data={comparativoData}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              innerRadius={80}
+              outerRadius={120}
+              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+              labelLine
+            >
+              <Cell fill="#22c55e" />
+              <Cell fill="#ef4444" />
+            </Pie>
+            <Tooltip formatter={(v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} contentStyle={tooltipStyle} />
+            <Legend />
+          </PieChart>
+        </ResponsiveContainer>
+      </section>
+
+      {/* Gastos por Categoria */}
+      <section
+        className="bg-[var(--bg-secondary)] border rounded-2xl p-6 animate-fade-in"
+        style={{ animationDelay: "250ms" }}
+      >
+        <h2 className="text-xl font-semibold mb-6" style={{ color: "var(--text-primary)" }}>
+          Gastos por Categoria
+        </h2>
+        {categoriaData.length === 0 ? (
+          <p className="text-center py-8" style={{ color: "var(--text-secondary)" }}>
+            Nenhum gasto registrado.
+          </p>
+        ) : (
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
-                data={resumoGeral}
+                data={categoriaData}
+                dataKey="value"
+                nameKey="name"
                 cx="50%"
                 cy="50%"
-                innerRadius={80}
-                outerRadius={120}
-                paddingAngle={5}
-                dataKey="valor"
+                innerRadius={50}
+                outerRadius={90}
+                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                labelLine
               >
-                {resumoGeral.map((entry, i) => (
-                  <Cell key={i} fill={entry.fill} />
+                {categoriaData.map((entry, i) => (
+                  <Cell key={i} fill={entry.color} />
                 ))}
               </Pie>
-              <Tooltip
-                formatter={(v: number) => formatar(v)}
-                contentStyle={{
-                  background: "#1a1a1a",
-                  border: "1px solid #262626",
-                  borderRadius: "8px",
-                }}
-              />
+              <Tooltip formatter={(v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} contentStyle={tooltipStyle} />
               <Legend />
             </PieChart>
           </ResponsiveContainer>
-        ) : (
-          <p className="text-[var(--muted)] text-center py-12">
-            Adicione renda e gastos para ver o comparativo
-          </p>
         )}
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6">
-          <h2 className="text-lg font-bold mb-4">Gastos por Categoria</h2>
-          {porCategoria.length > 0 ? (
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={porCategoria}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={50}
-                  outerRadius={90}
-                  paddingAngle={3}
-                  dataKey="valor"
-                  nameKey="nome"
-                  label={({ nome, percent }) =>
-                    `${nome} (${(percent * 100).toFixed(0)}%)`
-                  }
-                >
-                  {porCategoria.map((entry, i) => (
-                    <Cell key={i} fill={entry.cor} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  formatter={(v: number) => formatar(v)}
-                  contentStyle={{
-                    background: "#1a1a1a",
-                    border: "1px solid #262626",
-                    borderRadius: "8px",
-                  }}
-                />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
-          ) : (
-            <p className="text-[var(--muted)] text-center py-12">
-              Sem dados de gastos
-            </p>
-          )}
-        </div>
-
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6">
-          <h2 className="text-lg font-bold mb-4">Gastos por Periodicidade</h2>
-          {gastos.length > 0 ? (
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart
-                data={[
-                  { name: "Semanal", valor: porPeriodicidade.semanal },
-                  { name: "Mensal", valor: porPeriodicidade.mensal },
-                  { name: "Anual (/12)", valor: porPeriodicidade.anual / 12 },
-                ]}
-              >
-                <XAxis dataKey="name" stroke="#737373" />
-                <YAxis stroke="#737373" />
-                <Tooltip
-                  formatter={(v: number) => formatar(v)}
-                  contentStyle={{
-                    background: "#1a1a1a",
-                    border: "1px solid #262626",
-                    borderRadius: "8px",
-                  }}
-                />
-                <Bar dataKey="valor" fill="#8b5cf6" radius={[8, 8, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          ) : (
-            <p className="text-[var(--muted)] text-center py-12">
-              Sem dados de gastos
-            </p>
-          )}
-        </div>
-      </div>
-
-      {evolucaoMensal.length > 0 && (
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 mb-8">
-          <h2 className="text-lg font-bold mb-4">Evolução Mensal</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={evolucaoMensal}>
-              <XAxis dataKey="mes" stroke="#737373" />
-              <YAxis stroke="#737373" />
-              <Tooltip
-                formatter={(v: number) => formatar(v)}
-                contentStyle={{
-                  background: "#1a1a1a",
-                  border: "1px solid #262626",
-                  borderRadius: "8px",
-                }}
-              />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="Renda"
-                stroke="#22c55e"
-                strokeWidth={2}
-              />
-              <Line
-                type="monotone"
-                dataKey="Gastos"
-                stroke="#ef4444"
-                strokeWidth={2}
-              />
-              <Line
-                type="monotone"
-                dataKey="Saldo"
-                stroke="#3b82f6"
-                strokeWidth={2}
-                strokeDasharray="5 5"
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      )}
+      </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6">
-          <h2 className="text-lg font-bold mb-4">Detalhamento por Categoria</h2>
-          {porCategoria.length > 0 ? (
-            <div className="space-y-3">
-              {porCategoria.map((cat) => (
-                <div key={cat.nome}>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>{cat.nome}</span>
-                    <span className="font-bold">{formatar(cat.valor)}</span>
-                  </div>
-                  <div className="h-2 bg-[var(--background)] rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full transition-all"
-                      style={{
-                        width: `${(cat.valor / porCategoria[0].valor) * 100}%`,
-                        backgroundColor: cat.cor,
-                      }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+        {/* Gastos por Periodicidade */}
+        <section
+          className="bg-[var(--bg-secondary)] border rounded-2xl p-6 animate-fade-in"
+          style={{ animationDelay: "300ms" }}
+        >
+          <h2 className="text-xl font-semibold mb-6" style={{ color: "var(--text-primary)" }}>
+            Gastos por Periodicidade
+          </h2>
+          {periodicidadeData.length === 0 ? (
+            <p className="text-center py-8" style={{ color: "var(--text-secondary)" }}>
+              Sem dados de periodicidade.
+            </p>
           ) : (
-            <p className="text-[var(--muted)] text-center py-8">Sem dados</p>
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart data={periodicidadeData}>
+                <XAxis dataKey="name" tick={{ fill: textColor, fontSize: 12 }} />
+                <YAxis tick={{ fill: textColor, fontSize: 12 }} tickFormatter={(v: number) => `R$${(v / 1000).toFixed(0)}k`} />
+                <Tooltip formatter={(v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} contentStyle={tooltipStyle} />
+                <Bar dataKey="value" radius={[8, 8, 0, 0]}>
+                  {periodicidadeData.map((entry, i) => (
+                    <Cell key={i} fill={entry.fill} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
           )}
-        </div>
+        </section>
 
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6">
-          <h2 className="text-lg font-bold mb-4">Resumo Mensal Estimado</h2>
-          <div className="space-y-4">
-            <div className="flex justify-between items-center py-3 border-b border-[var(--border)]">
-              <span className="text-[var(--muted)]">Renda Mensal</span>
-              <span className="text-[var(--success)] font-bold text-lg">
-                {formatar(totalRendaCalc)}
+        {/* Resumo Mensal Estimado */}
+        <section
+          className="bg-[var(--bg-secondary)] border rounded-2xl p-6 animate-fade-in"
+          style={{ animationDelay: "350ms" }}
+        >
+          <h2 className="text-xl font-semibold mb-6" style={{ color: "var(--text-primary)" }}>
+            Resumo Mensal Estimado
+          </h2>
+          <div className="space-y-5">
+            <div className="flex items-center justify-between">
+              <span className="font-medium" style={{ color: "var(--text-secondary)" }}>
+                Renda Mensal (média)
+              </span>
+              <span className="font-bold text-green-500">
+                {monthlyRenda.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
               </span>
             </div>
-            <div className="flex justify-between items-center py-3 border-b border-[var(--border)]">
-              <span className="text-[var(--muted)]">Gastos Mensais (estimados)</span>
-              <span className="text-[var(--danger)] font-bold text-lg">
-                {formatar(totalGastosCalc)}
+            <div className="flex items-center justify-between">
+              <span className="font-medium" style={{ color: "var(--text-secondary)" }}>
+                Gastos Mensais (média)
+              </span>
+              <span className="font-bold text-red-500">
+                {monthlyGastos.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
               </span>
             </div>
-            <div className="flex justify-between items-center py-3">
-              <span className="font-bold">Saldo Mensal</span>
+            <div
+              className="h-px w-full"
+              style={{ background: "var(--border-color)" }}
+            />
+            <div className="flex items-center justify-between">
+              <span className="font-medium" style={{ color: "var(--text-secondary)" }}>
+                Saldo Mensal (estimado)
+              </span>
               <span
-                className={`font-bold text-2xl ${
-                  saldoCalc >= 0
-                    ? "text-[var(--success)]"
-                    : "text-[var(--danger)]"
-                }`}
+                className="font-bold"
+                style={{ color: monthlySaldo >= 0 ? "#22c55e" : "#ef4444" }}
               >
-                {formatar(saldoCalc)}
+                {monthlySaldo.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
               </span>
             </div>
           </div>
-        </div>
+        </section>
       </div>
+
+      {/* Evolução Mensal */}
+      <section
+        className="bg-[var(--bg-secondary)] border rounded-2xl p-6 animate-fade-in"
+        style={{ animationDelay: "400ms" }}
+      >
+        <h2 className="text-xl font-semibold mb-6" style={{ color: "var(--text-primary)" }}>
+          Evolução Mensal
+        </h2>
+        {evolucaoData.length === 0 ? (
+          <p className="text-center py-8" style={{ color: "var(--text-secondary)" }}>
+            Adicione dados de renda e gastos para ver a evolução.
+          </p>
+        ) : (
+          <ResponsiveContainer width="100%" height={350}>
+            <LineChart data={evolucaoData}>
+              <XAxis dataKey="mes" tick={{ fill: textColor, fontSize: 12 }} />
+              <YAxis tick={{ fill: textColor, fontSize: 12 }} tickFormatter={(v: number) => `R$${(v / 1000).toFixed(0)}k`} />
+              <Tooltip formatter={(v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} contentStyle={tooltipStyle} />
+              <Legend />
+              <Line type="monotone" dataKey="renda" stroke="#22c55e" strokeWidth={2} dot={false} name="Renda" />
+              <Line type="monotone" dataKey="gastos" stroke="#ef4444" strokeWidth={2} dot={false} name="Gastos" />
+              <Line type="monotone" dataKey="saldo" stroke="#3b82f6" strokeWidth={2} strokeDasharray="6 4" dot={false} name="Saldo" />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
+      </section>
+
+      {/* Detalhamento por Categoria */}
+      <section
+        className="bg-[var(--bg-secondary)] border rounded-2xl p-6 animate-fade-in"
+        style={{ animationDelay: "450ms" }}
+      >
+        <h2 className="text-xl font-semibold mb-6" style={{ color: "var(--text-primary)" }}>
+          Detalhamento por Categoria
+        </h2>
+        {porCategoria.length === 0 ? (
+          <p className="text-center py-8" style={{ color: "var(--text-secondary)" }}>
+            Nenhum gasto por categoria para exibir.
+          </p>
+        ) : (
+          <div className="space-y-4">
+            {porCategoria.map((cat, i) => (
+              <div key={i} className="space-y-1">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="font-medium flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
+                    <span
+                      className="inline-block w-3 h-3 rounded-full"
+                      style={{ background: cat.cor }}
+                    />
+                    {cat.nome}
+                  </span>
+                  <span style={{ color: "var(--text-secondary)" }}>
+                    {cat.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  </span>
+                </div>
+                <div
+                  className="h-2 rounded-full overflow-hidden"
+                  style={{ background: "var(--border-color)" }}
+                >
+                  <div
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{
+                      width: `${(cat.valor / maxCategoria) * 100}%`,
+                      background: cat.cor,
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
     </div>
-  );
+  )
 }

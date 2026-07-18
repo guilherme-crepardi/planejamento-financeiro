@@ -1,6 +1,7 @@
 "use client";
 
 import { useFinance } from "@/lib/finance-context";
+import { useTheme } from "@/lib/theme-context";
 import {
   PieChart,
   Pie,
@@ -15,6 +16,7 @@ import {
 } from "recharts";
 
 export default function Dashboard() {
+  const { theme } = useTheme();
   const {
     gastos,
     renda,
@@ -34,63 +36,102 @@ export default function Dashboard() {
   const total = totalGastos();
   const rendaTotal = totalRenda();
   const saldoTotal = saldo();
+  const textColor = theme === "dark" ? "#94a3b8" : "#64748b";
 
   const barData = [
-    { name: "Semanal", valor: porPeriodicidade.semanal, fill: "#3b82f6" },
+    { name: "Semanal", valor: porPeriodicidade.semanal, fill: "#6366f1" },
     { name: "Mensal", valor: porPeriodicidade.mensal, fill: "#8b5cf6" },
     { name: "Anual", valor: porPeriodicidade.anual / 12, fill: "#f59e0b" },
   ];
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
+    <div className="max-w-7xl mx-auto space-y-6 md:space-y-8">
+      <div className="animate-fade-in">
+        <h1 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">
+          Dashboard
+        </h1>
+        <p className="text-[var(--text-muted)] text-sm mt-1">
+          Visao geral das suas financas
+        </p>
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6">
-          <p className="text-[var(--muted)] text-sm mb-1">Renda Total</p>
-          <p className="text-2xl font-bold text-[var(--success)]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
+        <div className="group bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl p-5 md:p-6 hover:border-[var(--accent)] transition-all duration-300 hover:shadow-lg">
+          <div className="flex items-center justify-between mb-3">
+            <div className="w-10 h-10 bg-[var(--success-light)] rounded-xl flex items-center justify-center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23" />
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+              </svg>
+            </div>
+            <span className="text-xs text-[var(--success)] bg-[var(--success-light)] px-2 py-1 rounded-full font-medium">
+              +{renda.length}
+            </span>
+          </div>
+          <p className="text-[var(--text-muted)] text-sm mb-1">Renda Total</p>
+          <p className="text-xl md:text-2xl font-bold text-[var(--success)]">
             {formatar(rendaTotal)}
           </p>
-          <p className="text-xs text-[var(--muted)] mt-2">
-            {renda.length} registro(s)
-          </p>
         </div>
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6">
-          <p className="text-[var(--muted)] text-sm mb-1">Gastos Totais</p>
-          <p className="text-2xl font-bold text-[var(--danger)]">
+
+        <div className="group bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl p-5 md:p-6 hover:border-[var(--danger)] transition-all duration-300 hover:shadow-lg">
+          <div className="flex items-center justify-between mb-3">
+            <div className="w-10 h-10 bg-[var(--danger-light)] rounded-xl flex items-center justify-center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                <polyline points="17 6 23 6 23 12" />
+              </svg>
+            </div>
+            <span className="text-xs text-[var(--danger)] bg-[var(--danger-light)] px-2 py-1 rounded-full font-medium">
+              -{gastos.length}
+            </span>
+          </div>
+          <p className="text-[var(--text-muted)] text-sm mb-1">Gastos Totais</p>
+          <p className="text-xl md:text-2xl font-bold text-[var(--danger)]">
             {formatar(total)}
           </p>
-          <p className="text-xs text-[var(--muted)] mt-2">
-            {gastos.length} registro(s)
-          </p>
         </div>
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6">
-          <p className="text-[var(--muted)] text-sm mb-1">Saldo</p>
-          <p
-            className={`text-2xl font-bold ${
-              saldoTotal >= 0 ? "text-[var(--success)]" : "text-[var(--danger)]"
-            }`}
-          >
+
+        <div className={`group bg-[var(--bg-secondary)] border rounded-2xl p-5 md:p-6 transition-all duration-300 hover:shadow-lg sm:col-span-2 lg:col-span-1 ${
+          saldoTotal >= 0
+            ? "border-[var(--success)]/30 hover:border-[var(--success)]"
+            : "border-[var(--danger)]/30 hover:border-[var(--danger)]"
+        }`}>
+          <div className="flex items-center justify-between mb-3">
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+              saldoTotal >= 0 ? "bg-[var(--success-light)]" : "bg-[var(--danger-light)]"
+            }`}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={saldoTotal >= 0 ? "var(--success)" : "var(--danger)"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+              </svg>
+            </div>
+          </div>
+          <p className="text-[var(--text-muted)] text-sm mb-1">Saldo</p>
+          <p className={`text-xl md:text-2xl font-bold ${
+            saldoTotal >= 0 ? "text-[var(--success)]" : "text-[var(--danger)]"
+          }`}>
             {formatar(saldoTotal)}
           </p>
-          <p className="text-xs text-[var(--muted)] mt-2">
+          <p className="text-xs text-[var(--text-muted)] mt-1">
             {saldoTotal >= 0 ? "No lucro" : "No vermelho"}
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6">
-          <h2 className="text-lg font-bold mb-4">Gastos por Categoria</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl p-5 md:p-6">
+          <h2 className="text-base md:text-lg font-bold text-[var(--text-primary)] mb-4">
+            Gastos por Categoria
+          </h2>
           {porCategoria.length > 0 ? (
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={280}>
               <PieChart>
                 <Pie
                   data={porCategoria}
                   cx="50%"
                   cy="50%"
-                  innerRadius={60}
-                  outerRadius={100}
+                  innerRadius={55}
+                  outerRadius={95}
                   paddingAngle={3}
                   dataKey="valor"
                   nameKey="nome"
@@ -105,37 +146,45 @@ export default function Dashboard() {
                 <Tooltip
                   formatter={(v: number) => formatar(v)}
                   contentStyle={{
-                    background: "#1a1a1a",
-                    border: "1px solid #262626",
-                    borderRadius: "8px",
+                    background: "var(--bg-secondary)",
+                    border: "1px solid var(--border-color)",
+                    borderRadius: "12px",
+                    color: "var(--text-primary)",
                   }}
                 />
                 <Legend />
               </PieChart>
             </ResponsiveContainer>
           ) : (
-            <p className="text-[var(--muted)] text-center py-12">
-              Nenhum gasto registrado
-            </p>
+            <div className="flex flex-col items-center justify-center py-16 text-[var(--text-muted)]">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mb-3 opacity-30">
+                <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+                <path d="M22 12A10 10 0 0 0 12 2v10z" />
+              </svg>
+              <p className="text-sm">Nenhum gasto registrado</p>
+            </div>
           )}
         </div>
 
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6">
-          <h2 className="text-lg font-bold mb-4">Gastos por Periodicidade</h2>
+        <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl p-5 md:p-6">
+          <h2 className="text-base md:text-lg font-bold text-[var(--text-primary)] mb-4">
+            Gastos por Periodicidade
+          </h2>
           {gastos.length > 0 ? (
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={280}>
               <BarChart data={barData}>
-                <XAxis dataKey="name" stroke="#737373" />
-                <YAxis stroke="#737373" />
+                <XAxis dataKey="name" stroke={textColor} fontSize={12} />
+                <YAxis stroke={textColor} fontSize={12} />
                 <Tooltip
                   formatter={(v: number) => formatar(v)}
                   contentStyle={{
-                    background: "#1a1a1a",
-                    border: "1px solid #262626",
-                    borderRadius: "8px",
+                    background: "var(--bg-secondary)",
+                    border: "1px solid var(--border-color)",
+                    borderRadius: "12px",
+                    color: "var(--text-primary)",
                   }}
                 />
-                <Bar dataKey="valor" radius={[8, 8, 0, 0]}>
+                <Bar dataKey="valor" radius={[8, 8, 0, 0]} barSize={40}>
                   {barData.map((entry, i) => (
                     <Cell key={i} fill={entry.fill} />
                   ))}
@@ -143,32 +192,31 @@ export default function Dashboard() {
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <p className="text-[var(--muted)] text-center py-12">
-              Nenhum gasto registrado
-            </p>
+            <div className="flex flex-col items-center justify-center py-16 text-[var(--text-muted)]">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mb-3 opacity-30">
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" />
+              </svg>
+              <p className="text-sm">Nenhum gasto registrado</p>
+            </div>
           )}
         </div>
       </div>
 
-      <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6">
-        <h2 className="text-lg font-bold mb-4">Últimos Registros</h2>
+      <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl p-5 md:p-6 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+        <h2 className="text-base md:text-lg font-bold text-[var(--text-primary)] mb-4">
+          Ultimos Registros
+        </h2>
         {gastos.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+          <div className="overflow-x-auto -mx-5 md:mx-0">
+            <table className="w-full text-sm min-w-[500px]">
               <thead>
-                <tr className="border-b border-[var(--border)]">
-                  <th className="text-left py-3 px-4 text-[var(--muted)]">
-                    Descrição
-                  </th>
-                  <th className="text-left py-3 px-4 text-[var(--muted)]">
-                    Categoria
-                  </th>
-                  <th className="text-left py-3 px-4 text-[var(--muted)]">
-                    Periodicidade
-                  </th>
-                  <th className="text-right py-3 px-4 text-[var(--muted)]">
-                    Valor
-                  </th>
+                <tr className="border-b border-[var(--border-color)]">
+                  <th className="text-left py-3 px-5 md:px-6 text-[var(--text-muted)] font-medium">Descricao</th>
+                  <th className="text-left py-3 px-5 md:px-6 text-[var(--text-muted)] font-medium">Categoria</th>
+                  <th className="text-left py-3 px-5 md:px-6 text-[var(--text-muted)] font-medium">Periodicidade</th>
+                  <th className="text-right py-3 px-5 md:px-6 text-[var(--text-muted)] font-medium">Valor</th>
                 </tr>
               </thead>
               <tbody>
@@ -176,26 +224,34 @@ export default function Dashboard() {
                   .slice(-10)
                   .reverse()
                   .map((g) => {
-                    const cat = categorias.find(
-                      (c) => c.id === g.categoria_id
-                    );
+                    const cat = categorias.find((c) => c.id === g.categoria_id);
                     return (
                       <tr
                         key={g.id}
-                        className="border-b border-[var(--border)] hover:bg-[var(--card-hover)]"
+                        className="border-b border-[var(--border-color)] hover:bg-[var(--bg-tertiary)] transition-colors"
                       >
-                        <td className="py-3 px-4">{g.descricao}</td>
-                        <td className="py-3 px-4">
+                        <td className="py-3.5 px-5 md:px-6 font-medium text-[var(--text-primary)]">{g.descricao}</td>
+                        <td className="py-3.5 px-5 md:px-6">
+                          <span className="flex items-center gap-2">
+                            <span
+                              className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                              style={{ background: cat?.cor }}
+                            />
+                            <span className="text-[var(--text-secondary)]">{cat?.nome || "—"}</span>
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-5 md:px-6">
                           <span
-                            className="inline-block w-2 h-2 rounded-full mr-2"
-                            style={{ background: cat?.cor }}
-                          />
-                          {cat?.nome || "—"}
+                            className="inline-block px-2.5 py-1 rounded-lg text-xs font-medium capitalize"
+                            style={{
+                              backgroundColor: g.periodicidade === "semanal" ? "#6366f120" : g.periodicidade === "mensal" ? "#8b5cf620" : "#f59e0b20",
+                              color: g.periodicidade === "semanal" ? "#6366f1" : g.periodicidade === "mensal" ? "#8b5cf6" : "#f59e0b",
+                            }}
+                          >
+                            {g.periodicidade}
+                          </span>
                         </td>
-                        <td className="py-3 px-4 capitalize">
-                          {g.periodicidade}
-                        </td>
-                        <td className="py-3 px-4 text-right text-[var(--danger)]">
+                        <td className="py-3.5 px-5 md:px-6 text-right text-[var(--danger)] font-bold">
                           {formatar(g.valor)}
                         </td>
                       </tr>
@@ -205,9 +261,15 @@ export default function Dashboard() {
             </table>
           </div>
         ) : (
-          <p className="text-[var(--muted)] text-center py-8">
-            Nenhum registro ainda
-          </p>
+          <div className="flex flex-col items-center justify-center py-16 text-[var(--text-muted)]">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mb-3 opacity-30">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+            </svg>
+            <p className="text-sm">Nenhum registro ainda</p>
+          </div>
         )}
       </div>
     </div>

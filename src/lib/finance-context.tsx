@@ -10,6 +10,7 @@ import {
 } from "react";
 import { v4 as uuid } from "uuid";
 import type { Categoria, Gasto, Renda } from "./supabase";
+import { useAuth } from "./auth-context";
 
 interface FinanceData {
   categorias: Categoria[];
@@ -40,106 +41,59 @@ interface FinanceContextType extends FinanceData {
 
 const FinanceContext = createContext<FinanceContextType | null>(null);
 
-const DEFAULT_CATEGORIAS: Categoria[] = [
-  {
-    id: uuid(),
-    nome: "Cartão de Crédito",
-    tipo: "gasto",
-    icone: "💳",
-    cor: "#ef4444",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: uuid(),
-    nome: "Água",
-    tipo: "gasto",
-    icone: "💧",
-    cor: "#3b82f6",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: uuid(),
-    nome: "Gás",
-    tipo: "gasto",
-    icone: "🔥",
-    cor: "#f59e0b",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: uuid(),
-    nome: "Energia",
-    tipo: "gasto",
-    icone: "⚡",
-    cor: "#eab308",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: uuid(),
-    nome: "Financiamentos",
-    tipo: "gasto",
-    icone: "🏦",
-    cor: "#8b5cf6",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: uuid(),
-    nome: "Carro",
-    tipo: "gasto",
-    icone: "🚗",
-    cor: "#14b8a6",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: uuid(),
-    nome: "Apartamento",
-    tipo: "gasto",
-    icone: "🏠",
-    cor: "#f97316",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: uuid(),
-    nome: "Salário 1",
-    tipo: "renda",
-    icone: "💵",
-    cor: "#22c55e",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: uuid(),
-    nome: "Salário 2",
-    tipo: "renda",
-    icone: "💵",
-    cor: "#16a34a",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: uuid(),
-    nome: "Trabalho Extra",
-    tipo: "renda",
-    icone: "🎯",
-    cor: "#06b6d4",
-    created_at: new Date().toISOString(),
-  },
+const DEFAULT_CATEGORIAS: Omit<Categoria, "id" | "created_at">[] = [
+  { nome: "Cartao de Credito", tipo: "gasto", icone: "credit_card", cor: "#ef4444" },
+  { nome: "Agua", tipo: "gasto", icone: "water_drop", cor: "#3b82f6" },
+  { nome: "Gas", tipo: "gasto", icone: "local_fire_department", cor: "#f59e0b" },
+  { nome: "Energia", tipo: "gasto", icone: "bolt", cor: "#eab308" },
+  { nome: "Financiamentos", tipo: "gasto", icone: "account_balance", cor: "#8b5cf6" },
+  { nome: "Carro", tipo: "gasto", icone: "directions_car", cor: "#14b8a6" },
+  { nome: "Apartamento", tipo: "gasto", icone: "home", cor: "#f97316" },
+  { nome: "Salario 1", tipo: "renda", icone: "payments", cor: "#22c55e" },
+  { nome: "Salario 2", tipo: "renda", icone: "savings", cor: "#16a34a" },
+  { nome: "Trabalho Extra", tipo: "renda", icone: "trending_up", cor: "#06b6d4" },
 ];
 
-const STORAGE_KEY = "planejamento_financeiro";
+function getDefaultData(): FinanceData {
+  return {
+    categorias: DEFAULT_CATEGORIAS.map((c) => ({
+      ...c,
+      id: uuid(),
+      created_at: new Date().toISOString(),
+    })),
+    gastos: [],
+    renda: [],
+  };
+}
+
+function getStorageKey(userId: string) {
+  return `pf_data_${userId}`;
+}
 
 export function FinanceProvider({ children }: { children: ReactNode }) {
-  const [data, setData] = useState<FinanceData>(() => {
-    if (typeof window === "undefined") {
-      return { categorias: DEFAULT_CATEGORIAS, gastos: [], renda: [] };
-    }
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      return JSON.parse(saved);
-    }
-    return { categorias: DEFAULT_CATEGORIAS, gastos: [], renda: [] };
-  });
+  const { user } = useAuth();
+  const [data, setData] = useState<FinanceData>(getDefaultData);
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  }, [data]);
+    if (!user) {
+      setData(getDefaultData());
+      setInitialized(true);
+      return;
+    }
+    const saved = localStorage.getItem(getStorageKey(user.id));
+    if (saved) {
+      setData(JSON.parse(saved));
+    } else {
+      setData(getDefaultData());
+    }
+    setInitialized(true);
+  }, [user]);
+
+  useEffect(() => {
+    if (!user || !initialized) return;
+    localStorage.setItem(getStorageKey(user.id), JSON.stringify(data));
+  }, [data, user, initialized]);
 
   const addCategoria = useCallback(
     (c: Omit<Categoria, "id" | "created_at">) => {

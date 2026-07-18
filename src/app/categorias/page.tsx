@@ -1,218 +1,391 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useFinance } from "@/lib/finance-context";
 import { Modal } from "@/components/Modal";
 
-const ICONES = ["💳", "💧", "🔥", "⚡", "🏦", "🚗", "🏠", "🛒", "📱", "🎮", "✈️", "🍕", "💪", "📚", "🎯", "💊", "🐾", "🎁", "💵", "💰"];
-const CORES = ["#ef4444", "#f97316", "#f59e0b", "#eab308", "#84cc16", "#22c55e", "#14b8a6", "#06b6d4", "#3b82f6", "#6366f1", "#8b5cf6", "#a855f7", "#d946ef", "#ec4899"];
+const ICON_KEYS = [
+  "credit_card",
+  "water_drop",
+  "local_fire_department",
+  "bolt",
+  "account_balance",
+  "directions_car",
+  "home",
+  "shopping_cart",
+  "phone_iphone",
+  "sports_esports",
+  "flight",
+  "restaurant",
+  "fitness_center",
+  "school",
+  "trending_up",
+  "medication",
+  "pets",
+  "card_giftcard",
+  "payments",
+  "savings",
+] as const;
+
+const ICON_EMOJI: Record<string, string> = {
+  credit_card: "💳",
+  water_drop: "💧",
+  local_fire_department: "🔥",
+  bolt: "⚡",
+  account_balance: "🏦",
+  directions_car: "🚗",
+  home: "🏠",
+  shopping_cart: "🛒",
+  phone_iphone: "📱",
+  sports_esports: "🎮",
+  flight: "✈️",
+  restaurant: "🍕",
+  fitness_center: "💪",
+  school: "📚",
+  trending_up: "📈",
+  medication: "💊",
+  pets: "🐾",
+  card_giftcard: "🎁",
+  payments: "💵",
+  savings: "💰",
+};
+
+const COLOR_OPTIONS = [
+  "#ef4444",
+  "#f97316",
+  "#f59e0b",
+  "#eab308",
+  "#84cc16",
+  "#22c55e",
+  "#14b8a6",
+  "#06b6d4",
+  "#3b82f6",
+  "#6366f1",
+  "#8b5cf6",
+  "#a855f7",
+  "#d946ef",
+  "#ec4899",
+];
+
+type Filter = "todos" | "gasto" | "renda";
 
 export default function CategoriasPage() {
-  const { categorias, addCategoria, updateCategoria, deleteCategoria } = useFinance();
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editando, setEditando] = useState<string | null>(null);
+  const { categorias, addCategoria, updateCategoria, deleteCategoria } =
+    useFinance();
+
+  const [filtro, setFiltro] = useState<Filter>("todos");
+  const [modalAberto, setModalAberto] = useState(false);
+  const [editandoId, setEditandoId] = useState<string | null>(null);
+
   const [nome, setNome] = useState("");
   const [tipo, setTipo] = useState<"gasto" | "renda">("gasto");
-  const [icone, setIcone] = useState("💳");
-  const [cor, setCor] = useState("#ef4444");
-  const [filtro, setFiltro] = useState<"todos" | "gasto" | "renda">("todos");
+  const [icone, setIcone] = useState<string>("credit_card");
+  const [cor, setCor] = useState<string>("#3b82f6");
 
-  const categoriasFiltradas = categorias.filter(
-    (c) => filtro === "todos" || c.tipo === filtro
-  );
+  const categoriasFiltradas = useMemo(() => {
+    if (filtro === "todos") return categorias;
+    return categorias.filter((c) => c.tipo === filtro);
+  }, [categorias, filtro]);
 
-  const abrirNovo = () => {
-    setEditando(null);
+  function abrirModalAdicionar() {
+    setEditandoId(null);
     setNome("");
     setTipo("gasto");
-    setIcone("💳");
-    setCor("#ef4444");
-    setModalOpen(true);
-  };
+    setIcone("credit_card");
+    setCor("#3b82f6");
+    setModalAberto(true);
+  }
 
-  const abrirEditar = (id: string) => {
+  function abrirModalEditar(id: string) {
     const cat = categorias.find((c) => c.id === id);
     if (!cat) return;
-    setEditando(id);
+    setEditandoId(id);
     setNome(cat.nome);
     setTipo(cat.tipo);
     setIcone(cat.icone);
     setCor(cat.cor);
-    setModalOpen(true);
-  };
+    setModalAberto(true);
+  }
 
-  const salvar = () => {
+  function fecharModal() {
+    setModalAberto(false);
+    setEditandoId(null);
+  }
+
+  function salvar() {
     if (!nome.trim()) return;
-    if (editando) {
-      updateCategoria(editando, { nome, tipo, icone, cor });
-    } else {
-      addCategoria({ nome, tipo, icone, cor });
-    }
-    setModalOpen(false);
-  };
 
-  const remover = (id: string) => {
-    if (confirm("Tem certeza que deseja excluir esta categoria?")) {
-      deleteCategoria(id);
+    if (editandoId) {
+      updateCategoria(editandoId, { nome: nome.trim(), tipo, icone, cor });
+    } else {
+      addCategoria({ nome: nome.trim(), tipo, icone, cor });
     }
-  };
+    fecharModal();
+  }
+
+  function confirmarExcluir(id: string) {
+    deleteCategoria(id);
+  }
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold">Categorias</h1>
-        <button
-          onClick={abrirNovo}
-          className="bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white px-5 py-2.5 rounded-xl font-medium transition-colors"
-        >
-          + Nova Categoria
-        </button>
-      </div>
-
-      <div className="flex gap-2 mb-6">
-        {(["todos", "gasto", "renda"] as const).map((f) => (
-          <button
-            key={f}
-            onClick={() => setFiltro(f)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-              filtro === f
-                ? "bg-[var(--primary)] text-white"
-                : "bg-[var(--card)] border border-[var(--border)] text-[var(--muted)] hover:text-white"
-            }`}
+    <div className="animate-fade-in min-h-screen p-4 sm:p-6 lg:p-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+          <h1
+            className="text-2xl sm:text-3xl font-bold"
+            style={{ color: "var(--text-primary)" }}
           >
-            {f === "todos" ? "Todos" : f === "gasto" ? "Gastos" : "Renda"}
+            Categorias
+          </h1>
+          <button onClick={abrirModalAdicionar} className="bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] hover:opacity-90 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-lg text-sm">
+            + Nova Categoria
           </button>
-        ))}
-      </div>
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {categoriasFiltradas.map((cat) => (
-          <div
-            key={cat.id}
-            className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 hover:border-[var(--primary)] transition-colors group"
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <span
-                  className="text-3xl w-12 h-12 flex items-center justify-center rounded-xl"
-                  style={{ backgroundColor: cor + "20" }}
-                >
-                  {cat.icone}
-                </span>
-                <div>
-                  <h3 className="font-bold">{cat.nome}</h3>
-                  <span
-                    className="text-xs px-2 py-0.5 rounded-full"
-                    style={{
-                      backgroundColor: cat.cor + "20",
-                      color: cat.cor,
-                    }}
-                  >
-                    {cat.tipo === "gasto" ? "Gasto" : "Renda"}
-                  </span>
-                </div>
+        <div className="flex gap-2 mb-6">
+          {(
+            [
+              { key: "todos", label: "Todos" },
+              { key: "gasto", label: "Gastos" },
+              { key: "renda", label: "Renda" },
+            ] as const
+          ).map((f) => (
+            <button
+              key={f.key}
+              onClick={() => setFiltro(f.key)}
+              className={
+                filtro === f.key
+                  ? "bg-[var(--accent)] text-white shadow-md px-4 py-2 rounded-xl text-sm font-medium transition-all"
+                  : "bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-muted)] hover:text-[var(--text-primary)] px-4 py-2 rounded-xl text-sm font-medium transition-all"
+              }
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {categoriasFiltradas.map((cat) => (
+            <div
+              key={cat.id}
+              className="animate-fade-in rounded-2xl p-5 flex items-center gap-4 transition-all hover:scale-[1.02]"
+              style={{
+                backgroundColor: "var(--bg-secondary)",
+                border: "1px solid var(--border-color)",
+              }}
+            >
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0"
+                style={{ backgroundColor: cat.cor + "22" }}
+              >
+                {ICON_EMOJI[cat.icone] || "📌"}
               </div>
-              <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button
-                  onClick={() => abrirEditar(cat.id)}
-                  className="p-2 rounded-lg hover:bg-[var(--card-hover)] text-[var(--muted)] hover:text-white"
+              <div className="flex-1 min-w-0">
+                <p
+                  className="font-semibold truncate"
+                  style={{ color: "var(--text-primary)" }}
                 >
-                  ✏️
+                  {cat.nome}
+                </p>
+                <span
+                  className="text-xs font-medium"
+                  style={{
+                    color:
+                      cat.tipo === "renda"
+                        ? "var(--success)"
+                        : "var(--danger)",
+                  }}
+                >
+                  {cat.tipo === "renda" ? "Renda" : "Gasto"}
+                </span>
+              </div>
+              <div className="flex items-center gap-1 shrink-0">
+                <button
+                  onClick={() => abrirModalEditar(cat.id)}
+                  className="p-2 rounded-lg transition-colors hover:bg-[var(--bg-tertiary)]"
+                  style={{ color: "var(--text-muted)" }}
+                  title="Editar"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                    <path d="m15 5 4 4" />
+                  </svg>
                 </button>
                 <button
-                  onClick={() => remover(cat.id)}
-                  className="p-2 rounded-lg hover:bg-red-500/10 text-[var(--muted)] hover:text-[var(--danger)]"
+                  onClick={() => confirmarExcluir(cat.id)}
+                  className="p-2 rounded-lg transition-colors hover:bg-[var(--danger-light)]"
+                  style={{ color: "var(--danger)" }}
+                  title="Excluir"
                 >
-                  🗑️
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M3 6h18" />
+                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                    <line x1="10" x2="10" y1="11" y2="17" />
+                    <line x1="14" x2="14" y1="11" y2="17" />
+                  </svg>
                 </button>
               </div>
             </div>
+          ))}
+        </div>
+
+        {categoriasFiltradas.length === 0 && (
+          <div
+            className="text-center py-16 rounded-2xl"
+            style={{
+              backgroundColor: "var(--bg-secondary)",
+              border: "1px solid var(--border-color)",
+            }}
+          >
+            <p style={{ color: "var(--text-muted)" }} className="text-lg">
+              Nenhuma categoria encontrada.
+            </p>
           </div>
-        ))}
+        )}
       </div>
 
-      {categoriasFiltradas.length === 0 && (
-        <p className="text-[var(--muted)] text-center py-16">
-          Nenhuma categoria encontrada
-        </p>
-      )}
-
       <Modal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        title={editando ? "Editar Categoria" : "Nova Categoria"}
+        isOpen={modalAberto}
+        onClose={fecharModal}
+        title={editandoId ? "Editar Categoria" : "Nova Categoria"}
       >
-        <div className="flex flex-col gap-4">
+        <div className="space-y-5">
           <div>
-            <label className="text-sm text-[var(--muted)] mb-1 block">Nome</label>
+            <label
+              className="block text-sm font-medium mb-1.5"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              Nome
+            </label>
             <input
               type="text"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
-              placeholder="Ex: Cartão Nubank"
-              className="w-full bg-[var(--background)] border border-[var(--border)] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[var(--primary)]"
+              placeholder="Ex: Alimentação"
+              className="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
             />
           </div>
+
           <div>
-            <label className="text-sm text-[var(--muted)] mb-1 block">Tipo</label>
+            <label
+              className="block text-sm font-medium mb-1.5"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              Tipo
+            </label>
             <div className="flex gap-2">
               {(["gasto", "renda"] as const).map((t) => (
                 <button
                   key={t}
                   onClick={() => setTipo(t)}
-                  className={`flex-1 py-3 rounded-xl font-medium transition-colors ${
+                  className={
                     tipo === t
-                      ? t === "gasto"
-                        ? "bg-[var(--danger)] text-white"
-                        : "bg-[var(--success)] text-white"
-                      : "bg-[var(--background)] border border-[var(--border)] text-[var(--muted)]"
-                  }`}
+                      ? "flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all bg-[var(--accent)] text-white shadow-md"
+                      : "flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                  }
                 >
-                  {t === "gasto" ? "💸 Gasto" : "💰 Renda"}
+                  {t === "gasto" ? "Gasto" : "Renda"}
                 </button>
               ))}
             </div>
           </div>
+
           <div>
-            <label className="text-sm text-[var(--muted)] mb-1 block">Ícone</label>
-            <div className="flex flex-wrap gap-2">
-              {ICONES.map((i) => (
+            <label
+              className="block text-sm font-medium mb-1.5"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              Ícone
+            </label>
+            <div className="grid grid-cols-5 sm:grid-cols-5 gap-2">
+              {ICON_KEYS.map((key) => (
                 <button
-                  key={i}
-                  onClick={() => setIcone(i)}
-                  className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl transition-colors ${
-                    icone === i
-                      ? "bg-[var(--primary)] ring-2 ring-[var(--primary)]"
-                      : "bg-[var(--background)] border border-[var(--border)] hover:border-[var(--primary)]"
-                  }`}
+                  key={key}
+                  onClick={() => setIcone(key)}
+                  className={
+                    icone === key
+                      ? "w-full aspect-square rounded-xl flex items-center justify-center text-xl transition-all ring-2 ring-[var(--accent)] shadow-md"
+                      : "w-full aspect-square rounded-xl flex items-center justify-center text-xl transition-all hover:scale-110"
+                  }
+                  style={{
+                    backgroundColor:
+                      icone === key
+                        ? "var(--accent)" + "22"
+                        : "var(--bg-primary)",
+                    border: `1px solid ${
+                      icone === key ? "var(--accent)" : "var(--border-color)"
+                    }`,
+                  }}
+                  title={key}
                 >
-                  {i}
+                  {ICON_EMOJI[key]}
                 </button>
               ))}
             </div>
           </div>
+
           <div>
-            <label className="text-sm text-[var(--muted)] mb-1 block">Cor</label>
+            <label
+              className="block text-sm font-medium mb-1.5"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              Cor
+            </label>
             <div className="flex flex-wrap gap-2">
-              {CORES.map((c) => (
+              {COLOR_OPTIONS.map((c) => (
                 <button
                   key={c}
                   onClick={() => setCor(c)}
-                  className={`w-8 h-8 rounded-full transition-transform ${
-                    cor === c ? "ring-2 ring-white scale-110" : "hover:scale-110"
-                  }`}
-                  style={{ backgroundColor: c }}
+                  className={
+                    cor === c
+                      ? "w-8 h-8 rounded-full transition-all ring-2 ring-offset-2 ring-[var(--accent)] shadow-md"
+                      : "w-8 h-8 rounded-full transition-all hover:scale-110"
+                  }
+                  style={{
+                    backgroundColor: c,
+                  }}
+                  title={c}
                 />
               ))}
             </div>
           </div>
-          <button
-            onClick={salvar}
-            disabled={!nome.trim()}
-            className="w-full bg-[var(--primary)] hover:bg-[var(--primary-hover)] disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 rounded-xl font-bold mt-2 transition-colors"
-          >
-            {editando ? "Salvar Alterações" : "Criar Categoria"}
-          </button>
+
+          <div className="flex gap-3 pt-2">
+            <button
+              onClick={fecharModal}
+              className="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={salvar}
+              disabled={!nome.trim()}
+              className="flex-1 bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] hover:opacity-90 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {editandoId ? "Salvar" : "Adicionar"}
+            </button>
+          </div>
         </div>
       </Modal>
     </div>
