@@ -3,12 +3,14 @@
 import { ThemeProvider } from "@/lib/theme-context";
 import { AuthProvider } from "@/lib/auth-context";
 import { FinanceProvider } from "@/lib/finance-context";
+import { SidebarProvider, useSidebar } from "@/lib/sidebar-context";
 import { Sidebar } from "@/components/Sidebar";
 import { useAuth } from "@/lib/auth-context";
 import { LoginPage } from "@/components/LoginPage";
 
 function AppShell({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
+  const { collapsed } = useSidebar();
 
   if (loading) {
     return (
@@ -27,7 +29,10 @@ function AppShell({ children }: { children: React.ReactNode }) {
     <FinanceProvider>
       <div className="flex min-h-screen bg-[var(--bg-primary)]">
         <Sidebar />
-        <main className="flex-1 md:ml-64 p-4 md:p-6 lg:p-8 pt-20 md:pt-8">
+        <main
+          className="flex-1 p-4 md:p-6 lg:p-8 pt-20 md:pt-8 transition-all duration-300"
+          style={{ marginLeft: collapsed ? "72px" : "256px" }}
+        >
           {children}
         </main>
       </div>
@@ -39,7 +44,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <AppShell>{children}</AppShell>
+        <SidebarProvider>
+          <AppShell>{children}</AppShell>
+        </SidebarProvider>
       </AuthProvider>
     </ThemeProvider>
   );
