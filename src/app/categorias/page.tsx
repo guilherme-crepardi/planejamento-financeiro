@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { useFinance } from "@/lib/finance-context";
 import { Modal } from "@/components/Modal";
+import { Plus, Pencil, Trash2, Tag, Search, Filter, X } from "lucide-react";
 
 const ICON_KEYS = [
   "credit_card",
@@ -128,10 +129,10 @@ export default function CategoriasPage() {
   }
 
   return (
-    <div className="max-w-[1200px] mx-auto space-y-6 animate-fade-in-up">
+    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-8">
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-          <h1 className="text-[26px] font-bold text-[var(--text-primary)] tracking-tight">
+          <h1 className="text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">
             Categorias
           </h1>
           <p className="text-[var(--text-tertiary)] text-sm mt-0.5">
@@ -139,7 +140,7 @@ export default function CategoriasPage() {
           </p>
         </div>
         <button onClick={abrirModalAdicionar} className="btn-primary">
-          + Nova Categoria
+          <Plus size={18} /> Nova Categoria
         </button>
       </div>
 
@@ -175,15 +176,15 @@ export default function CategoriasPage() {
       </div>
 
       {categoriasFiltradas.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {categoriasFiltradas.map((cat, i) => (
             <div
               key={cat.id}
-              className="card group relative p-5 flex items-center gap-4 transition-all duration-200 hover:scale-[1.02] animate-fade-in-up"
+              className="card group relative p-6 flex items-center gap-4 transition-all duration-300 hover:scale-[1.02]"
               style={{ animationDelay: `${i * 40}ms` }}
             >
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0"
+                className="w-14 h-14 rounded-2xl flex items-center justify-center text-[28px] shrink-0"
                 style={{ backgroundColor: cat.cor + "20" }}
               >
                 {ICON_EMOJI[cat.icone] || "📌"}
@@ -209,43 +210,14 @@ export default function CategoriasPage() {
                   className="p-2 rounded-lg transition-colors hover:bg-[var(--bg-inset)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
                   title="Editar"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="15"
-                    height="15"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-                    <path d="m15 5 4 4" />
-                  </svg>
+                  <Pencil size={18} />
                 </button>
                 <button
                   onClick={() => confirmarExcluir(cat.id)}
                   className="p-2 rounded-lg transition-colors hover:bg-red-500/10 text-[var(--text-tertiary)] hover:text-[#ef4444]"
                   title="Excluir"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="15"
-                    height="15"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M3 6h18" />
-                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                    <line x1="10" x2="10" y1="11" y2="17" />
-                    <line x1="14" x2="14" y1="11" y2="17" />
-                  </svg>
+                  <Trash2 size={18} />
                 </button>
               </div>
             </div>
@@ -254,23 +226,10 @@ export default function CategoriasPage() {
       ) : (
         <div className="card py-16 text-center">
           <div
-            className="w-16 h-16 rounded-full flex items-center justify-center mb-3 mx-auto"
+            className="w-20 h-20 rounded-2xl flex items-center justify-center mb-3 mx-auto"
             style={{ background: "var(--bg-inset)" }}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-[var(--text-tertiary)]"
-            >
-              <path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z" />
-            </svg>
+            <Tag size={28} className="text-[var(--text-tertiary)]" />
           </div>
           <p className="text-[15px] font-bold text-[var(--text-primary)] tracking-tight mb-1">
             Nenhuma categoria encontrada

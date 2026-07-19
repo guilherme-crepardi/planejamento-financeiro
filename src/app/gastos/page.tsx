@@ -3,6 +3,18 @@
 import { useState } from "react";
 import { useFinance } from "@/lib/finance-context";
 import { Modal } from "@/components/Modal";
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  Receipt,
+  AlertTriangle,
+  Calendar,
+  DollarSign,
+  Tag,
+  Clock,
+  FileText,
+} from "lucide-react";
 
 type GastoFormData = {
   descricao: string;
@@ -22,6 +34,12 @@ const periodicidadeColors: Record<string, string> = {
   semanal: "#6366f1",
   mensal: "#8b5cf6",
   anual: "#f59e0b",
+};
+
+const periodicidadeIcons: Record<string, React.ReactNode> = {
+  semanal: <Clock size={16} />,
+  mensal: <Calendar size={16} />,
+  anual: <Calendar size={16} />,
 };
 
 export default function GastosPage() {
@@ -106,33 +124,30 @@ export default function GastosPage() {
     new Date(dateStr + "T00:00:00").toLocaleDateString("pt-BR");
 
   return (
-    <div className="max-w-[1200px] mx-auto space-y-6 animate-fade-in-up">
+    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-8 animate-fade-in-up">
       <div
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
         style={{ animationDelay: "0ms" }}
       >
         <div>
-          <h1 className="text-[26px] font-bold text-[var(--text-primary)] tracking-tight">
-            Gastos
-          </h1>
-          <p className="text-[var(--text-tertiary)] text-sm mt-0.5">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[var(--danger)]/10 flex items-center justify-center">
+              <Receipt size={22} className="text-[var(--danger)]" />
+            </div>
+            <h1 className="text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">
+              Gastos
+            </h1>
+          </div>
+          <p className="text-[var(--text-tertiary)] text-sm mt-1 ml-[52px]">
             Gerencie seus gastos e despesas
           </p>
         </div>
         <button
           onClick={openAddModal}
-          className="self-start px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-          style={{
-            background: "linear-gradient(135deg, var(--danger), #dc2626)",
-            boxShadow: "0 2px 12px rgba(239, 68, 68, 0.3)",
-          }}
+          className="btn-primary self-start px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2"
         >
-          <span className="flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-            Novo Gasto
-          </span>
+          <Plus size={18} />
+          Novo Gasto
         </button>
       </div>
 
@@ -142,7 +157,7 @@ export default function GastosPage() {
       >
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-[12px] font-semibold uppercase tracking-wider text-[var(--text-tertiary)]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
               Total Filtrado
             </p>
             <p className="text-3xl font-bold text-[var(--danger)] mt-1">
@@ -153,43 +168,50 @@ export default function GastosPage() {
             className="w-14 h-14 rounded-2xl flex items-center justify-center"
             style={{ background: "rgba(239, 68, 68, 0.1)" }}
           >
-            <svg className="w-7 h-7 text-[var(--danger)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
-            </svg>
+            <DollarSign size={28} className="text-[var(--danger)]" />
           </div>
         </div>
       </div>
 
       <div
-        className="flex flex-wrap gap-2 animate-fade-in-up"
+        className="flex items-center gap-3 animate-fade-in-up"
         style={{ animationDelay: "120ms" }}
       >
-        {[
-          { key: "todos", label: "Todos" },
-          { key: "semanal", label: "Semanal" },
-          { key: "mensal", label: "Mensal" },
-          { key: "anual", label: "Anual" },
-        ].map((f) => (
-          <button
-            key={f.key}
-            onClick={() => setFiltro(f.key)}
-            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-              filtro === f.key
-                ? "text-white"
-                : "bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] border border-[var(--border-color)]"
-            }`}
-            style={
-              filtro === f.key
-                ? {
-                    background: "linear-gradient(135deg, var(--accent-gradient-start), var(--accent-gradient-end))",
-                    boxShadow: "0 2px 12px rgba(79, 110, 247, 0.35)",
-                  }
-                : {}
-            }
-          >
-            {f.label}
-          </button>
-        ))}
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)]">
+          <Tag size={14} className="text-[var(--text-tertiary)]" />
+          <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+            Filtro
+          </span>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {[
+            { key: "todos", label: "Todos" },
+            { key: "semanal", label: "Semanal" },
+            { key: "mensal", label: "Mensal" },
+            { key: "anual", label: "Anual" },
+          ].map((f) => (
+            <button
+              key={f.key}
+              onClick={() => setFiltro(f.key)}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
+                filtro === f.key
+                  ? "text-white"
+                  : "bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] border border-[var(--border-color)]"
+              }`}
+              style={
+                filtro === f.key
+                  ? {
+                      background: "linear-gradient(135deg, var(--accent-gradient-start), var(--accent-gradient-end))",
+                      boxShadow: "0 2px 12px rgba(79, 110, 247, 0.35)",
+                    }
+                  : {}
+              }
+            >
+              {f.key !== "todos" && periodicidadeIcons[f.key]}
+              {f.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {gastosFiltrados.length === 0 ? (
@@ -201,9 +223,7 @@ export default function GastosPage() {
             className="w-16 h-16 rounded-full flex items-center justify-center mb-3"
             style={{ background: "var(--bg-inset)" }}
           >
-            <svg className="w-8 h-8 text-[var(--text-tertiary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
-            </svg>
+            <Receipt size={28} className="text-[var(--text-tertiary)]" />
           </div>
           <p className="text-[var(--text-primary)] font-semibold">Nenhum gasto encontrado</p>
           <p className="text-sm text-[var(--text-tertiary)] mt-1">Adicione um novo gasto para começar</p>
@@ -217,22 +237,22 @@ export default function GastosPage() {
             <table className="w-full min-w-[650px]">
               <thead>
                 <tr>
-                  <th className="text-left px-6 py-4 text-[12px] font-semibold uppercase tracking-wider text-[var(--text-tertiary)]">
+                  <th className="text-left px-6 py-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
                     Data
                   </th>
-                  <th className="text-left px-6 py-4 text-[12px] font-semibold uppercase tracking-wider text-[var(--text-tertiary)]">
+                  <th className="text-left px-6 py-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
                     Descrição
                   </th>
-                  <th className="text-left px-6 py-4 text-[12px] font-semibold uppercase tracking-wider text-[var(--text-tertiary)]">
+                  <th className="text-left px-6 py-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
                     Categoria
                   </th>
-                  <th className="text-left px-6 py-4 text-[12px] font-semibold uppercase tracking-wider text-[var(--text-tertiary)]">
+                  <th className="text-left px-6 py-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
                     Periodicidade
                   </th>
-                  <th className="text-right px-6 py-4 text-[12px] font-semibold uppercase tracking-wider text-[var(--text-tertiary)]">
+                  <th className="text-right px-6 py-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
                     Valor
                   </th>
-                  <th className="text-right px-6 py-4 text-[12px] font-semibold uppercase tracking-wider text-[var(--text-tertiary)]">
+                  <th className="text-right px-6 py-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
                     Ações
                   </th>
                 </tr>
@@ -247,10 +267,16 @@ export default function GastosPage() {
                       style={{ animationDelay: `${200 + index * 40}ms` }}
                     >
                       <td className="px-6 py-4 text-sm text-[var(--text-secondary)] whitespace-nowrap">
-                        {formatDate(gasto.data)}
+                        <span className="flex items-center gap-2">
+                          <Calendar size={14} className="text-[var(--text-tertiary)]" />
+                          {formatDate(gasto.data)}
+                        </span>
                       </td>
                       <td className="px-6 py-4 text-sm text-[var(--text-primary)] font-medium">
-                        {gasto.descricao}
+                        <span className="flex items-center gap-2">
+                          <FileText size={14} className="text-[var(--text-tertiary)]" />
+                          {gasto.descricao}
+                        </span>
                       </td>
                       <td className="px-6 py-4 text-sm text-[var(--text-secondary)] whitespace-nowrap">
                         {cat && (
@@ -265,12 +291,13 @@ export default function GastosPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
-                          className="badge"
+                          className="badge inline-flex items-center gap-1.5"
                           style={{
                             backgroundColor: `${periodicidadeColors[gasto.periodicidade] || "#666"}20`,
                             color: periodicidadeColors[gasto.periodicidade] || "#666",
                           }}
                         >
+                          {periodicidadeIcons[gasto.periodicidade]}
                           {periodicidadeLabels[gasto.periodicidade]}
                         </span>
                       </td>
@@ -284,18 +311,14 @@ export default function GastosPage() {
                             className="text-[var(--text-tertiary)] hover:text-[var(--accent)] transition-colors p-2 rounded-lg hover:bg-[var(--bg-inset)]"
                             title="Editar"
                           >
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                            </svg>
+                            <Pencil size={18} />
                           </button>
                           <button
                             onClick={() => setConfirmDeleteId(gasto.id)}
                             className="text-[var(--text-tertiary)] hover:text-[var(--danger)] transition-colors p-2 rounded-lg hover:bg-[var(--bg-inset)]"
                             title="Excluir"
                           >
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                            </svg>
+                            <Trash2 size={18} />
                           </button>
                         </div>
                       </td>
@@ -305,7 +328,7 @@ export default function GastosPage() {
               </tbody>
               <tfoot>
                 <tr className="border-t-2 border-[var(--border-color)]">
-                  <td colSpan={4} className="px-6 py-4 text-sm font-bold text-[var(--text-primary)] text-right uppercase tracking-wider">
+                  <td colSpan={4} className="px-6 py-4 text-sm font-bold text-[var(--text-primary)] text-right uppercase tracking-[0.12em]">
                     Total
                   </td>
                   <td className="px-6 py-4 text-sm font-bold text-[var(--danger)] text-right">
@@ -393,7 +416,7 @@ export default function GastosPage() {
                   key={p}
                   type="button"
                   onClick={() => setForm({ ...form, periodicidade: p })}
-                  className={`flex-1 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 border ${
+                  className={`flex-1 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 border flex items-center justify-center gap-2 ${
                     form.periodicidade === p
                       ? "text-white border-transparent"
                       : "bg-[var(--bg-primary)] text-[var(--text-secondary)] border-[var(--border-color)] hover:bg-[var(--bg-tertiary)]"
@@ -404,6 +427,7 @@ export default function GastosPage() {
                       : {}
                   }
                 >
+                  {periodicidadeIcons[p]}
                   {periodicidadeLabels[p]}
                 </button>
               ))}
@@ -419,13 +443,19 @@ export default function GastosPage() {
             </button>
             <button
               onClick={handleSubmit}
-              className="flex-1 px-5 py-2.5 rounded-xl font-semibold text-sm text-white transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-              style={{
-                background: "linear-gradient(135deg, var(--danger), #dc2626)",
-                boxShadow: "0 2px 12px rgba(239, 68, 68, 0.3)",
-              }}
+              className="btn-primary flex-1 px-5 py-2.5 flex items-center justify-center gap-2"
             >
-              {editingId ? "Salvar" : "Adicionar"}
+              {editingId ? (
+                <>
+                  <Pencil size={18} />
+                  Salvar
+                </>
+              ) : (
+                <>
+                  <Plus size={18} />
+                  Adicionar
+                </>
+              )}
             </button>
           </div>
         </div>
@@ -441,9 +471,7 @@ export default function GastosPage() {
             className="w-16 h-16 rounded-full flex items-center justify-center mb-3"
             style={{ background: "rgba(239, 68, 68, 0.1)" }}
           >
-            <svg className="w-8 h-8 text-[var(--danger)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-            </svg>
+            <AlertTriangle size={28} className="text-[var(--danger)]" />
           </div>
           <p className="text-[var(--text-primary)] font-medium">
             Tem certeza que deseja excluir este gasto?
@@ -460,12 +488,13 @@ export default function GastosPage() {
             </button>
             <button
               onClick={() => confirmDeleteId && handleDelete(confirmDeleteId)}
-              className="flex-1 px-5 py-2.5 rounded-xl font-semibold text-sm text-white transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+              className="flex-1 px-5 py-2.5 rounded-xl font-semibold text-sm text-white transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
               style={{
                 background: "linear-gradient(135deg, var(--danger), #dc2626)",
                 boxShadow: "0 2px 12px rgba(239, 68, 68, 0.3)",
               }}
             >
+              <Trash2 size={18} />
               Excluir
             </button>
           </div>
