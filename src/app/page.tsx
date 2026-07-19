@@ -32,13 +32,13 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-12 md:space-y-16 lg:space-y-20">
+    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", flexDirection: "column", gap: "48px" }}>
       <div className="animate-fade-in-up">
         <h1 className="text-[24px] sm:text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">Dashboard</h1>
         <p className="text-[var(--text-tertiary)] text-[13px] sm:text-[15px] mt-1 font-medium">Visao geral das suas financas</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-8 lg:gap-12 animate-fade-in-up" style={{ animationDelay: "50ms" }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in-up" style={{ animationDelay: "50ms", gap: "40px" }}>
         {summaryCards.map((card) => (
           <div key={card.label} className="card px-5 py-6 sm:px-8 sm:py-10 lg:px-12 lg:py-14 group hover:scale-[1.02] transition-all duration-300">
             <div className="flex items-center justify-between mb-4 sm:mb-6 lg:mb-10">
@@ -53,7 +53,7 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-10 lg:gap-14 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 animate-fade-in-up" style={{ animationDelay: "100ms", gap: "40px" }}>
         <div className="card px-5 py-6 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
           <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8 lg:mb-10">
             <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center" style={{ background: "var(--accent-primary-light)" }}>
