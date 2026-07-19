@@ -40,7 +40,7 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in-up" style={{ animationDelay: "50ms", gap: "40px" }}>
         {summaryCards.map((card) => (
-          <div key={card.label} className="card px-5 py-6 sm:px-8 sm:py-10 lg:px-12 lg:py-14 group hover:scale-[1.02] transition-all duration-300">
+          <div key={card.label} className="card px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16 group hover:scale-[1.02] transition-all duration-300">
             <div className="flex items-center justify-between mb-4 sm:mb-6 lg:mb-10">
               <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-2xl flex items-center justify-center" style={{ background: card.bg }}>
                 <card.Icon size={20} strokeWidth={2} style={{ color: card.color }} className="sm:w-[22px] sm:h-[22px]" />
@@ -54,15 +54,15 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 animate-fade-in-up" style={{ animationDelay: "100ms", gap: "40px" }}>
-        <div className="card px-5 py-6 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
-          <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8 lg:mb-10">
+        <div className="card px-6 py-8 sm:px-10 sm:py-12 lg:px-12 lg:py-14">
+          <div className="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-10 lg:mb-12">
             <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center" style={{ background: "var(--accent-primary-light)" }}>
               <PieIcon size={18} strokeWidth={2} style={{ color: "var(--accent-primary)" }} className="sm:w-5 sm:h-5" />
             </div>
             <h2 className="text-[14px] sm:text-[16px] lg:text-[17px] font-bold text-[var(--text-primary)] tracking-tight">Gastos por Categoria</h2>
           </div>
           {porCategoria.length > 0 ? (
-            <ResponsiveContainer width="100%" height={250}>
+            <ResponsiveContainer width="100%" height={280}>
               <PieChart>
                 <Pie data={porCategoria} cx="50%" cy="50%" innerRadius={50} outerRadius={85} paddingAngle={3} dataKey="valor" nameKey="nome"
                   label={({ nome, percent }) => `${nome} (${(percent * 100).toFixed(0)}%)`}>
@@ -74,8 +74,8 @@ export default function Dashboard() {
               </PieChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex flex-col items-center justify-center py-10 sm:py-16 text-[var(--text-tertiary)]">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-3 sm:mb-4" style={{ background: "var(--bg-inset)" }}>
+            <div className="flex flex-col items-center justify-center py-16 sm:py-20 text-[var(--text-tertiary)]">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-4 sm:mb-5" style={{ background: "var(--bg-inset)" }}>
                 <PieIcon size={24} strokeWidth={1.5} className="opacity-30" />
               </div>
               <p className="text-sm font-semibold">Nenhum gasto registrado</p>
@@ -83,15 +83,15 @@ export default function Dashboard() {
           )}
         </div>
 
-        <div className="card px-5 py-6 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
-          <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8 lg:mb-10">
+        <div className="card px-6 py-8 sm:px-10 sm:py-12 lg:px-12 lg:py-14">
+          <div className="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-10 lg:mb-12">
             <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center" style={{ background: "rgba(124,92,252,0.1)" }}>
               <BarChart3 size={18} strokeWidth={2} style={{ color: "#7c5cfc" }} className="sm:w-5 sm:h-5" />
             </div>
             <h2 className="text-[14px] sm:text-[16px] lg:text-[17px] font-bold text-[var(--text-primary)] tracking-tight">Gastos por Periodicidade</h2>
           </div>
           {gastos.length > 0 ? (
-            <ResponsiveContainer width="100%" height={250}>
+            <ResponsiveContainer width="100%" height={280}>
               <BarChart data={barData}>
                 <XAxis dataKey="name" stroke={textColor} fontSize={12} tickLine={false} axisLine={false} fontWeight={600} />
                 <YAxis stroke={textColor} fontSize={11} tickLine={false} axisLine={false} />
@@ -103,8 +103,8 @@ export default function Dashboard() {
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex flex-col items-center justify-center py-10 sm:py-16 text-[var(--text-tertiary)]">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-3 sm:mb-4" style={{ background: "var(--bg-inset)" }}>
+            <div className="flex flex-col items-center justify-center py-16 sm:py-20 text-[var(--text-tertiary)]">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-4 sm:mb-5" style={{ background: "var(--bg-inset)" }}>
                 <BarChart3 size={24} strokeWidth={1.5} className="opacity-30" />
               </div>
               <p className="text-sm font-semibold">Nenhum gasto registrado</p>
@@ -113,8 +113,8 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="card px-5 py-6 sm:px-8 sm:py-10 lg:px-10 lg:py-12 animate-fade-in-up" style={{ animationDelay: "150ms" }}>
-        <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8 lg:mb-10">
+      <div className="card px-6 py-8 sm:px-10 sm:py-12 lg:px-12 lg:py-14 animate-fade-in-up" style={{ animationDelay: "150ms" }}>
+        <div className="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-10 lg:mb-12">
           <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center" style={{ background: "var(--warning-light)" }}>
             <FileText size={18} strokeWidth={2} style={{ color: "var(--warning)" }} className="sm:w-5 sm:h-5" />
           </div>
@@ -158,8 +158,8 @@ export default function Dashboard() {
             </table>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-10 sm:py-16 text-[var(--text-tertiary)]">
-            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-3 sm:mb-4" style={{ background: "var(--bg-inset)" }}>
+          <div className="flex flex-col items-center justify-center py-16 sm:py-20 text-[var(--text-tertiary)]">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-4 sm:mb-5" style={{ background: "var(--bg-inset)" }}>
               <FileText size={24} strokeWidth={1.5} className="opacity-30" />
             </div>
             <p className="text-sm font-semibold">Nenhum registro ainda</p>
