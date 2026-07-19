@@ -155,40 +155,40 @@ export default function RendaPage() {
         </button>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8 animate-fade-in-up" style={{ animationDelay: "80ms" }}>
-        <div className="card px-4 py-4 sm:px-7 sm:py-7 lg:px-10 lg:py-8">
-          <div className="flex items-center gap-2 mb-1">
-            <Briefcase size={14} className="text-[var(--text-muted)] sm:w-4 sm:h-4" />
-            <p className="text-[10px] sm:text-xs text-[var(--text-muted)]">Salario 1</p>
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 lg:gap-10 animate-fade-in-up" style={{ animationDelay: "80ms" }}>
+        <div className="card px-5 py-5 sm:px-8 sm:py-8 lg:px-10 lg:py-10 text-center">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <Briefcase size={16} className="text-[var(--text-muted)] sm:w-5 sm:h-5" />
+            <p className="text-[11px] sm:text-sm text-[var(--text-muted)] font-medium">Salario 1</p>
           </div>
-          <p className="text-base sm:text-lg lg:text-xl font-bold text-[var(--success)]">
+          <p className="text-lg sm:text-xl lg:text-2xl font-extrabold text-[var(--success)]">
             {formatCurrency(salario1Total)}
           </p>
         </div>
-        <div className="card px-4 py-4 sm:px-7 sm:py-7 lg:px-10 lg:py-8">
-          <div className="flex items-center gap-2 mb-1">
-            <Wallet size={14} className="text-[var(--text-muted)] sm:w-4 sm:h-4" />
-            <p className="text-[10px] sm:text-xs text-[var(--text-muted)]">Salario 2</p>
+        <div className="card px-5 py-5 sm:px-8 sm:py-8 lg:px-10 lg:py-10 text-center">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <Wallet size={16} className="text-[var(--text-muted)] sm:w-5 sm:h-5" />
+            <p className="text-[11px] sm:text-sm text-[var(--text-muted)] font-medium">Salario 2</p>
           </div>
-          <p className="text-base sm:text-lg lg:text-xl font-bold text-[var(--success)]">
+          <p className="text-lg sm:text-xl lg:text-2xl font-extrabold text-[var(--success)]">
             {formatCurrency(salario2Total)}
           </p>
         </div>
-        <div className="card px-4 py-4 sm:px-7 sm:py-7 lg:px-10 lg:py-8">
-          <div className="flex items-center gap-2 mb-1">
-            <TrendingUp size={14} className="text-[var(--text-muted)] sm:w-4 sm:h-4" />
-            <p className="text-[10px] sm:text-xs text-[var(--text-muted)]">Extras</p>
+        <div className="card px-5 py-5 sm:px-8 sm:py-8 lg:px-10 lg:py-10 text-center">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <TrendingUp size={16} className="text-[var(--text-muted)] sm:w-5 sm:h-5" />
+            <p className="text-[11px] sm:text-sm text-[var(--text-muted)] font-medium">Extras</p>
           </div>
-          <p className="text-base sm:text-lg lg:text-xl font-bold text-[var(--success)]">
+          <p className="text-lg sm:text-xl lg:text-2xl font-extrabold text-[var(--success)]">
             {formatCurrency(extrasTotal)}
           </p>
         </div>
-        <div className="card px-4 py-4 sm:px-7 sm:py-7 lg:px-10 lg:py-8 border-2" style={{ borderColor: "var(--success)" }}>
-          <div className="flex items-center gap-2 mb-1">
-            <PiggyBank size={14} className="text-[var(--success)] sm:w-4 sm:h-4" />
-            <p className="text-[10px] sm:text-xs text-[var(--text-muted)]">Total Geral</p>
+        <div className="card px-5 py-5 sm:px-8 sm:py-8 lg:px-10 lg:py-10 text-center" style={{ border: "2px solid var(--success)" }}>
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <PiggyBank size={16} className="text-[var(--success)] sm:w-5 sm:h-5" />
+            <p className="text-[11px] sm:text-sm text-[var(--text-muted)] font-medium">Total Geral</p>
           </div>
-          <p className="text-base sm:text-lg lg:text-xl font-bold text-[var(--success)]">
+          <p className="text-lg sm:text-xl lg:text-2xl font-extrabold text-[var(--success)]">
             {formatCurrency(totalGeral)}
           </p>
         </div>
