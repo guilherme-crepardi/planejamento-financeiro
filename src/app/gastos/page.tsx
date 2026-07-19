@@ -124,7 +124,7 @@ export default function GastosPage() {
     new Date(dateStr + "T00:00:00").toLocaleDateString("pt-BR");
 
   return (
-    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-10 animate-fade-in-up">
+    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-12 animate-fade-in-up">
       <div
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
         style={{ animationDelay: "0ms" }}
@@ -152,7 +152,7 @@ export default function GastosPage() {
       </div>
 
       <div
-        className="card p-6 animate-fade-in-up"
+        className="card p-8 animate-fade-in-up"
         style={{ animationDelay: "60ms" }}
       >
         <div className="flex items-center justify-between">
@@ -289,7 +289,7 @@ export default function GastosPage() {
                           </span>
                         )}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-6 py-5 whitespace-nowrap">
                         <span
                           className="badge inline-flex items-center gap-1.5"
                           style={{
@@ -304,7 +304,7 @@ export default function GastosPage() {
                       <td className="px-6 py-4 text-sm text-[var(--danger)] font-semibold text-right whitespace-nowrap">
                         {formatCurrency(gasto.valor)}
                       </td>
-                      <td className="px-6 py-4 text-right whitespace-nowrap">
+                      <td className="px-6 py-5 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-1">
                           <button
                             onClick={() => openEditModal(gasto)}

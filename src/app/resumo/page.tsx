@@ -128,7 +128,7 @@ export default function ResumoPage() {
   }
 
   return (
-    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-10">
+    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-14">
       <h1
         className="text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight animate-fade-in-up"
         style={{ animationDelay: "0ms" }}
@@ -137,7 +137,7 @@ export default function ResumoPage() {
       </h1>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         <div
           className="card border-2 p-6 animate-fade-in-up"
           style={{ borderColor: "var(--success)", animationDelay: "50ms" }}
@@ -282,7 +282,7 @@ export default function ResumoPage() {
         )}
       </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         {/* Gastos por Periodicidade */}
         <section
           className="card p-6 animate-fade-in-up"
