@@ -38,28 +38,28 @@ export default function Dashboard() {
         <p className="text-[var(--text-tertiary)] text-[15px] mt-1 font-medium">Visao geral das suas financas</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 animate-fade-in-up" style={{ animationDelay: "50ms" }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-14 animate-fade-in-up" style={{ animationDelay: "50ms" }}>
         {summaryCards.map((card) => (
-          <div key={card.label} className="card p-10 group hover:scale-[1.02] transition-all duration-300">
-            <div className="flex items-center justify-between mb-5">
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: card.bg }}>
+          <div key={card.label} className="card p-12 group hover:scale-[1.02] transition-all duration-300">
+            <div className="flex items-center justify-between mb-8">
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: card.bg }}>
                 <card.Icon size={22} strokeWidth={2} style={{ color: card.color }} />
               </div>
               <span className="text-[12px] font-bold text-[var(--text-tertiary)]">{card.count}</span>
             </div>
             <p className="text-[14px] font-medium text-[var(--text-tertiary)] mb-1">{card.label}</p>
-            <p className="text-[26px] font-extrabold tracking-tight" style={{ color: card.color }}>{card.value}</p>
+            <p className="text-[30px] font-extrabold tracking-tight" style={{ color: card.color }}>{card.value}</p>
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
-        <div className="card p-8">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "var(--accent-primary-light)" }}>
-              <PieIcon size={18} strokeWidth={2} style={{ color: "var(--accent-primary)" }} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
+        <div className="card p-10">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "var(--accent-primary-light)" }}>
+              <PieIcon size={20} strokeWidth={2} style={{ color: "var(--accent-primary)" }} />
             </div>
-            <h2 className="text-[16px] font-bold text-[var(--text-primary)] tracking-tight">Gastos por Categoria</h2>
+            <h2 className="text-[17px] font-bold text-[var(--text-primary)] tracking-tight">Gastos por Categoria</h2>
           </div>
           {porCategoria.length > 0 ? (
             <ResponsiveContainer width="100%" height={300}>
@@ -83,12 +83,12 @@ export default function Dashboard() {
           )}
         </div>
 
-        <div className="card p-8">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(124,92,252,0.1)" }}>
-              <BarChart3 size={18} strokeWidth={2} style={{ color: "#7c5cfc" }} />
+        <div className="card p-10">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(124,92,252,0.1)" }}>
+              <BarChart3 size={20} strokeWidth={2} style={{ color: "#7c5cfc" }} />
             </div>
-            <h2 className="text-[16px] font-bold text-[var(--text-primary)] tracking-tight">Gastos por Periodicidade</h2>
+            <h2 className="text-[17px] font-bold text-[var(--text-primary)] tracking-tight">Gastos por Periodicidade</h2>
           </div>
           {gastos.length > 0 ? (
             <ResponsiveContainer width="100%" height={300}>
@@ -113,12 +113,12 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="card p-6 animate-fade-in-up" style={{ animationDelay: "150ms" }}>
-        <div className="flex items-center gap-3 mb-5">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "var(--warning-light)" }}>
-            <FileText size={18} strokeWidth={2} style={{ color: "var(--warning)" }} />
+      <div className="card p-10 animate-fade-in-up" style={{ animationDelay: "150ms" }}>
+        <div className="flex items-center gap-3 mb-8">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "var(--warning-light)" }}>
+            <FileText size={20} strokeWidth={2} style={{ color: "var(--warning)" }} />
           </div>
-          <h2 className="text-[16px] font-bold text-[var(--text-primary)] tracking-tight">Ultimos Registros</h2>
+          <h2 className="text-[17px] font-bold text-[var(--text-primary)] tracking-tight">Ultimos Registros</h2>
         </div>
         {gastos.length > 0 ? (
           <div className="overflow-x-auto -mx-6 md:mx-0">
