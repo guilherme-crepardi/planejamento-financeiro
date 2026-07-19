@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useMemo } from "react";
 import { useFinance } from "@/lib/finance-context";
@@ -128,88 +128,91 @@ export default function CategoriasPage() {
   }
 
   return (
-    <div className="animate-fade-in min-h-screen p-4 sm:p-6 lg:p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-          <h1
-            className="text-2xl sm:text-3xl font-bold"
-            style={{ color: "var(--text-primary)" }}
-          >
+    <div className="max-w-[1200px] mx-auto space-y-6 animate-fade-in-up">
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+        <div>
+          <h1 className="text-[26px] font-bold text-[var(--text-primary)] tracking-tight">
             Categorias
           </h1>
-          <button onClick={abrirModalAdicionar} className="bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] hover:opacity-90 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-lg text-sm">
-            + Nova Categoria
+          <p className="text-[var(--text-tertiary)] text-sm mt-0.5">
+            Organize seus gastos e rendas por categoria
+          </p>
+        </div>
+        <button onClick={abrirModalAdicionar} className="btn-primary">
+          + Nova Categoria
+        </button>
+      </div>
+
+      <div className="flex gap-2 flex-wrap">
+        {(
+          [
+            { key: "todos", label: "Todos" },
+            { key: "gasto", label: "Gastos" },
+            { key: "renda", label: "Renda" },
+          ] as const
+        ).map((f) => (
+          <button
+            key={f.key}
+            onClick={() => setFiltro(f.key)}
+            className={
+              filtro === f.key
+                ? "px-4 py-2 rounded-xl text-sm font-semibold transition-all text-white"
+                : "px-4 py-2 rounded-xl text-sm font-medium transition-all bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+            }
+            style={
+              filtro === f.key
+                ? {
+                    background:
+                      "linear-gradient(135deg, var(--accent-gradient-start), var(--accent-gradient-end))",
+                    boxShadow: "0 2px 12px rgba(79, 110, 247, 0.35)",
+                  }
+                : undefined
+            }
+          >
+            {f.label}
           </button>
-        </div>
+        ))}
+      </div>
 
-        <div className="flex gap-2 mb-6">
-          {(
-            [
-              { key: "todos", label: "Todos" },
-              { key: "gasto", label: "Gastos" },
-              { key: "renda", label: "Renda" },
-            ] as const
-          ).map((f) => (
-            <button
-              key={f.key}
-              onClick={() => setFiltro(f.key)}
-              className={
-                filtro === f.key
-                  ? "bg-[var(--accent)] text-white shadow-md px-4 py-2 rounded-xl text-sm font-medium transition-all"
-                  : "bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-muted)] hover:text-[var(--text-primary)] px-4 py-2 rounded-xl text-sm font-medium transition-all"
-              }
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
-
+      {categoriasFiltradas.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {categoriasFiltradas.map((cat) => (
+          {categoriasFiltradas.map((cat, i) => (
             <div
               key={cat.id}
-              className="animate-fade-in rounded-2xl p-5 flex items-center gap-4 transition-all hover:scale-[1.02]"
-              style={{
-                backgroundColor: "var(--bg-secondary)",
-                border: "1px solid var(--border-color)",
-              }}
+              className="card group relative p-5 flex items-center gap-4 transition-all duration-200 hover:scale-[1.02] animate-fade-in-up"
+              style={{ animationDelay: `${i * 40}ms` }}
             >
               <div
                 className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0"
-                style={{ backgroundColor: cat.cor + "22" }}
+                style={{ backgroundColor: cat.cor + "20" }}
               >
                 {ICON_EMOJI[cat.icone] || "📌"}
               </div>
               <div className="flex-1 min-w-0">
-                <p
-                  className="font-semibold truncate"
-                  style={{ color: "var(--text-primary)" }}
-                >
+                <p className="font-semibold truncate text-[var(--text-primary)]">
                   {cat.nome}
                 </p>
                 <span
-                  className="text-xs font-medium"
+                  className="badge text-xs"
                   style={{
-                    color:
-                      cat.tipo === "renda"
-                        ? "var(--success)"
-                        : "var(--danger)",
+                    backgroundColor:
+                      cat.tipo === "renda" ? "rgba(34,197,94,0.12)" : "rgba(239,68,68,0.12)",
+                    color: cat.tipo === "renda" ? "#22c55e" : "#ef4444",
                   }}
                 >
                   {cat.tipo === "renda" ? "Renda" : "Gasto"}
                 </span>
               </div>
-              <div className="flex items-center gap-1 shrink-0">
+              <div className="flex items-center gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                 <button
                   onClick={() => abrirModalEditar(cat.id)}
-                  className="p-2 rounded-lg transition-colors hover:bg-[var(--bg-tertiary)]"
-                  style={{ color: "var(--text-muted)" }}
+                  className="p-2 rounded-lg transition-colors hover:bg-[var(--bg-inset)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
                   title="Editar"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
+                    width="15"
+                    height="15"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -223,14 +226,13 @@ export default function CategoriasPage() {
                 </button>
                 <button
                   onClick={() => confirmarExcluir(cat.id)}
-                  className="p-2 rounded-lg transition-colors hover:bg-[var(--danger-light)]"
-                  style={{ color: "var(--danger)" }}
+                  className="p-2 rounded-lg transition-colors hover:bg-red-500/10 text-[var(--text-tertiary)] hover:text-[#ef4444]"
                   title="Excluir"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
+                    width="15"
+                    height="15"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -249,21 +251,35 @@ export default function CategoriasPage() {
             </div>
           ))}
         </div>
-
-        {categoriasFiltradas.length === 0 && (
+      ) : (
+        <div className="card py-16 text-center">
           <div
-            className="text-center py-16 rounded-2xl"
-            style={{
-              backgroundColor: "var(--bg-secondary)",
-              border: "1px solid var(--border-color)",
-            }}
+            className="w-16 h-16 rounded-full flex items-center justify-center mb-3 mx-auto"
+            style={{ background: "var(--bg-inset)" }}
           >
-            <p style={{ color: "var(--text-muted)" }} className="text-lg">
-              Nenhuma categoria encontrada.
-            </p>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="text-[var(--text-tertiary)]"
+            >
+              <path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z" />
+            </svg>
           </div>
-        )}
-      </div>
+          <p className="text-[15px] font-bold text-[var(--text-primary)] tracking-tight mb-1">
+            Nenhuma categoria encontrada
+          </p>
+          <p className="text-sm text-[var(--text-tertiary)]">
+            Crie sua primeira categoria para começar a organizar
+          </p>
+        </div>
+      )}
 
       <Modal
         isOpen={modalAberto}
@@ -272,26 +288,20 @@ export default function CategoriasPage() {
       >
         <div className="space-y-5">
           <div>
-            <label
-              className="block text-sm font-medium mb-1.5"
-              style={{ color: "var(--text-secondary)" }}
-            >
+            <label className="block text-[15px] font-bold text-[var(--text-primary)] tracking-tight mb-2">
               Nome
             </label>
             <input
               type="text"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
-              placeholder="Ex: Alimentação"
-              className="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+              placeholder="Ex: Alimentacao"
+              className="input"
             />
           </div>
 
           <div>
-            <label
-              className="block text-sm font-medium mb-1.5"
-              style={{ color: "var(--text-secondary)" }}
-            >
+            <label className="block text-[15px] font-bold text-[var(--text-primary)] tracking-tight mb-2">
               Tipo
             </label>
             <div className="flex gap-2">
@@ -301,8 +311,17 @@ export default function CategoriasPage() {
                   onClick={() => setTipo(t)}
                   className={
                     tipo === t
-                      ? "flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all bg-[var(--accent)] text-white shadow-md"
-                      : "flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                      ? "flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all text-white"
+                      : "flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                  }
+                  style={
+                    tipo === t
+                      ? {
+                          background:
+                            "linear-gradient(135deg, var(--accent-gradient-start), var(--accent-gradient-end))",
+                          boxShadow: "0 2px 12px rgba(79, 110, 247, 0.35)",
+                        }
+                      : undefined
                   }
                 >
                   {t === "gasto" ? "Gasto" : "Renda"}
@@ -312,13 +331,10 @@ export default function CategoriasPage() {
           </div>
 
           <div>
-            <label
-              className="block text-sm font-medium mb-1.5"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              Ícone
+            <label className="block text-[15px] font-bold text-[var(--text-primary)] tracking-tight mb-2">
+              Icone
             </label>
-            <div className="grid grid-cols-5 sm:grid-cols-5 gap-2">
+            <div className="grid grid-cols-5 gap-2">
               {ICON_KEYS.map((key) => (
                 <button
                   key={key}
@@ -326,17 +342,13 @@ export default function CategoriasPage() {
                   className={
                     icone === key
                       ? "w-full aspect-square rounded-xl flex items-center justify-center text-xl transition-all ring-2 ring-[var(--accent)] shadow-md"
-                      : "w-full aspect-square rounded-xl flex items-center justify-center text-xl transition-all hover:scale-110"
+                      : "w-full aspect-square rounded-xl flex items-center justify-center text-xl transition-all hover:scale-110 bg-[var(--bg-surface)] border border-[var(--border-subtle)]"
                   }
-                  style={{
-                    backgroundColor:
-                      icone === key
-                        ? "var(--accent)" + "22"
-                        : "var(--bg-primary)",
-                    border: `1px solid ${
-                      icone === key ? "var(--accent)" : "var(--border-color)"
-                    }`,
-                  }}
+                  style={
+                    icone === key
+                      ? { backgroundColor: "var(--accent)", color: "white" }
+                      : undefined
+                  }
                   title={key}
                 >
                   {ICON_EMOJI[key]}
@@ -346,10 +358,7 @@ export default function CategoriasPage() {
           </div>
 
           <div>
-            <label
-              className="block text-sm font-medium mb-1.5"
-              style={{ color: "var(--text-secondary)" }}
-            >
+            <label className="block text-[15px] font-bold text-[var(--text-primary)] tracking-tight mb-2">
               Cor
             </label>
             <div className="flex flex-wrap gap-2">
@@ -362,9 +371,7 @@ export default function CategoriasPage() {
                       ? "w-8 h-8 rounded-full transition-all ring-2 ring-offset-2 ring-[var(--accent)] shadow-md"
                       : "w-8 h-8 rounded-full transition-all hover:scale-110"
                   }
-                  style={{
-                    backgroundColor: c,
-                  }}
+                  style={{ backgroundColor: c }}
                   title={c}
                 />
               ))}
@@ -374,14 +381,14 @@ export default function CategoriasPage() {
           <div className="flex gap-3 pt-2">
             <button
               onClick={fecharModal}
-              className="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+              className="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
             >
               Cancelar
             </button>
             <button
               onClick={salvar}
               disabled={!nome.trim()}
-              className="flex-1 bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] hover:opacity-90 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn-primary flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {editandoId ? "Salvar" : "Adicionar"}
             </button>

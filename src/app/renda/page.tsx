@@ -24,9 +24,9 @@ const tipoLabel = (tipo: RendaTipo) => {
 
 const tipoCor = (tipo: RendaTipo) => {
   const map: Record<RendaTipo, { bg: string; color: string }> = {
-    salario1: { bg: "#22c55e20", color: "#22c55e" },
-    salario2: { bg: "#16a34a20", color: "#16a34a" },
-    extra: { bg: "#06b6d420", color: "#06b6d4" },
+    salario1: { bg: "var(--success-light)", color: "var(--success)" },
+    salario2: { bg: "var(--success-medium)", color: "var(--success)" },
+    extra: { bg: "var(--accent-primary-light)", color: "var(--accent-primary)" },
   }
   return map[tipo]
 }
@@ -114,175 +114,173 @@ export default function RendaPage() {
   }
 
   return (
-    <div className="animate-fade-in min-h-screen p-4 md:p-6 lg:p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">
-              Renda
-            </h1>
-            <p className="text-[var(--text-muted)] text-sm mt-1">
-              Gerencie suas fontes de renda
-            </p>
-          </div>
-          <button onClick={openAdd} className="bg-[var(--success)] hover:opacity-90 text-white px-5 py-2.5 rounded-xl font-medium transition-all text-sm self-start sm:self-auto">
-            + Adicionar Renda
-          </button>
+    <div className="max-w-[1200px] mx-auto space-y-6 p-4 md:p-6 lg:p-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 animate-fade-in-up" style={{ animationDelay: "0ms" }}>
+        <div>
+          <h1 className="text-[26px] font-bold text-[var(--text-primary)] tracking-tight">
+            Renda
+          </h1>
+          <p className="text-[var(--text-muted)] text-sm mt-1">
+            Gerencie suas fontes de renda
+          </p>
         </div>
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6">
-          <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl p-5">
-            <p className="text-xs text-[var(--text-muted)] mb-1">Salario 1</p>
-            <p className="text-lg md:text-xl font-bold text-[var(--success)]">
-              {formatCurrency(salario1Total)}
-            </p>
-          </div>
-          <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl p-5">
-            <p className="text-xs text-[var(--text-muted)] mb-1">Salario 2</p>
-            <p className="text-lg md:text-xl font-bold text-[var(--success)]">
-              {formatCurrency(salario2Total)}
-            </p>
-          </div>
-          <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl p-5">
-            <p className="text-xs text-[var(--text-muted)] mb-1">Extras</p>
-            <p className="text-lg md:text-xl font-bold text-[var(--success)]">
-              {formatCurrency(extrasTotal)}
-            </p>
-          </div>
-          <div className="bg-[var(--bg-secondary)] border border-[var(--success)] rounded-2xl p-5">
-            <p className="text-xs text-[var(--text-muted)] mb-1">Total Geral</p>
-            <p className="text-lg md:text-xl font-bold text-[var(--success)]">
-              {formatCurrency(totalGeral)}
-            </p>
-          </div>
-        </div>
-
-        {sorted.length === 0 ? (
-          <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl p-12 flex flex-col items-center justify-center text-center">
-            <svg
-              className="w-16 h-16 text-[var(--text-muted)] mb-4 opacity-50"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <p className="text-[var(--text-muted)] text-lg mb-1">
-              Nenhuma renda registrada
-            </p>
-            <p className="text-[var(--text-muted)] text-sm">
-              Adicione sua primeira fonte de renda
-            </p>
-          </div>
-        ) : (
-          <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[600px]">
-                <thead>
-                  <tr className="border-b border-[var(--border-color)]">
-                    <th className="text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider px-5 py-3">
-                      Tipo
-                    </th>
-                    <th className="text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider px-5 py-3">
-                      Descricao
-                    </th>
-                    <th className="text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider px-5 py-3">
-                      Valor
-                    </th>
-                    <th className="text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider px-5 py-3">
-                      Data
-                    </th>
-                    <th className="text-right text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider px-5 py-3">
-                      Acoes
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sorted.map((item) => {
-                    const cor = tipoCor(item.tipo)
-                    return (
-                      <tr
-                        key={item.id}
-                        className="border-b border-[var(--border-color)] last:border-b-0 hover:bg-[var(--bg-primary)] transition-colors"
-                      >
-                        <td className="px-5 py-4">
-                          <span
-                            className="inline-block text-xs font-medium px-3 py-1 rounded-full"
-                            style={{ backgroundColor: cor.bg, color: cor.color }}
-                          >
-                            {tipoLabel(item.tipo)}
-                          </span>
-                        </td>
-                        <td className="px-5 py-4 text-[var(--text-primary)] text-sm font-medium">
-                          {item.descricao}
-                        </td>
-                        <td className="px-5 py-4 text-[var(--success)] font-semibold text-sm">
-                          {formatCurrency(item.valor)}
-                        </td>
-                        <td className="px-5 py-4 text-[var(--text-secondary)] text-sm">
-                          {formatDate(item.data)}
-                        </td>
-                        <td className="px-5 py-4">
-                          <div className="flex items-center justify-end gap-2">
-                            <button
-                              onClick={() => openEdit(item.id)}
-                              className="p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors text-[var(--text-muted)] hover:text-[var(--text-primary)]"
-                              title="Editar"
-                            >
-                              <svg
-                                className="w-4 h-4"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                                />
-                              </svg>
-                            </button>
-                            <button
-                              onClick={() => setConfirmDeleteId(item.id)}
-                              className="p-2 rounded-lg hover:bg-[var(--danger-light)] transition-colors text-[var(--text-muted)] hover:text-[var(--danger)]"
-                              title="Excluir"
-                            >
-                              <svg
-                                className="w-4 h-4"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                />
-                              </svg>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
+        <button onClick={openAdd} className="btn-primary self-start sm:self-auto">
+          + Adicionar Renda
+        </button>
       </div>
 
-      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editingId ? "Editar Renda" : "Adicionar Renda"}>
-        <div className="p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-fade-in-up" style={{ animationDelay: "80ms" }}>
+        <div className="card p-5">
+          <p className="text-xs text-[var(--text-muted)] mb-1">Salario 1</p>
+          <p className="text-lg md:text-xl font-bold text-[var(--success)]">
+            {formatCurrency(salario1Total)}
+          </p>
+        </div>
+        <div className="card p-5">
+          <p className="text-xs text-[var(--text-muted)] mb-1">Salario 2</p>
+          <p className="text-lg md:text-xl font-bold text-[var(--success)]">
+            {formatCurrency(salario2Total)}
+          </p>
+        </div>
+        <div className="card p-5">
+          <p className="text-xs text-[var(--text-muted)] mb-1">Extras</p>
+          <p className="text-lg md:text-xl font-bold text-[var(--success)]">
+            {formatCurrency(extrasTotal)}
+          </p>
+        </div>
+        <div className="card p-5 border-[var(--success)]">
+          <p className="text-xs text-[var(--text-muted)] mb-1">Total Geral</p>
+          <p className="text-lg md:text-xl font-bold text-[var(--success)]">
+            {formatCurrency(totalGeral)}
+          </p>
+        </div>
+      </div>
 
-          <div className="mb-5">
+      {sorted.length === 0 ? (
+        <div className="card p-12 flex flex-col items-center justify-center text-center animate-fade-in-up" style={{ animationDelay: "160ms" }}>
+          <svg
+            className="w-16 h-16 text-[var(--text-muted)] mb-4 opacity-50"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <p className="text-[var(--text-muted)] text-lg mb-1">
+            Nenhuma renda registrada
+          </p>
+          <p className="text-[var(--text-muted)] text-sm">
+            Adicione sua primeira fonte de renda
+          </p>
+        </div>
+      ) : (
+        <div className="card overflow-hidden animate-fade-in-up" style={{ animationDelay: "160ms" }}>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[600px]">
+              <thead>
+                <tr className="border-b border-[var(--border-color)]">
+                  <th className="text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider px-5 py-3">
+                    Tipo
+                  </th>
+                  <th className="text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider px-5 py-3">
+                    Descricao
+                  </th>
+                  <th className="text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider px-5 py-3">
+                    Valor
+                  </th>
+                  <th className="text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider px-5 py-3">
+                    Data
+                  </th>
+                  <th className="text-right text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider px-5 py-3">
+                    Acoes
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {sorted.map((item, index) => {
+                  const cor = tipoCor(item.tipo)
+                  return (
+                    <tr
+                      key={item.id}
+                      className="table-row"
+                      style={{ animationDelay: `${240 + index * 40}ms` }}
+                    >
+                      <td className="px-5 py-4">
+                        <span
+                          className="inline-block text-xs font-medium px-3 py-1 rounded-full"
+                          style={{ backgroundColor: cor.bg, color: cor.color }}
+                        >
+                          {tipoLabel(item.tipo)}
+                        </span>
+                      </td>
+                      <td className="px-5 py-4 text-[var(--text-primary)] text-sm font-medium">
+                        {item.descricao}
+                      </td>
+                      <td className="px-5 py-4 text-[var(--success)] font-semibold text-sm">
+                        {formatCurrency(item.valor)}
+                      </td>
+                      <td className="px-5 py-4 text-[var(--text-secondary)] text-sm">
+                        {formatDate(item.data)}
+                      </td>
+                      <td className="px-5 py-4">
+                        <div className="flex items-center justify-end gap-2">
+                          <button
+                            onClick={() => openEdit(item.id)}
+                            className="p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                            title="Editar"
+                          >
+                            <svg
+                              className="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                              />
+                            </svg>
+                          </button>
+                          <button
+                            onClick={() => setConfirmDeleteId(item.id)}
+                            className="p-2 rounded-lg hover:bg-[var(--danger-light)] transition-colors text-[var(--text-muted)] hover:text-[var(--danger)]"
+                            title="Excluir"
+                          >
+                            <svg
+                              className="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editingId ? "Editar Renda" : "Adicionar Renda"}>
+        <div className="space-y-4">
+          <div>
             <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
               Tipo
             </label>
@@ -305,7 +303,7 @@ export default function RendaPage() {
             </div>
           </div>
 
-          <div className="mb-5">
+          <div>
             <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
               Descricao
             </label>
@@ -316,11 +314,11 @@ export default function RendaPage() {
                 setForm({ ...form, descricao: e.target.value })
               }
               placeholder="Ex: Salario empresa X"
-              className="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+              className="input w-full"
             />
           </div>
 
-          <div className="mb-5">
+          <div>
             <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
               Valor (R$)
             </label>
@@ -333,11 +331,11 @@ export default function RendaPage() {
               placeholder="0,00"
               min={0}
               step={0.01}
-              className="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+              className="input w-full"
             />
           </div>
 
-          <div className="mb-6">
+          <div>
             <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
               Data
             </label>
@@ -345,11 +343,11 @@ export default function RendaPage() {
               type="date"
               value={form.data}
               onChange={(e) => setForm({ ...form, data: e.target.value })}
-              className="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+              className="input w-full"
             />
           </div>
 
-          <div className="flex gap-3 justify-end">
+          <div className="flex gap-3 justify-end pt-2">
             <button
               onClick={() => setModalOpen(false)}
               className="px-5 py-2.5 rounded-xl text-sm font-medium text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] transition-all"
@@ -358,7 +356,7 @@ export default function RendaPage() {
             </button>
             <button
               onClick={handleSave}
-              className="bg-[var(--success)] hover:opacity-90 text-white px-5 py-2.5 rounded-xl font-medium transition-all text-sm"
+              className="btn-primary"
             >
               {editingId ? "Salvar" : "Adicionar"}
             </button>
@@ -371,8 +369,8 @@ export default function RendaPage() {
         onClose={() => setConfirmDeleteId(null)}
         title="Confirmar Exclusao"
       >
-        <div className="p-6">
-          <p className="text-[var(--text-secondary)] mb-6">
+        <div className="space-y-4">
+          <p className="text-[var(--text-secondary)]">
             Tem certeza que deseja excluir esta renda? Esta acao nao pode ser
             desfeita.
           </p>

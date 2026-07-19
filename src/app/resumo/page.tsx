@@ -18,11 +18,15 @@ import {
 } from "recharts"
 
 const tooltipStyle = {
-  background: "var(--bg-secondary)",
-  border: "1px solid var(--border-color)",
-  borderRadius: "12px",
+  background: "var(--bg-surface)",
+  border: "1px solid var(--border-subtle)",
+  borderRadius: "var(--radius-md)",
   color: "var(--text-primary)",
+  boxShadow: "var(--shadow-lg)",
 }
+
+const currency = (v: number) =>
+  v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
 
 export default function ResumoPage() {
   const { gastos, renda, totalGastos, totalRenda, saldo, gastosPorCategoria, gastosPorPeriodicidade } = useFinance()
@@ -48,8 +52,8 @@ export default function ResumoPage() {
   }))
 
   const periodicidadeData = [
-    { name: "Semanal", value: porPeriodicidade.semanal, fill: "#6366f1" },
-    { name: "Mensal", value: porPeriodicidade.mensal, fill: "#8b5cf6" },
+    { name: "Semanal", value: porPeriodicidade.semanal, fill: "#4f6ef7" },
+    { name: "Mensal", value: porPeriodicidade.mensal, fill: "#7c5cfc" },
     { name: "Anual", value: porPeriodicidade.anual / 12, fill: "#f59e0b" },
   ]
 
@@ -93,7 +97,7 @@ export default function ResumoPage() {
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 p-8">
         <div className="text-6xl opacity-30">📊</div>
         <h1
-          className="text-2xl font-bold"
+          className="text-[26px] font-bold tracking-tight"
           style={{ color: "var(--text-primary)" }}
         >
           Nenhum dado encontrado
@@ -110,10 +114,10 @@ export default function ResumoPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-10">
+    <div className="max-w-[1200px] mx-auto space-y-6">
       <h1
-        className="text-3xl font-bold animate-fade-in"
-        style={{ color: "var(--text-primary)", animationDelay: "0ms" }}
+        className="text-[26px] font-bold text-[var(--text-primary)] tracking-tight animate-fade-in-up"
+        style={{ animationDelay: "0ms" }}
       >
         Resumo Financeiro
       </h1>
@@ -121,52 +125,52 @@ export default function ResumoPage() {
       {/* Summary Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div
-          className="bg-[var(--bg-secondary)] border-2 border-green-500/60 rounded-2xl p-6 animate-fade-in"
-          style={{ animationDelay: "50ms" }}
+          className="card border-2 p-5 animate-fade-in-up"
+          style={{ borderColor: "var(--success)", animationDelay: "50ms" }}
         >
-          <p className="text-sm font-medium uppercase tracking-wide" style={{ color: "var(--text-secondary)" }}>
+          <p className="text-[15px] font-bold text-[var(--text-primary)] tracking-tight uppercase">
             Renda Total
           </p>
           <p className="text-3xl font-bold mt-2 text-green-500">
-            {totalR.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+            {currency(totalR)}
           </p>
         </div>
         <div
-          className="bg-[var(--bg-secondary)] border-2 border-red-500/60 rounded-2xl p-6 animate-fade-in"
-          style={{ animationDelay: "100ms" }}
+          className="card border-2 p-5 animate-fade-in-up"
+          style={{ borderColor: "var(--danger)", animationDelay: "100ms" }}
         >
-          <p className="text-sm font-medium uppercase tracking-wide" style={{ color: "var(--text-secondary)" }}>
+          <p className="text-[15px] font-bold text-[var(--text-primary)] tracking-tight uppercase">
             Gastos Totais
           </p>
           <p className="text-3xl font-bold mt-2 text-red-500">
-            {totalG.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+            {currency(totalG)}
           </p>
         </div>
         <div
-          className="bg-[var(--bg-secondary)] border-2 rounded-2xl p-6 animate-fade-in"
+          className="card border-2 p-5 animate-fade-in-up"
           style={{
+            borderColor: saldoFinal >= 0 ? "var(--success)" : "var(--danger)",
             animationDelay: "150ms",
-            borderColor: saldoFinal >= 0 ? "#22c55e" : "#ef4444",
           }}
         >
-          <p className="text-sm font-medium uppercase tracking-wide" style={{ color: "var(--text-secondary)" }}>
+          <p className="text-[15px] font-bold text-[var(--text-primary)] tracking-tight uppercase">
             Saldo Final
           </p>
           <p
             className="text-3xl font-bold mt-2"
-            style={{ color: saldoFinal >= 0 ? "#22c55e" : "#ef4444" }}
+            style={{ color: saldoFinal >= 0 ? "var(--success)" : "var(--danger)" }}
           >
-            {saldoFinal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+            {currency(saldoFinal)}
           </p>
         </div>
       </div>
 
       {/* Comparativo Renda vs Gastos */}
       <section
-        className="bg-[var(--bg-secondary)] border rounded-2xl p-6 animate-fade-in"
+        className="card p-6 animate-fade-in-up"
         style={{ animationDelay: "200ms" }}
       >
-        <h2 className="text-xl font-semibold mb-6" style={{ color: "var(--text-primary)" }}>
+        <h2 className="text-[15px] font-bold text-[var(--text-primary)] tracking-tight mb-6">
           Comparativo Renda vs Gastos
         </h2>
         <ResponsiveContainer width="100%" height={300}>
@@ -182,10 +186,10 @@ export default function ResumoPage() {
               label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
               labelLine
             >
-              <Cell fill="#22c55e" />
+              <Cell fill="#10b981" />
               <Cell fill="#ef4444" />
             </Pie>
-            <Tooltip formatter={(v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} contentStyle={tooltipStyle} />
+            <Tooltip formatter={(v: number) => currency(v)} contentStyle={tooltipStyle} />
             <Legend />
           </PieChart>
         </ResponsiveContainer>
@@ -193,10 +197,10 @@ export default function ResumoPage() {
 
       {/* Gastos por Categoria */}
       <section
-        className="bg-[var(--bg-secondary)] border rounded-2xl p-6 animate-fade-in"
+        className="card p-6 animate-fade-in-up"
         style={{ animationDelay: "250ms" }}
       >
-        <h2 className="text-xl font-semibold mb-6" style={{ color: "var(--text-primary)" }}>
+        <h2 className="text-[15px] font-bold text-[var(--text-primary)] tracking-tight mb-6">
           Gastos por Categoria
         </h2>
         {categoriaData.length === 0 ? (
@@ -221,7 +225,7 @@ export default function ResumoPage() {
                   <Cell key={i} fill={entry.color} />
                 ))}
               </Pie>
-              <Tooltip formatter={(v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} contentStyle={tooltipStyle} />
+              <Tooltip formatter={(v: number) => currency(v)} contentStyle={tooltipStyle} />
               <Legend />
             </PieChart>
           </ResponsiveContainer>
@@ -231,10 +235,10 @@ export default function ResumoPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Gastos por Periodicidade */}
         <section
-          className="bg-[var(--bg-secondary)] border rounded-2xl p-6 animate-fade-in"
+          className="card p-6 animate-fade-in-up"
           style={{ animationDelay: "300ms" }}
         >
-          <h2 className="text-xl font-semibold mb-6" style={{ color: "var(--text-primary)" }}>
+          <h2 className="text-[15px] font-bold text-[var(--text-primary)] tracking-tight mb-6">
             Gastos por Periodicidade
           </h2>
           {periodicidadeData.length === 0 ? (
@@ -246,7 +250,7 @@ export default function ResumoPage() {
               <BarChart data={periodicidadeData}>
                 <XAxis dataKey="name" tick={{ fill: textColor, fontSize: 12 }} />
                 <YAxis tick={{ fill: textColor, fontSize: 12 }} tickFormatter={(v: number) => `R$${(v / 1000).toFixed(0)}k`} />
-                <Tooltip formatter={(v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} contentStyle={tooltipStyle} />
+                <Tooltip formatter={(v: number) => currency(v)} contentStyle={tooltipStyle} />
                 <Bar dataKey="value" radius={[8, 8, 0, 0]}>
                   {periodicidadeData.map((entry, i) => (
                     <Cell key={i} fill={entry.fill} />
@@ -259,10 +263,10 @@ export default function ResumoPage() {
 
         {/* Resumo Mensal Estimado */}
         <section
-          className="bg-[var(--bg-secondary)] border rounded-2xl p-6 animate-fade-in"
+          className="card p-6 animate-fade-in-up"
           style={{ animationDelay: "350ms" }}
         >
-          <h2 className="text-xl font-semibold mb-6" style={{ color: "var(--text-primary)" }}>
+          <h2 className="text-[15px] font-bold text-[var(--text-primary)] tracking-tight mb-6">
             Resumo Mensal Estimado
           </h2>
           <div className="space-y-5">
@@ -271,7 +275,7 @@ export default function ResumoPage() {
                 Renda Mensal (média)
               </span>
               <span className="font-bold text-green-500">
-                {monthlyRenda.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                {currency(monthlyRenda)}
               </span>
             </div>
             <div className="flex items-center justify-between">
@@ -279,22 +283,19 @@ export default function ResumoPage() {
                 Gastos Mensais (média)
               </span>
               <span className="font-bold text-red-500">
-                {monthlyGastos.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                {currency(monthlyGastos)}
               </span>
             </div>
-            <div
-              className="h-px w-full"
-              style={{ background: "var(--border-color)" }}
-            />
+            <div className="h-px w-full" style={{ background: "var(--border-subtle)" }} />
             <div className="flex items-center justify-between">
               <span className="font-medium" style={{ color: "var(--text-secondary)" }}>
                 Saldo Mensal (estimado)
               </span>
               <span
                 className="font-bold"
-                style={{ color: monthlySaldo >= 0 ? "#22c55e" : "#ef4444" }}
+                style={{ color: monthlySaldo >= 0 ? "var(--success)" : "var(--danger)" }}
               >
-                {monthlySaldo.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                {currency(monthlySaldo)}
               </span>
             </div>
           </div>
@@ -303,10 +304,10 @@ export default function ResumoPage() {
 
       {/* Evolução Mensal */}
       <section
-        className="bg-[var(--bg-secondary)] border rounded-2xl p-6 animate-fade-in"
+        className="card p-6 animate-fade-in-up"
         style={{ animationDelay: "400ms" }}
       >
-        <h2 className="text-xl font-semibold mb-6" style={{ color: "var(--text-primary)" }}>
+        <h2 className="text-[15px] font-bold text-[var(--text-primary)] tracking-tight mb-6">
           Evolução Mensal
         </h2>
         {evolucaoData.length === 0 ? (
@@ -318,9 +319,9 @@ export default function ResumoPage() {
             <LineChart data={evolucaoData}>
               <XAxis dataKey="mes" tick={{ fill: textColor, fontSize: 12 }} />
               <YAxis tick={{ fill: textColor, fontSize: 12 }} tickFormatter={(v: number) => `R$${(v / 1000).toFixed(0)}k`} />
-              <Tooltip formatter={(v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} contentStyle={tooltipStyle} />
+              <Tooltip formatter={(v: number) => currency(v)} contentStyle={tooltipStyle} />
               <Legend />
-              <Line type="monotone" dataKey="renda" stroke="#22c55e" strokeWidth={2} dot={false} name="Renda" />
+              <Line type="monotone" dataKey="renda" stroke="#10b981" strokeWidth={2} dot={false} name="Renda" />
               <Line type="monotone" dataKey="gastos" stroke="#ef4444" strokeWidth={2} dot={false} name="Gastos" />
               <Line type="monotone" dataKey="saldo" stroke="#3b82f6" strokeWidth={2} strokeDasharray="6 4" dot={false} name="Saldo" />
             </LineChart>
@@ -330,10 +331,10 @@ export default function ResumoPage() {
 
       {/* Detalhamento por Categoria */}
       <section
-        className="bg-[var(--bg-secondary)] border rounded-2xl p-6 animate-fade-in"
+        className="card p-6 animate-fade-in-up"
         style={{ animationDelay: "450ms" }}
       >
-        <h2 className="text-xl font-semibold mb-6" style={{ color: "var(--text-primary)" }}>
+        <h2 className="text-[15px] font-bold text-[var(--text-primary)] tracking-tight mb-6">
           Detalhamento por Categoria
         </h2>
         {porCategoria.length === 0 ? (
@@ -353,12 +354,12 @@ export default function ResumoPage() {
                     {cat.nome}
                   </span>
                   <span style={{ color: "var(--text-secondary)" }}>
-                    {cat.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                    {currency(cat.valor)}
                   </span>
                 </div>
                 <div
                   className="h-2 rounded-full overflow-hidden"
-                  style={{ background: "var(--border-color)" }}
+                  style={{ background: "var(--border-subtle)" }}
                 >
                   <div
                     className="h-full rounded-full transition-all duration-500"
