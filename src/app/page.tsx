@@ -40,13 +40,13 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in-up" style={{ animationDelay: "50ms", gap: "40px" }}>
         {summaryCards.map((card) => (
-          <div key={card.label} className="card px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16 group transition-all duration-300">
-            <div className="flex items-center justify-between mb-4 sm:mb-6 lg:mb-10">
+          <div key={card.label} className="card px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16 group transition-all duration-300 text-center">
+            <div className="flex items-center justify-center mb-4 sm:mb-6 lg:mb-10">
               <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-2xl flex items-center justify-center" style={{ background: card.bg }}>
                 <card.Icon size={20} strokeWidth={2} style={{ color: card.color }} className="sm:w-[22px] sm:h-[22px]" />
               </div>
-              <span className="text-[10px] sm:text-[12px] font-bold text-[var(--text-tertiary)]">{card.count}</span>
             </div>
+            <p className="text-[10px] sm:text-[12px] font-bold text-[var(--text-tertiary)] mb-3 sm:mb-4 uppercase tracking-wider">{card.count}</p>
             <p className="text-[13px] sm:text-[15px] font-medium text-[var(--text-tertiary)] mb-1 sm:mb-2">{card.label}</p>
             <p className="text-[22px] sm:text-[28px] lg:text-[32px] font-extrabold tracking-tight" style={{ color: card.color }}>{card.value}</p>
           </div>
@@ -55,7 +55,7 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 animate-fade-in-up" style={{ animationDelay: "100ms", gap: "40px" }}>
         <div className="card px-6 py-8 sm:px-10 sm:py-12 lg:px-12 lg:py-14">
-          <div className="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-10 lg:mb-12">
+          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-10 lg:mb-12">
             <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center" style={{ background: "var(--accent-primary-light)" }}>
               <PieIcon size={18} strokeWidth={2} style={{ color: "var(--accent-primary)" }} className="sm:w-5 sm:h-5" />
             </div>
@@ -84,7 +84,7 @@ export default function Dashboard() {
         </div>
 
         <div className="card px-6 py-8 sm:px-10 sm:py-12 lg:px-12 lg:py-14">
-          <div className="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-10 lg:mb-12">
+          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-10 lg:mb-12">
             <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center" style={{ background: "rgba(124,92,252,0.1)" }}>
               <BarChart3 size={18} strokeWidth={2} style={{ color: "#7c5cfc" }} className="sm:w-5 sm:h-5" />
             </div>
@@ -114,7 +114,7 @@ export default function Dashboard() {
       </div>
 
       <div className="card px-6 py-8 sm:px-10 sm:py-12 lg:px-12 lg:py-14 animate-fade-in-up" style={{ animationDelay: "150ms" }}>
-        <div className="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-10 lg:mb-12">
+        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-10 lg:mb-12">
           <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center" style={{ background: "var(--warning-light)" }}>
             <FileText size={18} strokeWidth={2} style={{ color: "var(--warning)" }} className="sm:w-5 sm:h-5" />
           </div>
