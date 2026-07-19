@@ -129,7 +129,7 @@ export default function CategoriasPage() {
   }
 
   return (
-    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-12">
+    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-14">
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
           <h1 className="text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">
@@ -176,11 +176,11 @@ export default function CategoriasPage() {
       </div>
 
       {categoriasFiltradas.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {categoriasFiltradas.map((cat, i) => (
             <div
               key={cat.id}
-              className="card group relative p-8 flex items-center gap-5 transition-all duration-300 hover:scale-[1.02]"
+              className="card group relative p-10 flex items-center gap-6 transition-all duration-300 hover:scale-[1.02]"
               style={{ animationDelay: `${i * 40}ms` }}
             >
               <div

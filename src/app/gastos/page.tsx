@@ -124,7 +124,7 @@ export default function GastosPage() {
     new Date(dateStr + "T00:00:00").toLocaleDateString("pt-BR");
 
   return (
-    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-12 animate-fade-in-up">
+    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-14 animate-fade-in-up">
       <div
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
         style={{ animationDelay: "0ms" }}
@@ -152,7 +152,7 @@ export default function GastosPage() {
       </div>
 
       <div
-        className="card p-8 animate-fade-in-up"
+        className="card p-10 animate-fade-in-up"
         style={{ animationDelay: "60ms" }}
       >
         <div className="flex items-center justify-between">
@@ -237,22 +237,22 @@ export default function GastosPage() {
             <table className="w-full min-w-[650px]">
               <thead>
                 <tr>
-                  <th className="text-left px-6 py-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                  <th className="text-left px-6 py-6 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
                     Data
                   </th>
-                  <th className="text-left px-6 py-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                  <th className="text-left px-6 py-6 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
                     Descrição
                   </th>
-                  <th className="text-left px-6 py-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                  <th className="text-left px-6 py-6 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
                     Categoria
                   </th>
-                  <th className="text-left px-6 py-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                  <th className="text-left px-6 py-6 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
                     Periodicidade
                   </th>
-                  <th className="text-right px-6 py-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                  <th className="text-right px-6 py-6 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
                     Valor
                   </th>
-                  <th className="text-right px-6 py-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                  <th className="text-right px-6 py-6 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
                     Ações
                   </th>
                 </tr>
@@ -266,19 +266,19 @@ export default function GastosPage() {
                       className="table-row"
                       style={{ animationDelay: `${200 + index * 40}ms` }}
                     >
-                      <td className="px-6 py-4 text-sm text-[var(--text-secondary)] whitespace-nowrap">
+                      <td className="px-6 py-6 text-sm text-[var(--text-secondary)] whitespace-nowrap">
                         <span className="flex items-center gap-2">
                           <Calendar size={14} className="text-[var(--text-tertiary)]" />
                           {formatDate(gasto.data)}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-[var(--text-primary)] font-medium">
+                      <td className="px-6 py-6 text-sm text-[var(--text-primary)] font-medium">
                         <span className="flex items-center gap-2">
                           <FileText size={14} className="text-[var(--text-tertiary)]" />
                           {gasto.descricao}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-[var(--text-secondary)] whitespace-nowrap">
+                      <td className="px-6 py-6 text-sm text-[var(--text-secondary)] whitespace-nowrap">
                         {cat && (
                           <span className="inline-flex items-center gap-2">
                             <span
@@ -289,7 +289,7 @@ export default function GastosPage() {
                           </span>
                         )}
                       </td>
-                      <td className="px-6 py-5 whitespace-nowrap">
+                      <td className="px-6 py-6 whitespace-nowrap">
                         <span
                           className="badge inline-flex items-center gap-1.5"
                           style={{
@@ -301,10 +301,10 @@ export default function GastosPage() {
                           {periodicidadeLabels[gasto.periodicidade]}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-[var(--danger)] font-semibold text-right whitespace-nowrap">
+                      <td className="px-6 py-6 text-sm text-[var(--danger)] font-semibold text-right whitespace-nowrap">
                         {formatCurrency(gasto.valor)}
                       </td>
-                      <td className="px-6 py-5 text-right whitespace-nowrap">
+                      <td className="px-6 py-6 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-1">
                           <button
                             onClick={() => openEditModal(gasto)}
@@ -328,10 +328,10 @@ export default function GastosPage() {
               </tbody>
               <tfoot>
                 <tr className="border-t-2 border-[var(--border-color)]">
-                  <td colSpan={4} className="px-6 py-4 text-sm font-bold text-[var(--text-primary)] text-right uppercase tracking-[0.12em]">
+                  <td colSpan={4} className="px-6 py-6 text-sm font-bold text-[var(--text-primary)] text-right uppercase tracking-[0.12em]">
                     Total
                   </td>
-                  <td className="px-6 py-4 text-sm font-bold text-[var(--danger)] text-right">
+                  <td className="px-6 py-6 text-sm font-bold text-[var(--danger)] text-right">
                     {formatCurrency(totalFiltrado)}
                   </td>
                   <td />

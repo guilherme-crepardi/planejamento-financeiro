@@ -139,7 +139,7 @@ export default function RendaPage() {
   }
 
   return (
-    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-12">
+    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-14">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 animate-fade-in-up" style={{ animationDelay: "0ms" }}>
         <div>
           <h1 className="text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">
@@ -155,8 +155,8 @@ export default function RendaPage() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 animate-fade-in-up" style={{ animationDelay: "80ms" }}>
-        <div className="card p-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 animate-fade-in-up" style={{ animationDelay: "80ms" }}>
+        <div className="card p-10">
           <div className="flex items-center gap-2 mb-1">
             <Briefcase size={16} className="text-[var(--text-muted)]" />
             <p className="text-xs text-[var(--text-muted)]">Salario 1</p>
@@ -165,7 +165,7 @@ export default function RendaPage() {
             {formatCurrency(salario1Total)}
           </p>
         </div>
-        <div className="card p-8">
+        <div className="card p-10">
           <div className="flex items-center gap-2 mb-1">
             <Wallet size={16} className="text-[var(--text-muted)]" />
             <p className="text-xs text-[var(--text-muted)]">Salario 2</p>
@@ -174,7 +174,7 @@ export default function RendaPage() {
             {formatCurrency(salario2Total)}
           </p>
         </div>
-        <div className="card p-8">
+        <div className="card p-10">
           <div className="flex items-center gap-2 mb-1">
             <TrendingUp size={16} className="text-[var(--text-muted)]" />
             <p className="text-xs text-[var(--text-muted)]">Extras</p>
@@ -183,7 +183,7 @@ export default function RendaPage() {
             {formatCurrency(extrasTotal)}
           </p>
         </div>
-        <div className="card p-8 border-2" style={{ borderColor: "var(--success)" }}>
+        <div className="card p-10 border-2" style={{ borderColor: "var(--success)" }}>
           <div className="flex items-center gap-2 mb-1">
             <PiggyBank size={16} className="text-[var(--success)]" />
             <p className="text-xs text-[var(--text-muted)]">Total Geral</p>
@@ -236,7 +236,7 @@ export default function RendaPage() {
                       className="table-row"
                       style={{ animationDelay: `${240 + index * 40}ms` }}
                     >
-                      <td className="px-5 py-4">
+                      <td className="px-5 py-6">
                         <span
                           className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full"
                           style={{ backgroundColor: cor.bg, color: cor.color }}
@@ -245,16 +245,16 @@ export default function RendaPage() {
                           {tipoLabel(item.tipo)}
                         </span>
                       </td>
-                      <td className="px-5 py-4 text-[var(--text-primary)] text-sm font-medium">
+                      <td className="px-5 py-6 text-[var(--text-primary)] text-sm font-medium">
                         {item.descricao}
                       </td>
-                      <td className="px-5 py-4 text-[var(--success)] font-semibold text-sm">
+                      <td className="px-5 py-6 text-[var(--success)] font-semibold text-sm">
                         {formatCurrency(item.valor)}
                       </td>
-                      <td className="px-5 py-4 text-[var(--text-secondary)] text-sm">
+                      <td className="px-5 py-6 text-[var(--text-secondary)] text-sm">
                         {formatDate(item.data)}
                       </td>
-                      <td className="px-5 py-4">
+                      <td className="px-5 py-6">
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => openEdit(item.id)}

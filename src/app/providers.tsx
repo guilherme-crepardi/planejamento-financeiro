@@ -29,7 +29,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
       <div className="flex min-h-screen" style={{ background: "var(--bg-base)" }}>
         <Sidebar />
         <main className="flex-1 min-h-screen">
-          <div className="p-5 md:p-8 lg:p-10 pt-20 md:pt-8 max-w-[1400px] mx-auto">
+          <div className="p-6 md:p-10 lg:p-12 pt-20 md:pt-10 max-w-[1400px] mx-auto">
             {children}
           </div>
         </main>

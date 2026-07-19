@@ -128,7 +128,7 @@ export default function ResumoPage() {
   }
 
   return (
-    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-14">
+    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-16">
       <h1
         className="text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight animate-fade-in-up"
         style={{ animationDelay: "0ms" }}
@@ -137,9 +137,9 @@ export default function ResumoPage() {
       </h1>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         <div
-          className="card border-2 p-6 animate-fade-in-up"
+          className="card border-2 p-10 animate-fade-in-up"
           style={{ borderColor: "var(--success)", animationDelay: "50ms" }}
         >
           <div className="flex items-center gap-3 mb-2">
@@ -155,7 +155,7 @@ export default function ResumoPage() {
           </p>
         </div>
         <div
-          className="card border-2 p-6 animate-fade-in-up"
+          className="card border-2 p-10 animate-fade-in-up"
           style={{ borderColor: "var(--danger)", animationDelay: "100ms" }}
         >
           <div className="flex items-center gap-3 mb-2">
@@ -171,7 +171,7 @@ export default function ResumoPage() {
           </p>
         </div>
         <div
-          className="card border-2 p-6 animate-fade-in-up"
+          className="card border-2 p-10 animate-fade-in-up"
           style={{
             borderColor: saldoFinal >= 0 ? "var(--success)" : "var(--danger)",
             animationDelay: "150ms",
@@ -282,7 +282,7 @@ export default function ResumoPage() {
         )}
       </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Gastos por Periodicidade */}
         <section
           className="card p-6 animate-fade-in-up"
