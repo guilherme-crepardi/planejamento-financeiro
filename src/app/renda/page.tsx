@@ -156,39 +156,39 @@ export default function RendaPage() {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-10 lg:gap-12 animate-fade-in-up" style={{ animationDelay: "80ms" }}>
-        <div className="card px-5 py-5 sm:px-8 sm:py-8 lg:px-10 lg:py-10 text-center">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <Briefcase size={16} className="text-[var(--text-muted)] sm:w-5 sm:h-5" />
-            <p className="text-[11px] sm:text-sm text-[var(--text-muted)] font-medium">Salario 1</p>
+        <div className="card px-5 py-6 sm:px-8 sm:py-9 lg:px-10 lg:py-11 text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Briefcase size={18} className="text-[var(--text-muted)] sm:w-5 sm:h-5" />
+            <p className="text-xs sm:text-sm text-[var(--text-muted)] font-semibold">Salario 1</p>
           </div>
-          <p className="text-lg sm:text-xl lg:text-2xl font-extrabold text-[var(--success)]">
+          <p className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--success)]">
             {formatCurrency(salario1Total)}
           </p>
         </div>
-        <div className="card px-5 py-5 sm:px-8 sm:py-8 lg:px-10 lg:py-10 text-center">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <Wallet size={16} className="text-[var(--text-muted)] sm:w-5 sm:h-5" />
-            <p className="text-[11px] sm:text-sm text-[var(--text-muted)] font-medium">Salario 2</p>
+        <div className="card px-5 py-6 sm:px-8 sm:py-9 lg:px-10 lg:py-11 text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Wallet size={18} className="text-[var(--text-muted)] sm:w-5 sm:h-5" />
+            <p className="text-xs sm:text-sm text-[var(--text-muted)] font-semibold">Salario 2</p>
           </div>
-          <p className="text-lg sm:text-xl lg:text-2xl font-extrabold text-[var(--success)]">
+          <p className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--success)]">
             {formatCurrency(salario2Total)}
           </p>
         </div>
-        <div className="card px-5 py-5 sm:px-8 sm:py-8 lg:px-10 lg:py-10 text-center">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <TrendingUp size={16} className="text-[var(--text-muted)] sm:w-5 sm:h-5" />
-            <p className="text-[11px] sm:text-sm text-[var(--text-muted)] font-medium">Extras</p>
+        <div className="card px-5 py-6 sm:px-8 sm:py-9 lg:px-10 lg:py-11 text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <TrendingUp size={18} className="text-[var(--text-muted)] sm:w-5 sm:h-5" />
+            <p className="text-xs sm:text-sm text-[var(--text-muted)] font-semibold">Extras</p>
           </div>
-          <p className="text-lg sm:text-xl lg:text-2xl font-extrabold text-[var(--success)]">
+          <p className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--success)]">
             {formatCurrency(extrasTotal)}
           </p>
         </div>
-        <div className="card px-5 py-5 sm:px-8 sm:py-8 lg:px-10 lg:py-10 text-center" style={{ border: "2px solid var(--success)" }}>
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <PiggyBank size={16} className="text-[var(--success)] sm:w-5 sm:h-5" />
-            <p className="text-[11px] sm:text-sm text-[var(--text-muted)] font-medium">Total Geral</p>
+        <div className="card px-5 py-6 sm:px-8 sm:py-9 lg:px-10 lg:py-11 text-center" style={{ border: "2px solid var(--success)" }}>
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <PiggyBank size={18} className="text-[var(--success)] sm:w-5 sm:h-5" />
+            <p className="text-xs sm:text-sm text-[var(--text-muted)] font-semibold">Total Geral</p>
           </div>
-          <p className="text-lg sm:text-xl lg:text-2xl font-extrabold text-[var(--success)]">
+          <p className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--success)]">
             {formatCurrency(totalGeral)}
           </p>
         </div>
@@ -287,13 +287,13 @@ export default function RendaPage() {
             <label className="block text-xs sm:text-sm font-medium text-[var(--text-secondary)] mb-2">
               Tipo
             </label>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-3 sm:gap-4">
               {(["salario1", "salario2", "extra"] as RendaTipo[]).map(
                 (tipo) => (
                   <button
                     key={tipo}
                     onClick={() => setForm({ ...form, tipo })}
-                    className={`flex flex-col items-center justify-center gap-2 px-3 py-4 sm:px-4 sm:py-5 rounded-xl text-[11px] sm:text-sm font-semibold transition-all border ${
+                    className={`flex flex-col items-center justify-center gap-2 sm:gap-3 px-3 py-5 sm:px-4 sm:py-6 rounded-xl text-[11px] sm:text-sm font-semibold transition-all border ${
                       form.tipo === tipo
                         ? "border-[var(--success)] text-[var(--success)] bg-[var(--success)] bg-opacity-10"
                         : "border-[var(--border-color)] text-[var(--text-muted)] hover:border-[var(--text-muted)]"
