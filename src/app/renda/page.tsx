@@ -210,19 +210,19 @@ export default function RendaPage() {
             <table className="w-full min-w-[520px]">
               <thead>
                 <tr className="border-b border-[var(--border-color)]">
-                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-4 sm:px-6 lg:px-8 py-4 sm:py-5 text-[var(--text-muted)]">
+                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-4 sm:px-6 lg:px-8 py-5 sm:py-6 text-[var(--text-muted)]">
                     Tipo
                   </th>
-                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-4 sm:px-6 lg:px-8 py-4 sm:py-5 text-[var(--text-muted)]">
+                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-4 sm:px-6 lg:px-8 py-5 sm:py-6 text-[var(--text-muted)]">
                     Descricao
                   </th>
-                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-4 sm:px-6 lg:px-8 py-4 sm:py-5 text-[var(--text-muted)]">
+                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-4 sm:px-6 lg:px-8 py-5 sm:py-6 text-[var(--text-muted)]">
                     Valor
                   </th>
-                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-4 sm:px-6 lg:px-8 py-4 sm:py-5 text-[var(--text-muted)]">
+                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-4 sm:px-6 lg:px-8 py-5 sm:py-6 text-[var(--text-muted)]">
                     Data
                   </th>
-                  <th className="text-right text-[10px] sm:text-xs font-bold uppercase tracking-wider px-4 sm:px-6 lg:px-8 py-4 sm:py-5 text-[var(--text-muted)]">
+                  <th className="text-right text-[10px] sm:text-xs font-bold uppercase tracking-wider px-4 sm:px-6 lg:px-8 py-5 sm:py-6 text-[var(--text-muted)]">
                     Acoes
                   </th>
                 </tr>
@@ -236,7 +236,7 @@ export default function RendaPage() {
                       className="table-row"
                       style={{ borderBottom: "1px solid var(--border-subtle)", animationDelay: `${240 + index * 40}ms` }}
                     >
-                      <td className="px-4 sm:px-6 lg:px-8 py-5 sm:py-6">
+                      <td className="px-4 sm:px-6 lg:px-8 py-6 sm:py-7">
                         <span
                           className="inline-flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-semibold px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full"
                           style={{ backgroundColor: cor.bg, color: cor.color }}
@@ -245,16 +245,16 @@ export default function RendaPage() {
                           {tipoLabel(item.tipo)}
                         </span>
                       </td>
-                      <td className="px-4 sm:px-6 lg:px-8 py-5 sm:py-6 text-[var(--text-primary)] text-xs sm:text-sm font-semibold">
+                      <td className="px-4 sm:px-6 lg:px-8 py-6 sm:py-7 text-[var(--text-primary)] text-xs sm:text-sm font-semibold">
                         {item.descricao}
                       </td>
-                      <td className="px-4 sm:px-6 lg:px-8 py-5 sm:py-6 text-[var(--success)] font-bold text-sm sm:text-base">
+                      <td className="px-4 sm:px-6 lg:px-8 py-6 sm:py-7 text-[var(--success)] font-bold text-sm sm:text-base">
                         {formatCurrency(item.valor)}
                       </td>
-                      <td className="px-4 sm:px-6 lg:px-8 py-5 sm:py-6 text-[var(--text-secondary)] text-xs sm:text-sm">
+                      <td className="px-4 sm:px-6 lg:px-8 py-6 sm:py-7 text-[var(--text-secondary)] text-xs sm:text-sm">
                         {formatDate(item.data)}
                       </td>
-                      <td className="px-4 sm:px-6 lg:px-8 py-5 sm:py-6">
+                      <td className="px-4 sm:px-6 lg:px-8 py-6 sm:py-7">
                         <div className="flex items-center justify-end gap-1.5 sm:gap-2">
                           <button
                             onClick={() => openEdit(item.id)}
