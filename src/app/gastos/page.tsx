@@ -37,9 +37,9 @@ const periodicidadeColors: Record<string, string> = {
 };
 
 const periodicidadeIcons: Record<string, React.ReactNode> = {
-  semanal: <Clock size={16} />,
-  mensal: <Calendar size={16} />,
-  anual: <Calendar size={16} />,
+  semanal: <Clock size={14} className="sm:w-4 sm:h-4" />,
+  mensal: <Calendar size={14} className="sm:w-4 sm:h-4" />,
+  anual: <Calendar size={14} className="sm:w-4 sm:h-4" />,
 };
 
 export default function GastosPage() {
@@ -124,7 +124,7 @@ export default function GastosPage() {
     new Date(dateStr + "T00:00:00").toLocaleDateString("pt-BR");
 
   return (
-    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-14 animate-fade-in-up">
+    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-10 lg:space-y-14 animate-fade-in-up">
       <div
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
         style={{ animationDelay: "0ms" }}
@@ -134,52 +134,52 @@ export default function GastosPage() {
             <div className="w-10 h-10 rounded-xl bg-[var(--danger)]/10 flex items-center justify-center">
               <Receipt size={22} className="text-[var(--danger)]" />
             </div>
-            <h1 className="text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">
+            <h1 className="text-[24px] sm:text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">
               Gastos
             </h1>
           </div>
-          <p className="text-[var(--text-tertiary)] text-sm mt-1 ml-[52px]">
+          <p className="text-[var(--text-tertiary)] text-xs sm:text-sm mt-1 ml-[52px]">
             Gerencie seus gastos e despesas
           </p>
         </div>
         <button
           onClick={openAddModal}
-          className="btn-primary self-start px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2"
+          className="btn-primary self-start sm:self-auto px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2"
         >
-          <Plus size={18} />
+          <Plus size={16} className="sm:w-[18px] sm:h-[18px]" />
           Novo Gasto
         </button>
       </div>
 
       <div
-        className="card p-10 animate-fade-in-up"
+        className="card px-5 py-5 sm:px-8 sm:py-8 lg:px-10 lg:py-10 animate-fade-in-up"
         style={{ animationDelay: "60ms" }}
       >
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+            <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
               Total Filtrado
             </p>
-            <p className="text-3xl font-bold text-[var(--danger)] mt-1">
+            <p className="text-2xl sm:text-3xl font-bold text-[var(--danger)] mt-1">
               {formatCurrency(totalFiltrado)}
             </p>
           </div>
           <div
-            className="w-14 h-14 rounded-2xl flex items-center justify-center"
+            className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center"
             style={{ background: "rgba(239, 68, 68, 0.1)" }}
           >
-            <DollarSign size={28} className="text-[var(--danger)]" />
+            <DollarSign size={24} className="text-[var(--danger)] sm:w-7 sm:h-7" />
           </div>
         </div>
       </div>
 
       <div
-        className="flex items-center gap-3 animate-fade-in-up"
+        className="flex flex-wrap items-center gap-3 animate-fade-in-up"
         style={{ animationDelay: "120ms" }}
       >
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)]">
           <Tag size={14} className="text-[var(--text-tertiary)]" />
-          <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
             Filtro
           </span>
         </div>
@@ -193,7 +193,7 @@ export default function GastosPage() {
             <button
               key={f.key}
               onClick={() => setFiltro(f.key)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
+              className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 flex items-center gap-1.5 sm:gap-2 ${
                 filtro === f.key
                   ? "text-white"
                   : "bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] border border-[var(--border-color)]"
@@ -216,17 +216,17 @@ export default function GastosPage() {
 
       {gastosFiltrados.length === 0 ? (
         <div
-          className="card flex flex-col items-center justify-center py-20 animate-fade-in-up"
+          className="card flex flex-col items-center justify-center py-10 sm:py-16 animate-fade-in-up"
           style={{ animationDelay: "180ms" }}
         >
           <div
-            className="w-16 h-16 rounded-full flex items-center justify-center mb-3"
+            className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-3"
             style={{ background: "var(--bg-inset)" }}
           >
-            <Receipt size={28} className="text-[var(--text-tertiary)]" />
+            <Receipt size={24} className="text-[var(--text-tertiary)]" />
           </div>
-          <p className="text-[var(--text-primary)] font-semibold">Nenhum gasto encontrado</p>
-          <p className="text-sm text-[var(--text-tertiary)] mt-1">Adicione um novo gasto para começar</p>
+          <p className="text-[var(--text-primary)] font-semibold text-sm sm:text-base">Nenhum gasto encontrado</p>
+          <p className="text-xs sm:text-sm text-[var(--text-tertiary)] mt-1">Adicione um novo gasto para comecar</p>
         </div>
       ) : (
         <div
@@ -234,26 +234,26 @@ export default function GastosPage() {
           style={{ animationDelay: "180ms" }}
         >
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[650px]">
+            <table className="w-full min-w-[580px]">
               <thead>
                 <tr>
-                  <th className="text-left px-6 py-6 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                  <th className="text-left px-3 sm:px-5 lg:px-6 py-3 sm:py-3.5 lg:py-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
                     Data
                   </th>
-                  <th className="text-left px-6 py-6 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-                    Descrição
+                  <th className="text-left px-3 sm:px-5 lg:px-6 py-3 sm:py-3.5 lg:py-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                    Descricao
                   </th>
-                  <th className="text-left px-6 py-6 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                  <th className="text-left px-3 sm:px-5 lg:px-6 py-3 sm:py-3.5 lg:py-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
                     Categoria
                   </th>
-                  <th className="text-left px-6 py-6 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                  <th className="text-left px-3 sm:px-5 lg:px-6 py-3 sm:py-3.5 lg:py-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
                     Periodicidade
                   </th>
-                  <th className="text-right px-6 py-6 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                  <th className="text-right px-3 sm:px-5 lg:px-6 py-3 sm:py-3.5 lg:py-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
                     Valor
                   </th>
-                  <th className="text-right px-6 py-6 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-                    Ações
+                  <th className="text-right px-3 sm:px-5 lg:px-6 py-3 sm:py-3.5 lg:py-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                    Acoes
                   </th>
                 </tr>
               </thead>
@@ -266,32 +266,32 @@ export default function GastosPage() {
                       className="table-row"
                       style={{ animationDelay: `${200 + index * 40}ms` }}
                     >
-                      <td className="px-6 py-6 text-sm text-[var(--text-secondary)] whitespace-nowrap">
-                        <span className="flex items-center gap-2">
-                          <Calendar size={14} className="text-[var(--text-tertiary)]" />
+                      <td className="px-3 sm:px-5 lg:px-6 py-3 sm:py-4 lg:py-5 text-xs sm:text-sm text-[var(--text-secondary)] whitespace-nowrap">
+                        <span className="flex items-center gap-1.5 sm:gap-2">
+                          <Calendar size={12} className="text-[var(--text-tertiary)] sm:w-3.5 sm:h-3.5" />
                           {formatDate(gasto.data)}
                         </span>
                       </td>
-                      <td className="px-6 py-6 text-sm text-[var(--text-primary)] font-medium">
-                        <span className="flex items-center gap-2">
-                          <FileText size={14} className="text-[var(--text-tertiary)]" />
+                      <td className="px-3 sm:px-5 lg:px-6 py-3 sm:py-4 lg:py-5 text-xs sm:text-sm text-[var(--text-primary)] font-medium">
+                        <span className="flex items-center gap-1.5 sm:gap-2">
+                          <FileText size={12} className="text-[var(--text-tertiary)] sm:w-3.5 sm:h-3.5" />
                           {gasto.descricao}
                         </span>
                       </td>
-                      <td className="px-6 py-6 text-sm text-[var(--text-secondary)] whitespace-nowrap">
+                      <td className="px-3 sm:px-5 lg:px-6 py-3 sm:py-4 lg:py-5 text-xs sm:text-sm text-[var(--text-secondary)] whitespace-nowrap">
                         {cat && (
-                          <span className="inline-flex items-center gap-2">
+                          <span className="inline-flex items-center gap-1.5 sm:gap-2">
                             <span
-                              className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                              className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full flex-shrink-0"
                               style={{ backgroundColor: cat.cor }}
                             />
                             {cat.icone} {cat.nome}
                           </span>
                         )}
                       </td>
-                      <td className="px-6 py-6 whitespace-nowrap">
+                      <td className="px-3 sm:px-5 lg:px-6 py-3 sm:py-4 lg:py-5 whitespace-nowrap">
                         <span
-                          className="badge inline-flex items-center gap-1.5"
+                          className="badge inline-flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs"
                           style={{
                             backgroundColor: `${periodicidadeColors[gasto.periodicidade] || "#666"}20`,
                             color: periodicidadeColors[gasto.periodicidade] || "#666",
@@ -301,24 +301,24 @@ export default function GastosPage() {
                           {periodicidadeLabels[gasto.periodicidade]}
                         </span>
                       </td>
-                      <td className="px-6 py-6 text-sm text-[var(--danger)] font-semibold text-right whitespace-nowrap">
+                      <td className="px-3 sm:px-5 lg:px-6 py-3 sm:py-4 lg:py-5 text-xs sm:text-sm text-[var(--danger)] font-semibold text-right whitespace-nowrap">
                         {formatCurrency(gasto.valor)}
                       </td>
-                      <td className="px-6 py-6 text-right whitespace-nowrap">
-                        <div className="flex items-center justify-end gap-1">
+                      <td className="px-3 sm:px-5 lg:px-6 py-3 sm:py-4 lg:py-5 text-right whitespace-nowrap">
+                        <div className="flex items-center justify-end gap-1 sm:gap-1">
                           <button
                             onClick={() => openEditModal(gasto)}
-                            className="text-[var(--text-tertiary)] hover:text-[var(--accent)] transition-colors p-2 rounded-lg hover:bg-[var(--bg-inset)]"
+                            className="text-[var(--text-tertiary)] hover:text-[var(--accent)] transition-colors p-1.5 sm:p-2 rounded-lg hover:bg-[var(--bg-inset)]"
                             title="Editar"
                           >
-                            <Pencil size={18} />
+                            <Pencil size={16} className="sm:w-[18px] sm:h-[18px]" />
                           </button>
                           <button
                             onClick={() => setConfirmDeleteId(gasto.id)}
-                            className="text-[var(--text-tertiary)] hover:text-[var(--danger)] transition-colors p-2 rounded-lg hover:bg-[var(--bg-inset)]"
+                            className="text-[var(--text-tertiary)] hover:text-[var(--danger)] transition-colors p-1.5 sm:p-2 rounded-lg hover:bg-[var(--bg-inset)]"
                             title="Excluir"
                           >
-                            <Trash2 size={18} />
+                            <Trash2 size={16} className="sm:w-[18px] sm:h-[18px]" />
                           </button>
                         </div>
                       </td>
@@ -328,10 +328,10 @@ export default function GastosPage() {
               </tbody>
               <tfoot>
                 <tr className="border-t-2 border-[var(--border-color)]">
-                  <td colSpan={4} className="px-6 py-6 text-sm font-bold text-[var(--text-primary)] text-right uppercase tracking-[0.12em]">
+                  <td colSpan={4} className="px-3 sm:px-5 lg:px-6 py-3 sm:py-4 text-xs sm:text-sm font-bold text-[var(--text-primary)] text-right uppercase tracking-[0.12em]">
                     Total
                   </td>
-                  <td className="px-6 py-6 text-sm font-bold text-[var(--danger)] text-right">
+                  <td className="px-3 sm:px-5 lg:px-6 py-3 sm:py-4 text-xs sm:text-sm font-bold text-[var(--danger)] text-right">
                     {formatCurrency(totalFiltrado)}
                   </td>
                   <td />
@@ -349,8 +349,8 @@ export default function GastosPage() {
       >
         <div className="flex flex-col gap-4">
           <div>
-            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
-              Descrição
+            <label className="block text-xs sm:text-sm font-medium text-[var(--text-secondary)] mb-2">
+              Descricao
             </label>
             <input
               type="text"
@@ -362,7 +362,7 @@ export default function GastosPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-[var(--text-secondary)] mb-2">
               Valor (R$)
             </label>
             <input
@@ -377,7 +377,7 @@ export default function GastosPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-[var(--text-secondary)] mb-2">
               Data
             </label>
             <input
@@ -389,7 +389,7 @@ export default function GastosPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-[var(--text-secondary)] mb-2">
               Categoria
             </label>
             <select
@@ -407,7 +407,7 @@ export default function GastosPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-[var(--text-secondary)] mb-2">
               Periodicidade
             </label>
             <div className="flex gap-2">
@@ -416,7 +416,7 @@ export default function GastosPage() {
                   key={p}
                   type="button"
                   onClick={() => setForm({ ...form, periodicidade: p })}
-                  className={`flex-1 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 border flex items-center justify-center gap-2 ${
+                  className={`flex-1 px-3 py-2.5 sm:px-4 sm:py-3 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 border flex items-center justify-center gap-1.5 sm:gap-2 ${
                     form.periodicidade === p
                       ? "text-white border-transparent"
                       : "bg-[var(--bg-primary)] text-[var(--text-secondary)] border-[var(--border-color)] hover:bg-[var(--bg-tertiary)]"
@@ -437,22 +437,22 @@ export default function GastosPage() {
           <div className="flex gap-3 mt-4">
             <button
               onClick={() => setModalOpen(false)}
-              className="btn-primary flex-1 px-5 py-2.5"
+              className="btn-primary flex-1 px-4 py-2.5 sm:px-5"
             >
               Cancelar
             </button>
             <button
               onClick={handleSubmit}
-              className="btn-primary flex-1 px-5 py-2.5 flex items-center justify-center gap-2"
+              className="btn-primary flex-1 px-4 py-2.5 sm:px-5 flex items-center justify-center gap-2"
             >
               {editingId ? (
                 <>
-                  <Pencil size={18} />
+                  <Pencil size={16} />
                   Salvar
                 </>
               ) : (
                 <>
-                  <Plus size={18} />
+                  <Plus size={16} />
                   Adicionar
                 </>
               )}
@@ -464,37 +464,37 @@ export default function GastosPage() {
       <Modal
         isOpen={confirmDeleteId !== null}
         onClose={() => setConfirmDeleteId(null)}
-        title="Confirmar Exclusão"
+        title="Confirmar Exclusao"
       >
         <div className="flex flex-col items-center text-center gap-4">
           <div
-            className="w-16 h-16 rounded-full flex items-center justify-center mb-3"
+            className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-3"
             style={{ background: "rgba(239, 68, 68, 0.1)" }}
           >
-            <AlertTriangle size={28} className="text-[var(--danger)]" />
+            <AlertTriangle size={24} className="text-[var(--danger)]" />
           </div>
-          <p className="text-[var(--text-primary)] font-medium">
+          <p className="text-sm sm:text-base text-[var(--text-primary)] font-medium">
             Tem certeza que deseja excluir este gasto?
           </p>
-          <p className="text-sm text-[var(--text-tertiary)]">
-            Esta ação não pode ser desfeita.
+          <p className="text-xs sm:text-sm text-[var(--text-tertiary)]">
+            Esta acao nao pode ser desfeita.
           </p>
           <div className="flex gap-3 w-full mt-2">
             <button
               onClick={() => setConfirmDeleteId(null)}
-              className="btn-primary flex-1 px-5 py-2.5"
+              className="btn-primary flex-1 px-4 py-2.5 sm:px-5"
             >
               Cancelar
             </button>
             <button
               onClick={() => confirmDeleteId && handleDelete(confirmDeleteId)}
-              className="flex-1 px-5 py-2.5 rounded-xl font-semibold text-sm text-white transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-2.5 sm:px-5 rounded-xl font-semibold text-xs sm:text-sm text-white transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
               style={{
                 background: "linear-gradient(135deg, var(--danger), #dc2626)",
                 boxShadow: "0 2px 12px rgba(239, 68, 68, 0.3)",
               }}
             >
-              <Trash2 size={18} />
+              <Trash2 size={16} />
               Excluir
             </button>
           </div>
