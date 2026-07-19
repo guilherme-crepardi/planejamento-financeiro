@@ -32,13 +32,13 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12 md:space-y-16 lg:space-y-20">
+    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12 md:space-y-16 lg:space-y-20">
       <div className="animate-fade-in-up">
         <h1 className="text-[24px] sm:text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">Dashboard</h1>
         <p className="text-[var(--text-tertiary)] text-[13px] sm:text-[15px] mt-1 font-medium">Visao geral das suas financas</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 lg:gap-12 animate-fade-in-up" style={{ animationDelay: "50ms" }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 animate-fade-in-up" style={{ animationDelay: "50ms" }}>
         {summaryCards.map((card) => (
           <div key={card.label} className="card px-5 py-6 sm:px-8 sm:py-10 lg:px-12 lg:py-14 group hover:scale-[1.02] transition-all duration-300">
             <div className="flex items-center justify-between mb-4 sm:mb-6 lg:mb-10">
@@ -53,13 +53,13 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10 lg:gap-14 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-14 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
         <div className="card px-5 py-6 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
           <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8 lg:mb-10">
             <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center" style={{ background: "var(--accent-primary-light)" }}>
               <PieIcon size={18} strokeWidth={2} style={{ color: "var(--accent-primary)" }} className="sm:w-5 sm:h-5" />
             </div>
-            <h2 className="text-[15px] sm:text-[16px] lg:text-[17px] font-bold text-[var(--text-primary)] tracking-tight">Gastos por Categoria</h2>
+            <h2 className="text-[14px] sm:text-[16px] lg:text-[17px] font-bold text-[var(--text-primary)] tracking-tight">Gastos por Categoria</h2>
           </div>
           {porCategoria.length > 0 ? (
             <ResponsiveContainer width="100%" height={250}>
@@ -88,7 +88,7 @@ export default function Dashboard() {
             <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center" style={{ background: "rgba(124,92,252,0.1)" }}>
               <BarChart3 size={18} strokeWidth={2} style={{ color: "#7c5cfc" }} className="sm:w-5 sm:h-5" />
             </div>
-            <h2 className="text-[15px] sm:text-[16px] lg:text-[17px] font-bold text-[var(--text-primary)] tracking-tight">Gastos por Periodicidade</h2>
+            <h2 className="text-[14px] sm:text-[16px] lg:text-[17px] font-bold text-[var(--text-primary)] tracking-tight">Gastos por Periodicidade</h2>
           </div>
           {gastos.length > 0 ? (
             <ResponsiveContainer width="100%" height={250}>
