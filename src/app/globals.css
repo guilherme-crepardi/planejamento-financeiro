@@ -174,7 +174,7 @@ input:focus, select:focus, textarea:focus {
   position: absolute;
   inset: 0;
   border-radius: var(--radius-lg);
-  padding: 1.5px;
+  padding: 2.5px;
   background: linear-gradient(
     135deg,
     var(--accent-gradient-start) 0%,
@@ -187,7 +187,7 @@ input:focus, select:focus, textarea:focus {
   mask-composite: exclude;
   -webkit-mask-composite: xor;
   pointer-events: none;
-  opacity: 0.4;
+  opacity: 0.5;
   transition: opacity 0.3s ease;
 }
 
