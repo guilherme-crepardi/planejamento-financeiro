@@ -21,6 +21,7 @@ export const supabase = new Proxy({} as SupabaseClient, {
 
 export interface Categoria {
   id: string;
+  user_id: string;
   nome: string;
   tipo: "gasto" | "renda";
   icone: string;
@@ -30,6 +31,7 @@ export interface Categoria {
 
 export interface Gasto {
   id: string;
+  user_id: string;
   categoria_id: string;
   descricao: string;
   valor: number;
@@ -41,6 +43,7 @@ export interface Gasto {
 
 export interface Renda {
   id: string;
+  user_id: string;
   tipo: "salario1" | "salario2" | "extra";
   descricao: string;
   valor: number;

@@ -30,79 +30,66 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+function isSupabaseConfigured(): boolean {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+  return !!url && url !== "sua_url_aqui" && url !== "https://placeholder.supabase.co";
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkSession = async () => {
-      try {
-        if (
-          process.env.NEXT_PUBLIC_SUPABASE_URL &&
-          process.env.NEXT_PUBLIC_SUPABASE_URL !== "sua_url_aqui"
-        ) {
-          const {
-            data: { session },
-          } = await supabase.auth.getSession();
-          if (session?.user) {
-            setUser({
-              id: session.user.id,
-              email: session.user.email || "",
-              name:
-                session.user.user_metadata?.name ||
-                session.user.email?.split("@")[0] ||
-                "",
-            });
-          }
-        } else {
-          const saved = localStorage.getItem("pf_user");
-          if (saved) setUser(JSON.parse(saved));
+    if (isSupabaseConfigured()) {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session?.user) {
+          setUser({
+            id: session.user.id,
+            email: session.user.email || "",
+            name: session.user.user_metadata?.name || session.user.email?.split("@")[0] || "",
+          });
         }
-      } catch {
-        const saved = localStorage.getItem("pf_user");
-        if (saved) setUser(JSON.parse(saved));
-      }
+        setLoading(false);
+      });
+
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        if (session?.user) {
+          setUser({
+            id: session.user.id,
+            email: session.user.email || "",
+            name: session.user.user_metadata?.name || session.user.email?.split("@")[0] || "",
+          });
+        } else {
+          setUser(null);
+        }
+      });
+
+      return () => subscription.unsubscribe();
+    } else {
+      const saved = localStorage.getItem("pf_user");
+      if (saved) setUser(JSON.parse(saved));
       setLoading(false);
-    };
-    checkSession();
+    }
   }, []);
 
   const signIn = useCallback(
     async (email: string, password: string) => {
       try {
-        if (
-          process.env.NEXT_PUBLIC_SUPABASE_URL &&
-          process.env.NEXT_PUBLIC_SUPABASE_URL !== "sua_url_aqui"
-        ) {
-          const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-          });
+        if (isSupabaseConfigured()) {
+          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
           if (error) return { error: error.message };
           if (data.user) {
-            const u = {
+            setUser({
               id: data.user.id,
               email: data.user.email || "",
-              name:
-                data.user.user_metadata?.name ||
-                data.user.email?.split("@")[0] ||
-                "",
-            };
-            setUser(u);
+              name: data.user.user_metadata?.name || data.user.email?.split("@")[0] || "",
+            });
           }
         } else {
-          const users = JSON.parse(
-            localStorage.getItem("pf_users") || "[]"
-          ) as Array<{ email: string; password: string; id: string; name: string }>;
-          const found = users.find(
-            (u) => u.email === email && u.password === password
-          );
+          const users = JSON.parse(localStorage.getItem("pf_users") || "[]") as Array<{ email: string; password: string; id: string; name: string }>;
+          const found = users.find((u) => u.email === email && u.password === password);
           if (!found) return { error: "Email ou senha incorretos" };
-          const u = {
-            id: found.id,
-            email: found.email,
-            name: found.name,
-          };
+          const u = { id: found.id, email: found.email, name: found.name };
           setUser(u);
           localStorage.setItem("pf_user", JSON.stringify(u));
         }
@@ -117,10 +104,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signUp = useCallback(
     async (email: string, password: string, name: string) => {
       try {
-        if (
-          process.env.NEXT_PUBLIC_SUPABASE_URL &&
-          process.env.NEXT_PUBLIC_SUPABASE_URL !== "sua_url_aqui"
-        ) {
+        if (isSupabaseConfigured()) {
           const { data, error } = await supabase.auth.signUp({
             email,
             password,
@@ -128,17 +112,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           });
           if (error) return { error: error.message };
           if (data.user) {
-            const u = {
+            setUser({
               id: data.user.id,
               email: data.user.email || "",
               name,
-            };
-            setUser(u);
+            });
           }
         } else {
-          const users = JSON.parse(
-            localStorage.getItem("pf_users") || "[]"
-          ) as Array<{ email: string }>;
+          const users = JSON.parse(localStorage.getItem("pf_users") || "[]") as Array<{ email: string }>;
           if (users.find((u) => u.email === email)) {
             return { error: "Email ja cadastrado" };
           }
@@ -159,10 +140,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const signOut = useCallback(() => {
-    if (
-      process.env.NEXT_PUBLIC_SUPABASE_URL &&
-      process.env.NEXT_PUBLIC_SUPABASE_URL !== "sua_url_aqui"
-    ) {
+    if (isSupabaseConfigured()) {
       supabase.auth.signOut();
     }
     localStorage.removeItem("pf_user");

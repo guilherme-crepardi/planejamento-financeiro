@@ -10,6 +10,7 @@ import {
 } from "react";
 import { v4 as uuid } from "uuid";
 import type { Categoria, Gasto, Renda } from "./supabase";
+import { supabase } from "./supabase";
 import { useAuth } from "./auth-context";
 
 interface FinanceData {
@@ -19,13 +20,14 @@ interface FinanceData {
 }
 
 interface FinanceContextType extends FinanceData {
-  addCategoria: (c: Omit<Categoria, "id" | "created_at">) => void;
+  loading: boolean;
+  addCategoria: (c: Omit<Categoria, "id" | "created_at" | "user_id">) => void;
   updateCategoria: (id: string, c: Partial<Categoria>) => void;
   deleteCategoria: (id: string) => void;
-  addGasto: (g: Omit<Gasto, "id" | "created_at" | "categoria">) => void;
+  addGasto: (g: Omit<Gasto, "id" | "created_at" | "categoria" | "user_id">) => void;
   updateGasto: (id: string, g: Partial<Gasto>) => void;
   deleteGasto: (id: string) => void;
-  addRenda: (r: Omit<Renda, "id" | "created_at">) => void;
+  addRenda: (r: Omit<Renda, "id" | "created_at" | "user_id">) => void;
   updateRenda: (id: string, r: Partial<Renda>) => void;
   deleteRenda: (id: string) => void;
   totalGastos: () => number;
@@ -41,7 +43,7 @@ interface FinanceContextType extends FinanceData {
 
 const FinanceContext = createContext<FinanceContextType | null>(null);
 
-const DEFAULT_CATEGORIAS: Omit<Categoria, "id" | "created_at">[] = [
+const DEFAULT_CATEGORIAS: Omit<Categoria, "id" | "created_at" | "user_id">[] = [
   { nome: "Cartao de Credito", tipo: "gasto", icone: "credit_card", cor: "#ef4444" },
   { nome: "Agua", tipo: "gasto", icone: "water_drop", cor: "#3b82f6" },
   { nome: "Gas", tipo: "gasto", icone: "local_fire_department", cor: "#f59e0b" },
@@ -59,6 +61,7 @@ function getDefaultData(): FinanceData {
     categorias: DEFAULT_CATEGORIAS.map((c) => ({
       ...c,
       id: uuid(),
+      user_id: "",
       created_at: new Date().toISOString(),
     })),
     gastos: [],
@@ -66,49 +69,108 @@ function getDefaultData(): FinanceData {
   };
 }
 
-function getStorageKey(userId: string) {
-  return `pf_data_${userId}`;
+function isSupabaseConfigured(): boolean {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+  return !!url && url !== "sua_url_aqui" && url !== "https://placeholder.supabase.co";
 }
 
 export function FinanceProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const [data, setData] = useState<FinanceData>(getDefaultData);
-  const [initialized, setInitialized] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  // Load data from Supabase or localStorage
   useEffect(() => {
     if (!user) {
       setData(getDefaultData());
-      setInitialized(true);
+      setLoading(false);
       return;
     }
-    const saved = localStorage.getItem(getStorageKey(user.id));
+
+    if (isSupabaseConfigured()) {
+      loadFromSupabase(user.id);
+    } else {
+      loadFromLocalStorage(user.id);
+    }
+  }, [user]);
+
+  async function loadFromSupabase(userId: string) {
+    setLoading(true);
+    try {
+      const [catRes, gastosRes, rendaRes] = await Promise.all([
+        supabase.from("categorias").select("*").eq("user_id", userId).order("created_at", { ascending: true }),
+        supabase.from("gastos").select("*").eq("user_id", userId).order("created_at", { ascending: true }),
+        supabase.from("renda").select("*").eq("user_id", userId).order("created_at", { ascending: true }),
+      ]);
+
+      const cats = catRes.data || [];
+      const gastos = gastosRes.data || [];
+      const renda = rendaRes.data || [];
+
+      if (cats.length === 0) {
+        const defaultCats = DEFAULT_CATEGORIAS.map((c) => ({
+          ...c,
+          user_id: userId,
+        }));
+        const { data: inserted } = await supabase.from("categorias").insert(defaultCats).select();
+        setData({ categorias: inserted || [], gastos, renda });
+      } else {
+        setData({ categorias: cats, gastos, renda });
+      }
+    } catch {
+      setData(getDefaultData());
+    }
+    setLoading(false);
+  }
+
+  function loadFromLocalStorage(userId: string) {
+    const saved = localStorage.getItem(`pf_data_${userId}`);
     if (saved) {
       setData(JSON.parse(saved));
     } else {
       setData(getDefaultData());
     }
-    setInitialized(true);
-  }, [user]);
+    setLoading(false);
+  }
 
+  // Save to localStorage when Supabase is not configured
   useEffect(() => {
-    if (!user || !initialized) return;
-    localStorage.setItem(getStorageKey(user.id), JSON.stringify(data));
-  }, [data, user, initialized]);
+    if (!user || loading) return;
+    if (!isSupabaseConfigured()) {
+      localStorage.setItem(`pf_data_${user.id}`, JSON.stringify(data));
+    }
+  }, [data, user, loading]);
 
   const addCategoria = useCallback(
-    (c: Omit<Categoria, "id" | "created_at">) => {
-      const nova: Categoria = {
-        ...c,
-        id: uuid(),
-        created_at: new Date().toISOString(),
-      };
-      setData((prev) => ({ ...prev, categorias: [...prev.categorias, nova] }));
+    async (c: Omit<Categoria, "id" | "created_at" | "user_id">) => {
+      if (!user) return;
+      if (isSupabaseConfigured()) {
+        const { data: inserted, error } = await supabase
+          .from("categorias")
+          .insert({ ...c, user_id: user.id })
+          .select()
+          .single();
+        if (!error && inserted) {
+          setData((prev) => ({ ...prev, categorias: [...prev.categorias, inserted] }));
+        }
+      } else {
+        const nova: Categoria = {
+          ...c,
+          id: uuid(),
+          user_id: user.id,
+          created_at: new Date().toISOString(),
+        };
+        setData((prev) => ({ ...prev, categorias: [...prev.categorias, nova] }));
+      }
     },
-    []
+    [user]
   );
 
   const updateCategoria = useCallback(
-    (id: string, c: Partial<Categoria>) => {
+    async (id: string, c: Partial<Categoria>) => {
+      if (isSupabaseConfigured()) {
+        await supabase.from("categorias").update(c).eq("id", id);
+      }
       setData((prev) => ({
         ...prev,
         categorias: prev.categorias.map((cat) =>
@@ -119,69 +181,126 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     []
   );
 
-  const deleteCategoria = useCallback((id: string) => {
-    setData((prev) => ({
-      ...prev,
-      categorias: prev.categorias.filter((cat) => cat.id !== id),
-      gastos: prev.gastos.filter((g) => g.categoria_id !== id),
-    }));
-  }, []);
+  const deleteCategoria = useCallback(
+    async (id: string) => {
+      if (isSupabaseConfigured()) {
+        await supabase.from("gastos").delete().eq("categoria_id", id);
+        await supabase.from("categorias").delete().eq("id", id);
+      }
+      setData((prev) => ({
+        ...prev,
+        categorias: prev.categorias.filter((cat) => cat.id !== id),
+        gastos: prev.gastos.filter((g) => g.categoria_id !== id),
+      }));
+    },
+    []
+  );
 
   const addGasto = useCallback(
-    (g: Omit<Gasto, "id" | "created_at" | "categoria">) => {
-      const novo: Gasto = {
-        ...g,
-        id: uuid(),
-        created_at: new Date().toISOString(),
-      };
-      setData((prev) => ({ ...prev, gastos: [...prev.gastos, novo] }));
+    async (g: Omit<Gasto, "id" | "created_at" | "categoria" | "user_id">) => {
+      if (!user) return;
+      if (isSupabaseConfigured()) {
+        const { data: inserted, error } = await supabase
+          .from("gastos")
+          .insert({ ...g, user_id: user.id })
+          .select()
+          .single();
+        if (!error && inserted) {
+          setData((prev) => ({ ...prev, gastos: [...prev.gastos, inserted] }));
+        }
+      } else {
+        const novo: Gasto = {
+          ...g,
+          id: uuid(),
+          user_id: user.id,
+          created_at: new Date().toISOString(),
+        };
+        setData((prev) => ({ ...prev, gastos: [...prev.gastos, novo] }));
+      }
+    },
+    [user]
+  );
+
+  const updateGasto = useCallback(
+    async (id: string, g: Partial<Gasto>) => {
+      if (isSupabaseConfigured()) {
+        await supabase.from("gastos").update(g).eq("id", id);
+      }
+      setData((prev) => ({
+        ...prev,
+        gastos: prev.gastos.map((gasto) =>
+          gasto.id === id ? { ...gasto, ...g } : gasto
+        ),
+      }));
     },
     []
   );
 
-  const updateGasto = useCallback((id: string, g: Partial<Gasto>) => {
-    setData((prev) => ({
-      ...prev,
-      gastos: prev.gastos.map((gasto) =>
-        gasto.id === id ? { ...gasto, ...g } : gasto
-      ),
-    }));
-  }, []);
-
-  const deleteGasto = useCallback((id: string) => {
-    setData((prev) => ({
-      ...prev,
-      gastos: prev.gastos.filter((g) => g.id !== id),
-    }));
-  }, []);
+  const deleteGasto = useCallback(
+    async (id: string) => {
+      if (isSupabaseConfigured()) {
+        await supabase.from("gastos").delete().eq("id", id);
+      }
+      setData((prev) => ({
+        ...prev,
+        gastos: prev.gastos.filter((g) => g.id !== id),
+      }));
+    },
+    []
+  );
 
   const addRenda = useCallback(
-    (r: Omit<Renda, "id" | "created_at">) => {
-      const nova: Renda = {
-        ...r,
-        id: uuid(),
-        created_at: new Date().toISOString(),
-      };
-      setData((prev) => ({ ...prev, renda: [...prev.renda, nova] }));
+    async (r: Omit<Renda, "id" | "created_at" | "user_id">) => {
+      if (!user) return;
+      if (isSupabaseConfigured()) {
+        const { data: inserted, error } = await supabase
+          .from("renda")
+          .insert({ ...r, user_id: user.id })
+          .select()
+          .single();
+        if (!error && inserted) {
+          setData((prev) => ({ ...prev, renda: [...prev.renda, inserted] }));
+        }
+      } else {
+        const nova: Renda = {
+          ...r,
+          id: uuid(),
+          user_id: user.id,
+          created_at: new Date().toISOString(),
+        };
+        setData((prev) => ({ ...prev, renda: [...prev.renda, nova] }));
+      }
+    },
+    [user]
+  );
+
+  const updateRenda = useCallback(
+    async (id: string, r: Partial<Renda>) => {
+      if (isSupabaseConfigured()) {
+        await supabase.from("renda").update(r).eq("id", id);
+      }
+      setData((prev) => ({
+        ...prev,
+        renda: prev.renda.map((rend) =>
+          rend.id === id ? { ...rend, ...r } : rend
+        ),
+      }));
     },
     []
   );
 
-  const updateRenda = useCallback((id: string, r: Partial<Renda>) => {
-    setData((prev) => ({
-      ...prev,
-      renda: prev.renda.map((rend) =>
-        rend.id === id ? { ...rend, ...r } : rend
-      ),
-    }));
-  }, []);
-
-  const deleteRenda = useCallback((id: string) => {
-    setData((prev) => ({
-      ...prev,
-      renda: prev.renda.filter((r) => r.id !== id),
-    }));
-  }, []);
+  const deleteRenda = useCallback(
+    async (id: string) => {
+      if (isSupabaseConfigured()) {
+        await supabase.from("renda").delete().eq("id", id);
+      }
+      setData((prev) => ({
+        ...prev,
+        renda: prev.renda.filter((r) => r.id !== id),
+      }));
+    },
+    []
+  );
 
   const totalGastos = useCallback(() => {
     return data.gastos.reduce((acc, g) => {
@@ -237,6 +356,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     <FinanceContext.Provider
       value={{
         ...data,
+        loading,
         addCategoria,
         updateCategoria,
         deleteCategoria,
