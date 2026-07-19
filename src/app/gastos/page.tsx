@@ -124,7 +124,7 @@ export default function GastosPage() {
     new Date(dateStr + "T00:00:00").toLocaleDateString("pt-BR");
 
   return (
-    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-8 animate-fade-in-up">
+    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-10 animate-fade-in-up">
       <div
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
         style={{ animationDelay: "0ms" }}

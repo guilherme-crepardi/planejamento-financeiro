@@ -32,15 +32,15 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-8">
+    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-10">
       <div className="animate-fade-in-up">
         <h1 className="text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">Dashboard</h1>
         <p className="text-[var(--text-tertiary)] text-[15px] mt-1 font-medium">Visao geral das suas financas</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 animate-fade-in-up" style={{ animationDelay: "50ms" }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in-up" style={{ animationDelay: "50ms" }}>
         {summaryCards.map((card) => (
-          <div key={card.label} className="card p-6 group hover:scale-[1.02] transition-all duration-300">
+          <div key={card.label} className="card p-7 group hover:scale-[1.02] transition-all duration-300">
             <div className="flex items-center justify-between mb-5">
               <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: card.bg }}>
                 <card.Icon size={22} strokeWidth={2} style={{ color: card.color }} />
@@ -53,7 +53,7 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
         <div className="card p-6">
           <div className="flex items-center gap-3 mb-5">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "var(--accent-primary-light)" }}>
@@ -126,7 +126,7 @@ export default function Dashboard() {
               <thead>
                 <tr style={{ borderBottom: "1px solid var(--border-subtle)" }}>
                   {["Descricao", "Categoria", "Periodo", "Valor"].map((h) => (
-                    <th key={h} className={`py-3.5 px-6 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)] ${h === "Valor" ? "text-right" : "text-left"}`}>{h}</th>
+                    <th key={h} className={`py-4.5 px-6 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)] ${h === "Valor" ? "text-right" : "text-left"}`}>{h}</th>
                   ))}
                 </tr>
               </thead>
