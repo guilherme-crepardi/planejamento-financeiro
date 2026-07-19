@@ -139,7 +139,7 @@ export default function RendaPage() {
   }
 
   return (
-    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-10 lg:space-y-14">
+    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-14 lg:space-y-20">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 animate-fade-in-up" style={{ animationDelay: "0ms" }}>
         <div>
           <h1 className="text-[24px] sm:text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">
@@ -155,7 +155,7 @@ export default function RendaPage() {
         </button>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 lg:gap-10 animate-fade-in-up" style={{ animationDelay: "80ms" }}>
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-10 lg:gap-12 animate-fade-in-up" style={{ animationDelay: "80ms" }}>
         <div className="card px-5 py-5 sm:px-8 sm:py-8 lg:px-10 lg:py-10 text-center">
           <div className="flex items-center justify-center gap-2 mb-3">
             <Briefcase size={16} className="text-[var(--text-muted)] sm:w-5 sm:h-5" />
