@@ -210,19 +210,19 @@ export default function RendaPage() {
             <table className="w-full min-w-[520px]">
               <thead>
                 <tr className="border-b border-[var(--border-color)]">
-                  <th className="text-left text-[10px] sm:text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider px-3 sm:px-5 py-2.5 sm:py-3">
+                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-4 sm:px-6 py-3 sm:py-4 text-[var(--text-muted)]">
                     Tipo
                   </th>
-                  <th className="text-left text-[10px] sm:text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider px-3 sm:px-5 py-2.5 sm:py-3">
+                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-4 sm:px-6 py-3 sm:py-4 text-[var(--text-muted)]">
                     Descricao
                   </th>
-                  <th className="text-left text-[10px] sm:text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider px-3 sm:px-5 py-2.5 sm:py-3">
+                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-4 sm:px-6 py-3 sm:py-4 text-[var(--text-muted)]">
                     Valor
                   </th>
-                  <th className="text-left text-[10px] sm:text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider px-3 sm:px-5 py-2.5 sm:py-3">
+                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-4 sm:px-6 py-3 sm:py-4 text-[var(--text-muted)]">
                     Data
                   </th>
-                  <th className="text-right text-[10px] sm:text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider px-3 sm:px-5 py-2.5 sm:py-3">
+                  <th className="text-right text-[10px] sm:text-xs font-bold uppercase tracking-wider px-4 sm:px-6 py-3 sm:py-4 text-[var(--text-muted)]">
                     Acoes
                   </th>
                 </tr>
@@ -234,38 +234,38 @@ export default function RendaPage() {
                     <tr
                       key={item.id}
                       className="table-row"
-                      style={{ animationDelay: `${240 + index * 40}ms` }}
+                      style={{ borderBottom: "1px solid var(--border-subtle)", animationDelay: `${240 + index * 40}ms` }}
                     >
-                      <td className="px-3 sm:px-5 py-3 sm:py-5">
+                      <td className="px-4 sm:px-6 py-4 sm:py-6">
                         <span
-                          className="inline-flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs font-medium px-2 sm:px-3 py-0.5 sm:py-1 rounded-full"
+                          className="inline-flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-semibold px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full"
                           style={{ backgroundColor: cor.bg, color: cor.color }}
                         >
                           {tipoIcon(item.tipo)}
                           {tipoLabel(item.tipo)}
                         </span>
                       </td>
-                      <td className="px-3 sm:px-5 py-3 sm:py-5 text-[var(--text-primary)] text-xs sm:text-sm font-medium">
+                      <td className="px-4 sm:px-6 py-4 sm:py-6 text-[var(--text-primary)] text-xs sm:text-sm font-semibold">
                         {item.descricao}
                       </td>
-                      <td className="px-3 sm:px-5 py-3 sm:py-5 text-[var(--success)] font-semibold text-xs sm:text-sm">
+                      <td className="px-4 sm:px-6 py-4 sm:py-6 text-[var(--success)] font-bold text-sm sm:text-base">
                         {formatCurrency(item.valor)}
                       </td>
-                      <td className="px-3 sm:px-5 py-3 sm:py-5 text-[var(--text-secondary)] text-xs sm:text-sm">
+                      <td className="px-4 sm:px-6 py-4 sm:py-6 text-[var(--text-secondary)] text-xs sm:text-sm">
                         {formatDate(item.data)}
                       </td>
-                      <td className="px-3 sm:px-5 py-3 sm:py-5">
-                        <div className="flex items-center justify-end gap-1 sm:gap-2">
+                      <td className="px-4 sm:px-6 py-4 sm:py-6">
+                        <div className="flex items-center justify-end gap-1.5 sm:gap-2">
                           <button
                             onClick={() => openEdit(item.id)}
-                            className="p-1.5 sm:p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                            className="p-2 sm:p-2.5 rounded-xl hover:bg-[var(--bg-tertiary)] transition-colors text-[var(--text-muted)] hover:text-[var(--text-primary)]"
                             title="Editar"
                           >
                             <Pencil size={16} className="sm:w-[18px] sm:h-[18px]" />
                           </button>
                           <button
                             onClick={() => setConfirmDeleteId(item.id)}
-                            className="p-1.5 sm:p-2 rounded-lg hover:bg-[var(--danger-light)] transition-colors text-[var(--text-muted)] hover:text-[var(--danger)]"
+                            className="p-2 sm:p-2.5 rounded-xl hover:bg-[var(--danger-light)] transition-colors text-[var(--text-muted)] hover:text-[var(--danger)]"
                             title="Excluir"
                           >
                             <Trash2 size={16} className="sm:w-[18px] sm:h-[18px]" />
