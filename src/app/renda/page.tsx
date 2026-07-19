@@ -287,13 +287,13 @@ export default function RendaPage() {
             <label className="block text-xs sm:text-sm font-medium text-[var(--text-secondary)] mb-2">
               Tipo
             </label>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-3">
               {(["salario1", "salario2", "extra"] as RendaTipo[]).map(
                 (tipo) => (
                   <button
                     key={tipo}
                     onClick={() => setForm({ ...form, tipo })}
-                    className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-2 sm:py-2.5 rounded-xl text-[10px] sm:text-sm font-medium transition-all border ${
+                    className={`flex flex-col items-center justify-center gap-2 px-3 py-4 sm:px-4 sm:py-5 rounded-xl text-[11px] sm:text-sm font-semibold transition-all border ${
                       form.tipo === tipo
                         ? "border-[var(--success)] text-[var(--success)] bg-[var(--success)] bg-opacity-10"
                         : "border-[var(--border-color)] text-[var(--text-muted)] hover:border-[var(--text-muted)]"
