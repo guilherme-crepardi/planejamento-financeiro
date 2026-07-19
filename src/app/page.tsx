@@ -32,32 +32,32 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-16">
+    <div className="max-w-[1280px] mx-auto px-2 md:px-0 space-y-20">
       <div className="animate-fade-in-up">
         <h1 className="text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">Dashboard</h1>
         <p className="text-[var(--text-tertiary)] text-[15px] mt-1 font-medium">Visao geral das suas financas</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-14 animate-fade-in-up" style={{ animationDelay: "50ms" }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16 animate-fade-in-up" style={{ animationDelay: "50ms" }}>
         {summaryCards.map((card) => (
-          <div key={card.label} className="card p-12 group hover:scale-[1.02] transition-all duration-300">
-            <div className="flex items-center justify-between mb-8">
+          <div key={card.label} className="card px-12 py-14 group hover:scale-[1.02] transition-all duration-300">
+            <div className="flex items-center justify-between mb-10">
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: card.bg }}>
                 <card.Icon size={22} strokeWidth={2} style={{ color: card.color }} />
               </div>
               <span className="text-[12px] font-bold text-[var(--text-tertiary)]">{card.count}</span>
             </div>
-            <p className="text-[14px] font-medium text-[var(--text-tertiary)] mb-1">{card.label}</p>
-            <p className="text-[30px] font-extrabold tracking-tight" style={{ color: card.color }}>{card.value}</p>
+            <p className="text-[15px] font-medium text-[var(--text-tertiary)] mb-2">{card.label}</p>
+            <p className="text-[32px] font-extrabold tracking-tight" style={{ color: card.color }}>{card.value}</p>
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
-        <div className="card p-10">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "var(--accent-primary-light)" }}>
-              <PieIcon size={20} strokeWidth={2} style={{ color: "var(--accent-primary)" }} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
+        <div className="card px-10 py-12">
+          <div className="flex items-center gap-4 mb-10">
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: "var(--accent-primary-light)" }}>
+              <PieIcon size={22} strokeWidth={2} style={{ color: "var(--accent-primary)" }} />
             </div>
             <h2 className="text-[17px] font-bold text-[var(--text-primary)] tracking-tight">Gastos por Categoria</h2>
           </div>
@@ -83,10 +83,10 @@ export default function Dashboard() {
           )}
         </div>
 
-        <div className="card p-10">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(124,92,252,0.1)" }}>
-              <BarChart3 size={20} strokeWidth={2} style={{ color: "#7c5cfc" }} />
+        <div className="card px-10 py-12">
+          <div className="flex items-center gap-4 mb-10">
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: "rgba(124,92,252,0.1)" }}>
+              <BarChart3 size={22} strokeWidth={2} style={{ color: "#7c5cfc" }} />
             </div>
             <h2 className="text-[17px] font-bold text-[var(--text-primary)] tracking-tight">Gastos por Periodicidade</h2>
           </div>
@@ -113,10 +113,10 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="card p-10 animate-fade-in-up" style={{ animationDelay: "150ms" }}>
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "var(--warning-light)" }}>
-            <FileText size={20} strokeWidth={2} style={{ color: "var(--warning)" }} />
+      <div className="card px-10 py-12 animate-fade-in-up" style={{ animationDelay: "150ms" }}>
+        <div className="flex items-center gap-4 mb-10">
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: "var(--warning-light)" }}>
+            <FileText size={22} strokeWidth={2} style={{ color: "var(--warning)" }} />
           </div>
           <h2 className="text-[17px] font-bold text-[var(--text-primary)] tracking-tight">Ultimos Registros</h2>
         </div>
