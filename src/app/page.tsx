@@ -40,7 +40,7 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in-up" style={{ animationDelay: "50ms", gap: "40px" }}>
         {summaryCards.map((card) => (
-          <div key={card.label} className="card px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16 group hover:scale-[1.02] transition-all duration-300">
+          <div key={card.label} className="card px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16 group transition-all duration-300">
             <div className="flex items-center justify-between mb-4 sm:mb-6 lg:mb-10">
               <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-2xl flex items-center justify-center" style={{ background: card.bg }}>
                 <card.Icon size={20} strokeWidth={2} style={{ color: card.color }} className="sm:w-[22px] sm:h-[22px]" />
