@@ -316,9 +316,10 @@ export default function ResumoPage() {
 
         {/* Resumo Mensal Estimado */}
         <section
-          className="card px-8 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12 animate-fade-in-up"
+          className="card animate-fade-in-up"
+          style={{ padding: "40px" }}
         >
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3" style={{ marginBottom: "40px" }}>
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-cyan-500/10">
               <Calculator size={18} className="text-cyan-500" />
             </div>
