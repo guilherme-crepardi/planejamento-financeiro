@@ -179,30 +179,32 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   const updateCategoria = useCallback(
     async (id: string, c: Partial<Categoria>) => {
-      if (isSupabaseConfigured()) {
-        await supabase.from("categorias").update(c).eq("id", id);
-      }
       setData((prev) => ({
         ...prev,
         categorias: prev.categorias.map((cat) =>
           cat.id === id ? { ...cat, ...c } : cat
         ),
       }));
+      if (isSupabaseConfigured()) {
+        try { await supabase.from("categorias").update(c).eq("id", id); } catch {}
+      }
     },
     []
   );
 
   const deleteCategoria = useCallback(
     async (id: string) => {
-      if (isSupabaseConfigured()) {
-        await supabase.from("gastos").delete().eq("categoria_id", id);
-        await supabase.from("categorias").delete().eq("id", id);
-      }
       setData((prev) => ({
         ...prev,
         categorias: prev.categorias.filter((cat) => cat.id !== id),
         gastos: prev.gastos.filter((g) => g.categoria_id !== id),
       }));
+      if (isSupabaseConfigured()) {
+        try {
+          await supabase.from("gastos").delete().eq("categoria_id", id);
+          await supabase.from("categorias").delete().eq("id", id);
+        } catch {}
+      }
     },
     []
   );
@@ -234,28 +236,28 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   const updateGasto = useCallback(
     async (id: string, g: Partial<Gasto>) => {
-      if (isSupabaseConfigured()) {
-        await supabase.from("gastos").update(g).eq("id", id);
-      }
       setData((prev) => ({
         ...prev,
         gastos: prev.gastos.map((gasto) =>
           gasto.id === id ? { ...gasto, ...g } : gasto
         ),
       }));
+      if (isSupabaseConfigured()) {
+        try { await supabase.from("gastos").update(g).eq("id", id); } catch {}
+      }
     },
     []
   );
 
   const deleteGasto = useCallback(
     async (id: string) => {
-      if (isSupabaseConfigured()) {
-        await supabase.from("gastos").delete().eq("id", id);
-      }
       setData((prev) => ({
         ...prev,
         gastos: prev.gastos.filter((g) => g.id !== id),
       }));
+      if (isSupabaseConfigured()) {
+        try { await supabase.from("gastos").delete().eq("id", id); } catch {}
+      }
     },
     []
   );
@@ -287,28 +289,28 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   const updateRenda = useCallback(
     async (id: string, r: Partial<Renda>) => {
-      if (isSupabaseConfigured()) {
-        await supabase.from("renda").update(r).eq("id", id);
-      }
       setData((prev) => ({
         ...prev,
         renda: prev.renda.map((rend) =>
           rend.id === id ? { ...rend, ...r } : rend
         ),
       }));
+      if (isSupabaseConfigured()) {
+        try { await supabase.from("renda").update(r).eq("id", id); } catch {}
+      }
     },
     []
   );
 
   const deleteRenda = useCallback(
     async (id: string) => {
-      if (isSupabaseConfigured()) {
-        await supabase.from("renda").delete().eq("id", id);
-      }
       setData((prev) => ({
         ...prev,
         renda: prev.renda.filter((r) => r.id !== id),
       }));
+      if (isSupabaseConfigured()) {
+        try { await supabase.from("renda").delete().eq("id", id); } catch {}
+      }
     },
     []
   );

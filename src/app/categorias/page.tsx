@@ -129,7 +129,7 @@ export default function CategoriasPage() {
   }
 
   return (
-    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+    <div className="max-w-[1280px] mx-auto w-full px-3 sm:px-6 lg:px-8" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
           <h1 className="text-[24px] sm:text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">

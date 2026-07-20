@@ -41,9 +41,9 @@ const periodicidadeColors: Record<string, string> = {
 };
 
 const periodicidadeIcons: Record<string, React.ReactNode> = {
-  semanal: <Clock size={14} />,
-  mensal: <Calendar size={14} />,
-  anual: <Calendar size={14} />,
+  semanal: <Clock size={12} />,
+  mensal: <Calendar size={12} />,
+  anual: <Calendar size={12} />,
 };
 
 export default function GastosPage() {
@@ -143,88 +143,39 @@ export default function GastosPage() {
     new Date(dateStr + "T00:00:00").toLocaleDateString("pt-BR");
 
   return (
-    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 animate-fade-in-up">
+    <div className="max-w-[1280px] mx-auto w-full px-3 sm:px-6 lg:px-8" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-red-500/10 flex items-center justify-center">
-            <Receipt size={22} className="text-red-500" />
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-red-500/10 flex items-center justify-center shrink-0">
+            <Receipt size={18} className="text-red-500" />
           </div>
           <div>
-            <h1 className="text-[22px] sm:text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">
-              Gastos
-            </h1>
-            <p className="text-[var(--text-tertiary)] text-[11px] sm:text-sm font-medium">
-              Gerencie seus gastos e despesas
-            </p>
+            <h1 className="text-[20px] sm:text-[26px] font-extrabold text-[var(--text-primary)] tracking-tight">Gastos</h1>
+            <p className="text-[var(--text-tertiary)] text-[10px] sm:text-[12px]">Gerencie seus gastos</p>
           </div>
         </div>
-        <button
-          onClick={openAddModal}
-          className="btn-primary self-start sm:self-auto flex items-center gap-2 text-xs sm:text-sm px-4 py-2.5 rounded-xl font-semibold"
-        >
-          <Plus size={16} />
-          Novo Gasto
+        <button onClick={openAddModal} className="btn-primary self-start sm:self-auto flex items-center gap-2 text-[11px] sm:text-[13px] px-3 py-2 sm:px-4 sm:py-2.5">
+          <Plus size={14} /> Novo Gasto
         </button>
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3" style={{ gap: "12px" }}>
-        <div className="card animate-fade-in-up" style={{ padding: "16px", animationDelay: "40ms" }}>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-                Total Filtrado
-              </p>
-              <p className="text-lg sm:text-xl font-bold text-[var(--danger)] mt-1">
-                {formatCurrency(totalFiltrado)}
-              </p>
-            </div>
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-red-500/10">
-              <DollarSign size={18} className="text-[var(--danger)]" />
-            </div>
-          </div>
+      <div className="grid grid-cols-3" style={{ gap: "8px" }}>
+        <div className="card text-center" style={{ padding: "12px" }}>
+          <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[var(--text-tertiary)]">Total</p>
+          <p className="text-[13px] sm:text-[16px] font-bold text-[var(--danger)] mt-0.5">{formatCurrency(totalFiltrado)}</p>
         </div>
-        <div className="card animate-fade-in-up" style={{ padding: "16px", border: "1.5px solid var(--success)", animationDelay: "80ms" }}>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-                Pago
-              </p>
-              <p className="text-lg sm:text-xl font-bold text-green-500 mt-1">
-                {formatCurrency(totalPago)}
-              </p>
-            </div>
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-green-500/10">
-              <CheckCircle2 size={18} className="text-green-500" />
-            </div>
-          </div>
+        <div className="card text-center" style={{ padding: "12px", border: "1.5px solid var(--success)" }}>
+          <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[var(--text-tertiary)]">Pago</p>
+          <p className="text-[13px] sm:text-[16px] font-bold text-green-500 mt-0.5">{formatCurrency(totalPago)}</p>
         </div>
-        <div className="card animate-fade-in-up" style={{ padding: "16px", border: "1.5px solid var(--danger)", animationDelay: "120ms" }}>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-                Nao Pago
-              </p>
-              <p className="text-lg sm:text-xl font-bold text-[var(--danger)] mt-1">
-                {formatCurrency(totalNaoPago)}
-              </p>
-            </div>
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-red-500/10">
-              <XCircle size={18} className="text-[var(--danger)]" />
-            </div>
-          </div>
+        <div className="card text-center" style={{ padding: "12px", border: "1.5px solid var(--danger)" }}>
+          <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[var(--text-tertiary)]">Nao Pago</p>
+          <p className="text-[13px] sm:text-[16px] font-bold text-[var(--danger)] mt-0.5">{formatCurrency(totalNaoPago)}</p>
         </div>
       </div>
 
-      {/* Filter by periodicidade */}
-      <div className="card animate-fade-in-up" style={{ padding: "16px", animationDelay: "100ms" }}>
-        <div className="flex items-center gap-2.5 mb-3">
-          <Filter size={14} className="text-[var(--text-tertiary)]" />
-          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-            Filtrar por periodicidade
-          </span>
-        </div>
-        <div className="flex flex-wrap gap-2">
+      <div className="card" style={{ padding: "12px" }}>
+        <div className="flex flex-wrap gap-1.5">
           {[
             { key: "todos", label: "Todos" },
             { key: "semanal", label: "Semanal" },
@@ -234,407 +185,209 @@ export default function GastosPage() {
             <button
               key={f.key}
               onClick={() => setFiltro(f.key)}
-              className={`px-4 py-2 rounded-xl text-[11px] sm:text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg text-[10px] sm:text-[11px] font-medium transition-all ${
                 filtro === f.key
                   ? "text-white"
-                  : "bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] border border-[var(--border-color)]"
+                  : "bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-color)]"
               }`}
               style={
                 filtro === f.key
-                  ? {
-                      background: "linear-gradient(135deg, var(--accent-gradient-start), var(--accent-gradient-end))",
-                      boxShadow: "0 2px 12px rgba(79, 110, 247, 0.35)",
-                    }
+                  ? { background: "linear-gradient(135deg, var(--accent-gradient-start), var(--accent-gradient-end))", boxShadow: "0 2px 8px rgba(79,110,247,0.3)" }
                   : {}
               }
             >
-              {f.key !== "todos" && periodicidadeIcons[f.key]}
               {f.label}
             </button>
           ))}
-        </div>
-        <div className="flex flex-wrap gap-2 mt-3 pt-3" style={{ borderTop: "1px solid var(--border-subtle)" }}>
-          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)] self-center mr-1">
-            Status:
-          </span>
+          <span className="w-px h-5 bg-[var(--border-subtle)] self-center mx-0.5" />
           {[
             { key: "todos", label: "Todos" },
-            { key: "pago", label: "Pago" },
-            { key: "nao-pago", label: "Nao Pago" },
+            { key: "pago", label: "Pago", icon: <CheckCircle2 size={11} /> },
+            { key: "nao-pago", label: "Nao Pago", icon: <XCircle size={11} /> },
           ].map((f) => (
             <button
               key={f.key}
               onClick={() => setFiltroPago(f.key)}
-              className={`px-4 py-2 rounded-xl text-[11px] sm:text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg text-[10px] sm:text-[11px] font-medium transition-all flex items-center gap-1 ${
                 filtroPago === f.key
                   ? "text-white"
-                  : "bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] border border-[var(--border-color)]"
+                  : "bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-color)]"
               }`}
               style={
                 filtroPago === f.key
                   ? {
-                      background: f.key === "pago"
-                        ? "linear-gradient(135deg, #10b981, #059669)"
-                        : f.key === "nao-pago"
-                        ? "linear-gradient(135deg, #ef4444, #dc2626)"
-                        : "linear-gradient(135deg, var(--accent-gradient-start), var(--accent-gradient-end))",
-                      boxShadow: f.key === "pago"
-                        ? "0 2px 12px rgba(16, 185, 129, 0.35)"
-                        : f.key === "nao-pago"
-                        ? "0 2px 12px rgba(239, 68, 68, 0.35)"
-                        : "0 2px 12px rgba(79, 110, 247, 0.35)",
+                      background: f.key === "pago" ? "linear-gradient(135deg, #10b981, #059669)" : f.key === "nao-pago" ? "linear-gradient(135deg, #ef4444, #dc2626)" : "linear-gradient(135deg, var(--accent-gradient-start), var(--accent-gradient-end))",
+                      boxShadow: f.key === "pago" ? "0 2px 8px rgba(16,185,129,0.3)" : f.key === "nao-pago" ? "0 2px 8px rgba(239,68,68,0.3)" : "0 2px 8px rgba(79,110,247,0.3)",
                     }
                   : {}
               }
             >
-              {f.key === "pago" && <CheckCircle2 size={14} />}
-              {f.key === "nao-pago" && <XCircle size={14} />}
-              {f.label}
+              {f.icon} {f.label}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Empty State */}
       {gastosFiltrados.length === 0 ? (
-        <div
-          className="card flex flex-col items-center justify-center animate-fade-in-up"
-          style={{ padding: "60px 25px", animationDelay: "140ms" }}
-        >
-          <div
-            className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
-            style={{ background: "var(--bg-inset)" }}
-          >
-            <Receipt size={28} className="text-[var(--text-tertiary)] opacity-40" />
-          </div>
-          <p className="text-[var(--text-primary)] font-bold text-sm sm:text-base">Nenhum gasto encontrado</p>
-          <p className="text-xs sm:text-sm text-[var(--text-tertiary)] mt-1.5">Adicione um novo gasto para comecar</p>
+        <div className="card flex flex-col items-center justify-center" style={{ padding: "40px 16px" }}>
+          <Receipt size={24} className="text-[var(--text-tertiary)] opacity-30 mb-2" />
+          <p className="text-[var(--text-primary)] font-bold text-[13px]">Nenhum gasto encontrado</p>
+          <p className="text-[11px] text-[var(--text-tertiary)]">Adicione um novo gasto para comecar</p>
         </div>
       ) : (
-        <div
-          className="card overflow-hidden animate-fade-in-up"
-          style={{ padding: "16px", animationDelay: "140ms" }}
-        >
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[620px]">
-              <thead>
-                <tr>
-                  {[
-                    { label: "Status", align: "text-center" },
-                    { label: "Data", align: "text-left" },
-                    { label: "Descricao", align: "text-left" },
-                    { label: "Categoria", align: "text-left" },
-                    { label: "Periodicidade", align: "text-left" },
-                    { label: "Valor", align: "text-right" },
-                    { label: "Acoes", align: "text-right" },
-                  ].map((h) => (
-                    <th
-                      key={h.label}
-                      className={`${h.align} px-3 sm:px-4 py-2.5 sm:py-3 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]`}
-                      style={{ borderBottom: "2px solid var(--border-subtle)" }}
-                    >
-                      {h.label}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {gastosFiltrados.map((gasto, index) => {
-                  const cat = getCategoria(gasto.categoria_id);
-                  const pago = gasto.pago ?? false;
-                  return (
-                    <tr
-                      key={gasto.id}
-                      className="table-row"
-                      style={{
-                        animationDelay: `${160 + index * 40}ms`,
-                        opacity: pago ? 0.65 : 1,
-                      }}
-                    >
-                      <td className="px-3 sm:px-4 py-3 sm:py-3.5 text-center">
-                        <button
-                          onClick={() => togglePago(gasto.id)}
-                          className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] sm:text-xs font-semibold transition-all duration-200 ${
-                            pago
-                              ? "bg-green-500/15 text-green-500 hover:bg-green-500/25"
-                              : "bg-red-500/15 text-[var(--danger)] hover:bg-red-500/25"
-                          }`}
-                          title={pago ? "Marcar como nao pago" : "Marcar como pago"}
-                        >
-                          {pago ? (
-                            <CircleCheck size={14} className="text-green-500" />
-                          ) : (
-                            <XCircle size={14} className="text-[var(--danger)]" />
-                          )}
-                          <span className="hidden sm:inline">{pago ? "Pago" : "Nao Pago"}</span>
-                        </button>
-                      </td>
-                      <td className="px-3 sm:px-4 py-3 sm:py-3.5 text-[11px] sm:text-sm text-[var(--text-secondary)] whitespace-nowrap">
-                        <span className="flex items-center gap-1.5">
-                          <Calendar size={12} className="text-[var(--text-tertiary)]" />
-                          {formatDate(gasto.data)}
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          {gastosFiltrados.map((gasto) => {
+            const cat = getCategoria(gasto.categoria_id);
+            const pago = gasto.pago ?? false;
+            return (
+              <div
+                key={gasto.id}
+                className="card"
+                style={{
+                  padding: "12px",
+                  opacity: pago ? 0.6 : 1,
+                  borderColor: pago ? "var(--success)" : undefined,
+                }}
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <button
+                        onClick={() => togglePago(gasto.id)}
+                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-semibold shrink-0 ${
+                          pago ? "bg-green-500/15 text-green-500" : "bg-red-500/15 text-[var(--danger)]"
+                        }`}
+                      >
+                        {pago ? <CircleCheck size={11} /> : <XCircle size={11} />}
+                        {pago ? "Pago" : "Nao Pago"}
+                      </button>
+                      <span
+                        className="inline-flex items-center gap-1 text-[9px] px-1.5 py-0.5 rounded-full font-semibold"
+                        style={{
+                          backgroundColor: `${periodicidadeColors[gasto.periodicidade]}18`,
+                          color: periodicidadeColors[gasto.periodicidade],
+                        }}
+                      >
+                        {periodicidadeIcons[gasto.periodicidade]}
+                        {periodicidadeLabels[gasto.periodicidade]}
+                      </span>
+                    </div>
+                    <p className="font-bold text-[13px] text-[var(--text-primary)] mt-1.5 truncate">{gasto.descricao}</p>
+                    <div className="flex items-center gap-3 mt-1 flex-wrap">
+                      {cat && (
+                        <span className="flex items-center gap-1 text-[10px] text-[var(--text-secondary)]">
+                          <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: cat.cor }} />
+                          {cat.icone} {cat.nome}
                         </span>
-                      </td>
-                      <td className="px-3 sm:px-4 py-3 sm:py-3.5 text-[11px] sm:text-sm text-[var(--text-primary)] font-semibold">
-                        <span className="flex items-center gap-1.5">
-                          <FileText size={12} className="text-[var(--text-tertiary)]" />
-                          {gasto.descricao}
-                        </span>
-                      </td>
-                      <td className="px-3 sm:px-4 py-3 sm:py-3.5 text-[11px] sm:text-sm text-[var(--text-secondary)] whitespace-nowrap">
-                        {cat && (
-                          <span className="inline-flex items-center gap-1.5">
-                            <span
-                              className="w-2 h-2 rounded-full flex-shrink-0"
-                              style={{ backgroundColor: cat.cor }}
-                            />
-                            {cat.icone} {cat.nome}
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-3 sm:px-4 py-3 sm:py-3.5 whitespace-nowrap">
-                        <span
-                          className="badge inline-flex items-center gap-1 text-[9px] sm:text-[10px] px-2 py-1 rounded-full font-semibold"
-                          style={{
-                            backgroundColor: `${periodicidadeColors[gasto.periodicidade] || "#666"}18`,
-                            color: periodicidadeColors[gasto.periodicidade] || "#666",
-                          }}
-                        >
-                          {periodicidadeIcons[gasto.periodicidade]}
-                          {periodicidadeLabels[gasto.periodicidade]}
-                        </span>
-                      </td>
-                      <td className="px-3 sm:px-4 py-3 sm:py-3.5 text-[11px] sm:text-sm text-[var(--danger)] font-bold text-right whitespace-nowrap">
-                        {formatCurrency(gasto.valor)}
-                      </td>
-                      <td className="px-3 sm:px-4 py-3 sm:py-3.5 text-right whitespace-nowrap">
-                        <div className="flex items-center justify-end gap-1">
-                          <button
-                            onClick={() => openEditModal(gasto)}
-                            className="text-[var(--text-tertiary)] hover:text-[var(--accent)] transition-colors p-1.5 rounded-lg hover:bg-[var(--bg-inset)]"
-                            title="Editar"
-                          >
-                            <Pencil size={15} />
-                          </button>
-                          <button
-                            onClick={() => setConfirmDeleteId(gasto.id)}
-                            className="text-[var(--text-tertiary)] hover:text-[var(--danger)] transition-colors p-1.5 rounded-lg hover:bg-[var(--bg-inset)]"
-                            title="Excluir"
-                          >
-                            <Trash2 size={15} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-              <tfoot>
-                <tr style={{ borderTop: "2px solid var(--border-subtle)" }}>
-                  <td colSpan={5} className="px-3 sm:px-4 py-3 text-[11px] sm:text-sm font-bold text-[var(--text-primary)] text-right uppercase tracking-[0.12em]">
-                    Total
-                  </td>
-                  <td className="px-3 sm:px-4 py-3 text-[11px] sm:text-sm font-bold text-[var(--danger)] text-right">
-                    {formatCurrency(totalFiltrado)}
-                  </td>
-                  <td />
-                </tr>
-              </tfoot>
-            </table>
+                      )}
+                      <span className="flex items-center gap-1 text-[10px] text-[var(--text-tertiary)]">
+                        <Calendar size={10} /> {formatDate(gasto.data)}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-1.5 shrink-0">
+                    <p className="text-[14px] font-bold text-[var(--danger)]">{formatCurrency(gasto.valor)}</p>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => openEditModal(gasto)}
+                        className="p-1.5 rounded-lg hover:bg-[var(--bg-inset)] text-[var(--text-tertiary)] hover:text-[var(--accent)]"
+                      >
+                        <Pencil size={14} />
+                      </button>
+                      <button
+                        onClick={() => setConfirmDeleteId(gasto.id)}
+                        className="p-1.5 rounded-lg hover:bg-red-500/10 text-[var(--text-tertiary)] hover:text-[var(--danger)]"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+          <div className="card flex items-center justify-between" style={{ padding: "12px", border: "2px solid var(--border-subtle)" }}>
+            <span className="text-[12px] font-bold text-[var(--text-primary)] uppercase tracking-wider">Total</span>
+            <span className="text-[14px] font-bold text-[var(--danger)]">{formatCurrency(totalFiltrado)}</span>
           </div>
         </div>
       )}
 
-      {/* Add/Edit Modal */}
-      <Modal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        title={editingId ? "Editar Gasto" : "Novo Gasto"}
-      >
-        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editingId ? "Editar Gasto" : "Novo Gasto"}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <div>
-            <label className="block text-[13px] font-bold text-[var(--text-primary)] tracking-tight mb-2">
-              Descricao
-            </label>
-            <input
-              type="text"
-              value={form.descricao}
-              onChange={(e) => setForm({ ...form, descricao: e.target.value })}
-              placeholder="Ex: Aluguel, Supermercado..."
-              className="input"
-            />
+            <label className="block text-[12px] font-bold text-[var(--text-primary)] mb-1.5">Descricao</label>
+            <input type="text" value={form.descricao} onChange={(e) => setForm({ ...form, descricao: e.target.value })} placeholder="Ex: Aluguel..." className="input text-[13px]" />
           </div>
-
           <div>
-            <label className="block text-[13px] font-bold text-[var(--text-primary)] tracking-tight mb-2">
-              Valor (R$)
-            </label>
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              value={form.valor}
-              onChange={(e) => setForm({ ...form, valor: e.target.value })}
-              placeholder="0,00"
-              className="input"
-            />
+            <label className="block text-[12px] font-bold text-[var(--text-primary)] mb-1.5">Valor (R$)</label>
+            <input type="number" step="0.01" min="0" value={form.valor} onChange={(e) => setForm({ ...form, valor: e.target.value })} placeholder="0,00" className="input text-[13px]" />
           </div>
-
           <div>
-            <label className="block text-[13px] font-bold text-[var(--text-primary)] tracking-tight mb-2">
-              Data
-            </label>
-            <input
-              type="date"
-              value={form.data}
-              onChange={(e) => setForm({ ...form, data: e.target.value })}
-              className="input"
-            />
+            <label className="block text-[12px] font-bold text-[var(--text-primary)] mb-1.5">Data</label>
+            <input type="date" value={form.data} onChange={(e) => setForm({ ...form, data: e.target.value })} className="input text-[13px]" />
           </div>
-
           <div>
-            <label className="block text-[13px] font-bold text-[var(--text-primary)] tracking-tight mb-2">
-              Categoria
-            </label>
-            <select
-              value={form.categoria_id}
-              onChange={(e) => setForm({ ...form, categoria_id: e.target.value })}
-              className="input"
-            >
-              <option value="">Selecione uma categoria</option>
+            <label className="block text-[12px] font-bold text-[var(--text-primary)] mb-1.5">Categoria</label>
+            <select value={form.categoria_id} onChange={(e) => setForm({ ...form, categoria_id: e.target.value })} className="input text-[13px]">
+              <option value="">Selecione</option>
               {gastoCategorias.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.icone} {cat.nome}
-                </option>
+                <option key={cat.id} value={cat.id}>{cat.icone} {cat.nome}</option>
               ))}
             </select>
           </div>
-
           <div>
-            <label className="block text-[13px] font-bold text-[var(--text-primary)] tracking-tight mb-2">
-              Periodicidade
-            </label>
-            <div className="flex gap-2">
+            <label className="block text-[12px] font-bold text-[var(--text-primary)] mb-1.5">Periodicidade</label>
+            <div className="flex gap-1.5">
               {(["semanal", "mensal", "anual"] as const).map((p) => (
-                <button
-                  key={p}
-                  type="button"
-                  onClick={() => setForm({ ...form, periodicidade: p })}
-                  className={`flex-1 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 border flex items-center justify-center gap-2 ${
-                    form.periodicidade === p
-                      ? "text-white border-transparent"
-                      : "bg-[var(--bg-primary)] text-[var(--text-secondary)] border-[var(--border-color)] hover:bg-[var(--bg-tertiary)]"
+                <button key={p} type="button" onClick={() => setForm({ ...form, periodicidade: p })}
+                  className={`flex-1 py-2 rounded-lg text-[11px] font-medium transition-all border flex items-center justify-center gap-1 ${
+                    form.periodicidade === p ? "text-white border-transparent" : "bg-[var(--bg-primary)] text-[var(--text-secondary)] border-[var(--border-color)]"
                   }`}
-                  style={
-                    form.periodicidade === p
-                      ? { backgroundColor: periodicidadeColors[p] }
-                      : {}
-                  }
+                  style={form.periodicidade === p ? { backgroundColor: periodicidadeColors[p] } : {}}
                 >
-                  {periodicidadeIcons[p]}
-                  {periodicidadeLabels[p]}
+                  {periodicidadeIcons[p]} {periodicidadeLabels[p]}
                 </button>
               ))}
             </div>
           </div>
-
           <div>
-            <label className="block text-[13px] font-bold text-[var(--text-primary)] tracking-tight mb-2">
-              Status de Pagamento
-            </label>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setForm({ ...form, pago: false })}
-                className={`flex-1 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 border flex items-center justify-center gap-2 ${
-                  !form.pago
-                    ? "bg-red-500/15 text-[var(--danger)] border-[var(--danger)]"
-                    : "bg-[var(--bg-primary)] text-[var(--text-secondary)] border-[var(--border-color)] hover:bg-[var(--bg-tertiary)]"
-                }`}
-              >
-                <XCircle size={16} />
-                Nao Pago
+            <label className="block text-[12px] font-bold text-[var(--text-primary)] mb-1.5">Status</label>
+            <div className="flex gap-1.5">
+              <button type="button" onClick={() => setForm({ ...form, pago: false })}
+                className={`flex-1 py-2 rounded-lg text-[11px] font-medium transition-all border flex items-center justify-center gap-1 ${
+                  !form.pago ? "bg-red-500/15 text-[var(--danger)] border-[var(--danger)]" : "bg-[var(--bg-primary)] text-[var(--text-secondary)] border-[var(--border-color)]"
+                }`}>
+                <XCircle size={14} /> Nao Pago
               </button>
-              <button
-                type="button"
-                onClick={() => setForm({ ...form, pago: true })}
-                className={`flex-1 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 border flex items-center justify-center gap-2 ${
-                  form.pago
-                    ? "bg-green-500/15 text-green-500 border-green-500"
-                    : "bg-[var(--bg-primary)] text-[var(--text-secondary)] border-[var(--border-color)] hover:bg-[var(--bg-tertiary)]"
-                }`}
-              >
-                <CheckCircle2 size={16} />
-                Pago
+              <button type="button" onClick={() => setForm({ ...form, pago: true })}
+                className={`flex-1 py-2 rounded-lg text-[11px] font-medium transition-all border flex items-center justify-center gap-1 ${
+                  form.pago ? "bg-green-500/15 text-green-500 border-green-500" : "bg-[var(--bg-primary)] text-[var(--text-secondary)] border-[var(--border-color)]"
+                }`}>
+                <CheckCircle2 size={14} /> Pago
               </button>
             </div>
           </div>
-
-          <div className="flex gap-3 pt-1">
-            <button
-              onClick={() => setModalOpen(false)}
-              className="btn-primary flex-1 px-4 py-2.5"
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={handleSubmit}
-              className="btn-primary flex-1 px-4 py-2.5 flex items-center justify-center gap-2"
-            >
-              {editingId ? (
-                <>
-                  <Pencil size={16} />
-                  Salvar
-                </>
-              ) : (
-                <>
-                  <Plus size={16} />
-                  Adicionar
-                </>
-              )}
+          <div className="flex gap-2 pt-1">
+            <button onClick={() => setModalOpen(false)} className="flex-1 py-2.5 rounded-xl text-[12px] font-medium border border-[var(--border-color)] text-[var(--text-secondary)]">Cancelar</button>
+            <button onClick={handleSubmit} className="btn-primary flex-1 py-2.5 text-[12px] flex items-center justify-center gap-1.5">
+              {editingId ? <><Pencil size={14} /> Salvar</> : <><Plus size={14} /> Adicionar</>}
             </button>
           </div>
         </div>
       </Modal>
 
-      {/* Delete Confirmation Modal */}
-      <Modal
-        isOpen={confirmDeleteId !== null}
-        onClose={() => setConfirmDeleteId(null)}
-        title="Confirmar Exclusao"
-      >
-        <div style={{ display: "flex", flexDirection: "column", gap: "20px", alignItems: "center", textAlign: "center" }}>
-          <div
-            className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center"
-            style={{ background: "rgba(239, 68, 68, 0.1)" }}
-          >
-            <AlertTriangle size={24} className="text-[var(--danger)]" />
-          </div>
-          <div>
-            <p className="text-sm sm:text-base text-[var(--text-primary)] font-semibold">
-              Tem certeza que deseja excluir este gasto?
-            </p>
-            <p className="text-xs sm:text-sm text-[var(--text-tertiary)] mt-1.5">
-              Esta acao nao pode ser desfeita.
-            </p>
-          </div>
-          <div className="flex gap-3 w-full">
-            <button
-              onClick={() => setConfirmDeleteId(null)}
-              className="btn-primary flex-1 px-4 py-2.5"
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={() => confirmDeleteId && handleDelete(confirmDeleteId)}
-              className="flex-1 px-4 py-2.5 rounded-xl font-semibold text-xs sm:text-sm text-white transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
-              style={{
-                background: "linear-gradient(135deg, var(--danger), #dc2626)",
-                boxShadow: "0 2px 12px rgba(239, 68, 68, 0.3)",
-              }}
-            >
-              <Trash2 size={16} />
-              Excluir
+      <Modal isOpen={confirmDeleteId !== null} onClose={() => setConfirmDeleteId(null)} title="Confirmar Exclusao">
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px", alignItems: "center", textAlign: "center" }}>
+          <AlertTriangle size={24} className="text-[var(--danger)]" />
+          <p className="text-[13px] text-[var(--text-primary)] font-semibold">Excluir este gasto?</p>
+          <p className="text-[11px] text-[var(--text-tertiary)]">Acao irreversivel.</p>
+          <div className="flex gap-2 w-full">
+            <button onClick={() => setConfirmDeleteId(null)} className="flex-1 py-2.5 rounded-xl text-[12px] font-medium border border-[var(--border-color)] text-[var(--text-secondary)]">Cancelar</button>
+            <button onClick={() => confirmDeleteId && handleDelete(confirmDeleteId)}
+              className="flex-1 py-2.5 rounded-xl text-[12px] font-semibold text-white flex items-center justify-center gap-1.5"
+              style={{ background: "linear-gradient(135deg, var(--danger), #dc2626)" }}>
+              <Trash2 size={14} /> Excluir
             </button>
           </div>
         </div>

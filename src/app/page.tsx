@@ -32,7 +32,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+    <div className="max-w-[1280px] mx-auto w-full px-3 sm:px-6 lg:px-8" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       <div className="animate-fade-in-up">
         <h1 className="text-[22px] sm:text-[26px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">Dashboard</h1>
         <p className="text-[var(--text-tertiary)] text-[12px] sm:text-[14px] mt-1 font-medium">Visao geral das suas financas</p>
@@ -113,58 +113,37 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="card animate-fade-in-up" style={{ padding: "20px", animationDelay: "150ms" }}>
-        <div className="flex items-center justify-center gap-2.5 mb-6">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center" style={{ background: "var(--warning-light)" }}>
-            <FileText size={16} strokeWidth={2} style={{ color: "var(--warning)" }} />
-          </div>
-          <h2 className="text-[13px] sm:text-[15px] font-bold text-[var(--text-primary)] tracking-tight">Ultimos Registros</h2>
-        </div>
-        {gastos.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm min-w-[400px]">
-              <thead>
-                <tr style={{ borderBottom: "1px solid var(--border-subtle)" }}>
-                  {["Descricao", "Categoria", "Periodo", "Valor"].map((h) => (
-                    <th key={h} className={`py-2.5 px-3 sm:py-3 sm:px-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)] ${h === "Valor" ? "text-right" : "text-left"}`}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {gastos.slice(-10).reverse().map((g) => {
-                  const cat = categorias.find((c) => c.id === g.categoria_id);
-                  return (
-                    <tr key={g.id} className="table-row" style={{ borderBottom: "1px solid var(--border-subtle)" }}>
-                      <td className="py-3 px-3 sm:py-3.5 sm:px-4 font-bold text-[12px] sm:text-[13px] text-[var(--text-primary)]">{g.descricao}</td>
-                      <td className="py-3 px-3 sm:py-3.5 sm:px-4">
-                        <span className="flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: cat?.cor }} />
-                          <span className="text-[var(--text-secondary)] font-medium text-[11px] sm:text-[12px]">{cat?.nome || "—"}</span>
-                        </span>
-                      </td>
-                      <td className="py-3 px-3 sm:py-3.5 sm:px-4">
-                        <span className="badge text-[9px] sm:text-[10px]" style={{
-                          background: g.periodicidade === "semanal" ? "var(--accent-primary-light)" : g.periodicidade === "mensal" ? "rgba(124,92,252,0.1)" : "var(--warning-light)",
-                          color: g.periodicidade === "semanal" ? "var(--accent-primary)" : g.periodicidade === "mensal" ? "#7c5cfc" : "var(--warning)",
-                        }}>
-                          {g.periodicidade}
-                        </span>
-                      </td>
-                      <td className="py-3 px-3 sm:py-3.5 sm:px-4 text-right font-extrabold text-[12px] sm:text-[13px]" style={{ color: "var(--danger)" }}>{fmt(g.valor)}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-12 sm:py-16 text-[var(--text-tertiary)]">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center mb-3" style={{ background: "var(--bg-inset)" }}>
-              <FileText size={20} strokeWidth={1.5} className="opacity-30" />
+        <div className="card animate-fade-in-up" style={{ padding: "16px", animationDelay: "150ms" }}>
+          <div className="flex items-center justify-center gap-2.5 mb-4">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center" style={{ background: "var(--warning-light)" }}>
+              <FileText size={14} strokeWidth={2} style={{ color: "var(--warning)" }} />
             </div>
-            <p className="text-[13px] font-semibold">Nenhum registro ainda</p>
+            <h2 className="text-[12px] sm:text-[14px] font-bold text-[var(--text-primary)] tracking-tight">Ultimos Registros</h2>
           </div>
-        )}
+          {gastos.length > 0 ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              {gastos.slice(-10).reverse().map((g) => {
+                const cat = categorias.find((c) => c.id === g.categoria_id);
+                return (
+                  <div key={g.id} className="flex items-center justify-between" style={{ padding: "8px", borderRadius: "10px", background: "var(--bg-inset)" }}>
+                    <div className="flex items-center gap-2 min-w-0 flex-1">
+                      <span className="w-2 h-2 rounded-full shrink-0" style={{ background: cat?.cor }} />
+                      <div className="min-w-0">
+                        <p className="font-bold text-[11px] sm:text-[12px] text-[var(--text-primary)] truncate">{g.descricao}</p>
+                        <span className="text-[9px] sm:text-[10px] text-[var(--text-tertiary)]">{cat?.nome || "—"}</span>
+                      </div>
+                    </div>
+                    <span className="text-[11px] sm:text-[12px] font-extrabold text-[var(--danger)] shrink-0">{fmt(g.valor)}</span>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-8 text-[var(--text-tertiary)]">
+              <FileText size={20} strokeWidth={1.5} className="opacity-30 mb-2" />
+              <p className="text-[12px] font-semibold">Nenhum registro ainda</p>
+            </div>
+          )}
       </div>
     </div>
   );

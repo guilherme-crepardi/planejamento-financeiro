@@ -122,7 +122,7 @@ export default function ResumoPage() {
   }
 
   return (
-    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+    <div className="max-w-[1280px] mx-auto w-full px-3 sm:px-6 lg:px-8" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       <h1 className="text-[22px] sm:text-[26px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight animate-fade-in-up">
         Resumo Financeiro
       </h1>
