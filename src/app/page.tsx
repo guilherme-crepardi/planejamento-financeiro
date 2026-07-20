@@ -54,8 +54,8 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 animate-fade-in-up" style={{ animationDelay: "100ms", gap: "40px" }}>
-        <div className="card px-6 py-8 sm:px-10 sm:py-12 lg:px-12 lg:py-14">
-          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-10 lg:mb-12">
+        <div className="card animate-fade-in-up" style={{ padding: "40px" }}>
+          <div className="flex items-center justify-center gap-3 sm:gap-4" style={{ marginBottom: "40px" }}>
             <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center" style={{ background: "var(--accent-primary-light)" }}>
               <PieIcon size={18} strokeWidth={2} style={{ color: "var(--accent-primary)" }} className="sm:w-5 sm:h-5" />
             </div>
