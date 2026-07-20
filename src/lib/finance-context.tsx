@@ -104,7 +104,18 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       ]);
 
       const cats = catRes.data || [];
-      const gastos = gastosRes.data || [];
+      const rawGastos = (gastosRes.data || []) as Partial<Gasto>[];
+      const gastos: Gasto[] = rawGastos.map((g) => ({
+        id: g.id || "",
+        user_id: g.user_id || "",
+        categoria_id: g.categoria_id || "",
+        descricao: g.descricao || "",
+        valor: g.valor || 0,
+        data: g.data || "",
+        periodicidade: g.periodicidade || "mensal",
+        pago: (g as Record<string, unknown>).pago === true,
+        created_at: g.created_at || "",
+      }));
       const renda = rendaRes.data || [];
 
       if (cats.length === 0) {

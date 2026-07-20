@@ -37,6 +37,7 @@ export interface Gasto {
   valor: number;
   data: string;
   periodicidade: "semanal" | "mensal" | "anual";
+  pago: boolean;
   created_at: string;
   categoria?: Categoria;
 }
