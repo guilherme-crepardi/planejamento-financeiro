@@ -154,7 +154,7 @@ export default function RendaPage() {
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 animate-fade-in-up" style={{ gap: "40px", animationDelay: "80ms" }}>
-        <div className="card px-5 py-6 sm:px-8 sm:py-9 lg:px-10 lg:py-11 text-center">
+        <div className="card text-center" style={{ padding: "20px" }}>
           <div className="flex items-center justify-center gap-2 mb-4">
             <Briefcase size={18} className="text-[var(--text-muted)]" />
             <p className="text-xs sm:text-sm text-[var(--text-muted)] font-semibold">Salario 1</p>
@@ -163,7 +163,7 @@ export default function RendaPage() {
             {formatCurrency(salario1Total)}
           </p>
         </div>
-        <div className="card px-5 py-6 sm:px-8 sm:py-9 lg:px-10 lg:py-11 text-center">
+        <div className="card text-center" style={{ padding: "20px" }}>
           <div className="flex items-center justify-center gap-2 mb-4">
             <Wallet size={18} className="text-[var(--text-muted)]" />
             <p className="text-xs sm:text-sm text-[var(--text-muted)] font-semibold">Salario 2</p>
@@ -172,7 +172,7 @@ export default function RendaPage() {
             {formatCurrency(salario2Total)}
           </p>
         </div>
-        <div className="card px-5 py-6 sm:px-8 sm:py-9 lg:px-10 lg:py-11 text-center">
+        <div className="card text-center" style={{ padding: "20px" }}>
           <div className="flex items-center justify-center gap-2 mb-4">
             <TrendingUp size={18} className="text-[var(--text-muted)]" />
             <p className="text-xs sm:text-sm text-[var(--text-muted)] font-semibold">Extras</p>
@@ -181,7 +181,7 @@ export default function RendaPage() {
             {formatCurrency(extrasTotal)}
           </p>
         </div>
-        <div className="card px-5 py-6 sm:px-8 sm:py-9 lg:px-10 lg:py-11 text-center" style={{ border: "2px solid var(--success)" }}>
+        <div className="card text-center" style={{ padding: "20px", border: "2px solid var(--success)" }}>
           <div className="flex items-center justify-center gap-2 mb-4">
             <PiggyBank size={18} className="text-[var(--success)]" />
             <p className="text-xs sm:text-sm text-[var(--text-muted)] font-semibold">Total Geral</p>
@@ -193,7 +193,7 @@ export default function RendaPage() {
       </div>
 
       {sorted.length === 0 ? (
-        <div className="card px-6 py-8 sm:px-8 sm:py-10 lg:px-12 lg:py-12 flex flex-col items-center justify-center text-center animate-fade-in-up">
+        <div className="card flex flex-col items-center justify-center text-center animate-fade-in-up" style={{ padding: "20px" }}>
           <DollarSign size={24} className="text-[var(--text-muted)] mb-4 opacity-50" />
           <p className="text-[var(--text-muted)] text-base sm:text-lg mb-1">
             Nenhuma renda registrada
@@ -204,7 +204,7 @@ export default function RendaPage() {
         </div>
       ) : (
         <div className="card overflow-hidden animate-fade-in-up">
-          <div className="overflow-x-auto" style={{ padding: "40px" }}>
+          <div className="overflow-x-auto" style={{ padding: "20px" }}>
             <table className="w-full min-w-[520px]">
               <thead>
                 <tr className="border-b border-[var(--border-color)]">

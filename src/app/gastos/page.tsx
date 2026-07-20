@@ -152,8 +152,8 @@ export default function GastosPage() {
       </div>
 
       <div
-        className="card px-5 py-5 sm:px-8 sm:py-8 lg:px-10 lg:py-10 animate-fade-in-up"
-        style={{ animationDelay: "60ms" }}
+        className="card animate-fade-in-up"
+        style={{ padding: "20px", animationDelay: "60ms" }}
       >
         <div className="flex items-center justify-between">
           <div>
@@ -216,8 +216,8 @@ export default function GastosPage() {
 
       {gastosFiltrados.length === 0 ? (
         <div
-          className="card flex flex-col items-center justify-center py-10 sm:py-16 animate-fade-in-up"
-          style={{ animationDelay: "180ms" }}
+          className="card flex flex-col items-center justify-center animate-fade-in-up"
+          style={{ padding: "20px", animationDelay: "180ms" }}
         >
           <div
             className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-3"

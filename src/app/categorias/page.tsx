@@ -180,8 +180,8 @@ export default function CategoriasPage() {
           {categoriasFiltradas.map((cat, i) => (
             <div
               key={cat.id}
-              className="card group relative px-5 py-5 sm:px-7 sm:py-7 lg:px-10 lg:py-8 flex items-center gap-4 sm:gap-5 lg:gap-6 transition-all duration-300 hover:scale-[1.02]"
-              style={{ animationDelay: `${i * 40}ms` }}
+              className="card group relative flex items-center gap-4 sm:gap-5 lg:gap-6 transition-all duration-300 hover:scale-[1.02]"
+              style={{ padding: "20px", animationDelay: `${i * 40}ms` }}
             >
               <div
                 className="w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-2xl flex items-center justify-center text-2xl sm:text-[26px] lg:text-[28px] shrink-0"
@@ -224,7 +224,7 @@ export default function CategoriasPage() {
           ))}
         </div>
       ) : (
-        <div className="card py-10 sm:py-14 lg:py-16 text-center">
+        <div className="card text-center" style={{ padding: "20px" }}>
           <div
             className="w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center mb-3 mx-auto"
             style={{ background: "var(--bg-inset)" }}
