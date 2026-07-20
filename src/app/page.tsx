@@ -32,39 +32,39 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", flexDirection: "column", gap: "48px" }}>
+    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
       <div className="animate-fade-in-up">
-        <h1 className="text-[24px] sm:text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">Dashboard</h1>
-        <p className="text-[var(--text-tertiary)] text-[13px] sm:text-[15px] mt-1 font-medium">Visao geral das suas financas</p>
+        <h1 className="text-[22px] sm:text-[26px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">Dashboard</h1>
+        <p className="text-[var(--text-tertiary)] text-[12px] sm:text-[14px] mt-1 font-medium">Visao geral das suas financas</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in-up" style={{ animationDelay: "50ms", gap: "40px" }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in-up" style={{ animationDelay: "50ms", gap: "16px" }}>
         {summaryCards.map((card) => (
           <div key={card.label} className="card group transition-all duration-300 text-center" style={{ padding: "20px" }}>
-            <div className="flex items-center justify-center mb-4 sm:mb-6 lg:mb-10">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-2xl flex items-center justify-center" style={{ background: card.bg }}>
-                <card.Icon size={20} strokeWidth={2} style={{ color: card.color }} className="sm:w-[22px] sm:h-[22px]" />
+            <div className="flex items-center justify-center mb-3 sm:mb-4 lg:mb-6">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 lg:w-12 lg:h-12 rounded-2xl flex items-center justify-center" style={{ background: card.bg }}>
+                <card.Icon size={18} strokeWidth={2} style={{ color: card.color }} />
               </div>
             </div>
-            <p className="text-[10px] sm:text-[12px] font-bold text-[var(--text-tertiary)] mb-3 sm:mb-4 uppercase tracking-wider">{card.count}</p>
-            <p className="text-[13px] sm:text-[15px] font-medium text-[var(--text-tertiary)] mb-1 sm:mb-2">{card.label}</p>
-            <p className="text-[22px] sm:text-[28px] lg:text-[32px] font-extrabold tracking-tight" style={{ color: card.color }}>{card.value}</p>
+            <p className="text-[10px] sm:text-[11px] font-bold text-[var(--text-tertiary)] mb-2 sm:mb-3 uppercase tracking-wider">{card.count}</p>
+            <p className="text-[12px] sm:text-[13px] font-medium text-[var(--text-tertiary)] mb-1">{card.label}</p>
+            <p className="text-[18px] sm:text-[22px] lg:text-[28px] font-extrabold tracking-tight" style={{ color: card.color }}>{card.value}</p>
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 animate-fade-in-up" style={{ animationDelay: "100ms", gap: "40px" }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 animate-fade-in-up" style={{ animationDelay: "100ms", gap: "16px" }}>
         <div className="card animate-fade-in-up" style={{ padding: "20px" }}>
-          <div className="flex items-center justify-center gap-3 sm:gap-4" style={{ marginBottom: "40px" }}>
-            <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center" style={{ background: "var(--accent-primary-light)" }}>
-              <PieIcon size={18} strokeWidth={2} style={{ color: "var(--accent-primary)" }} className="sm:w-5 sm:h-5" />
+          <div className="flex items-center justify-center gap-2.5 mb-6">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center" style={{ background: "var(--accent-primary-light)" }}>
+              <PieIcon size={16} strokeWidth={2} style={{ color: "var(--accent-primary)" }} />
             </div>
-            <h2 className="text-[14px] sm:text-[16px] lg:text-[17px] font-bold text-[var(--text-primary)] tracking-tight">Gastos por Categoria</h2>
+            <h2 className="text-[13px] sm:text-[15px] font-bold text-[var(--text-primary)] tracking-tight">Gastos por Categoria</h2>
           </div>
           {porCategoria.length > 0 ? (
-            <ResponsiveContainer width="100%" height={280}>
+            <ResponsiveContainer width="100%" height={240}>
               <PieChart>
-                <Pie data={porCategoria} cx="50%" cy="50%" innerRadius={50} outerRadius={85} paddingAngle={3} dataKey="valor" nameKey="nome"
+                <Pie data={porCategoria} cx="50%" cy="50%" innerRadius={40} outerRadius={70} paddingAngle={3} dataKey="valor" nameKey="nome"
                   label={({ nome, percent }) => `${nome} (${(percent * 100).toFixed(0)}%)`}>
                   {porCategoria.map((entry, i) => <Cell key={i} fill={entry.cor} />)}
                 </Pie>
@@ -74,59 +74,59 @@ export default function Dashboard() {
               </PieChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex flex-col items-center justify-center py-16 sm:py-20 text-[var(--text-tertiary)]">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-4 sm:mb-5" style={{ background: "var(--bg-inset)" }}>
-                <PieIcon size={24} strokeWidth={1.5} className="opacity-30" />
+            <div className="flex flex-col items-center justify-center py-12 sm:py-16 text-[var(--text-tertiary)]">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center mb-3" style={{ background: "var(--bg-inset)" }}>
+                <PieIcon size={20} strokeWidth={1.5} className="opacity-30" />
               </div>
-              <p className="text-sm font-semibold">Nenhum gasto registrado</p>
+              <p className="text-[13px] font-semibold">Nenhum gasto registrado</p>
             </div>
           )}
         </div>
 
         <div className="card" style={{ padding: "20px" }}>
-          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-10 lg:mb-12">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center" style={{ background: "rgba(124,92,252,0.1)" }}>
-              <BarChart3 size={18} strokeWidth={2} style={{ color: "#7c5cfc" }} className="sm:w-5 sm:h-5" />
+          <div className="flex items-center justify-center gap-2.5 mb-6">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(124,92,252,0.1)" }}>
+              <BarChart3 size={16} strokeWidth={2} style={{ color: "#7c5cfc" }} />
             </div>
-            <h2 className="text-[14px] sm:text-[16px] lg:text-[17px] font-bold text-[var(--text-primary)] tracking-tight">Gastos por Periodicidade</h2>
+            <h2 className="text-[13px] sm:text-[15px] font-bold text-[var(--text-primary)] tracking-tight">Gastos por Periodicidade</h2>
           </div>
           {gastos.length > 0 ? (
-            <ResponsiveContainer width="100%" height={280}>
+            <ResponsiveContainer width="100%" height={240}>
               <BarChart data={barData}>
-                <XAxis dataKey="name" stroke={textColor} fontSize={12} tickLine={false} axisLine={false} fontWeight={600} />
-                <YAxis stroke={textColor} fontSize={11} tickLine={false} axisLine={false} />
+                <XAxis dataKey="name" stroke={textColor} fontSize={11} tickLine={false} axisLine={false} fontWeight={600} />
+                <YAxis stroke={textColor} fontSize={10} tickLine={false} axisLine={false} />
                 <Tooltip formatter={(v: number) => fmt(v)}
                   contentStyle={{ background: "var(--bg-surface)", border: "1px solid var(--border-subtle)", borderRadius: "14px", color: "var(--text-primary)", boxShadow: "var(--shadow-xl)", padding: "10px 14px" }} />
-                <Bar dataKey="valor" radius={[10, 10, 0, 0]} barSize={40}>
+                <Bar dataKey="valor" radius={[10, 10, 0, 0]} barSize={36}>
                   {barData.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex flex-col items-center justify-center py-16 sm:py-20 text-[var(--text-tertiary)]">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-4 sm:mb-5" style={{ background: "var(--bg-inset)" }}>
-                <BarChart3 size={24} strokeWidth={1.5} className="opacity-30" />
+            <div className="flex flex-col items-center justify-center py-12 sm:py-16 text-[var(--text-tertiary)]">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center mb-3" style={{ background: "var(--bg-inset)" }}>
+                <BarChart3 size={20} strokeWidth={1.5} className="opacity-30" />
               </div>
-              <p className="text-sm font-semibold">Nenhum gasto registrado</p>
+              <p className="text-[13px] font-semibold">Nenhum gasto registrado</p>
             </div>
           )}
         </div>
       </div>
 
       <div className="card animate-fade-in-up" style={{ padding: "20px", animationDelay: "150ms" }}>
-        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-10 lg:mb-12">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center" style={{ background: "var(--warning-light)" }}>
-            <FileText size={18} strokeWidth={2} style={{ color: "var(--warning)" }} className="sm:w-5 sm:h-5" />
+        <div className="flex items-center justify-center gap-2.5 mb-6">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center" style={{ background: "var(--warning-light)" }}>
+            <FileText size={16} strokeWidth={2} style={{ color: "var(--warning)" }} />
           </div>
-          <h2 className="text-[15px] sm:text-[16px] lg:text-[17px] font-bold text-[var(--text-primary)] tracking-tight">Ultimos Registros</h2>
+          <h2 className="text-[13px] sm:text-[15px] font-bold text-[var(--text-primary)] tracking-tight">Ultimos Registros</h2>
         </div>
         {gastos.length > 0 ? (
-          <div className="overflow-x-auto -mx-5 sm:-mx-8 lg:-mx-10">
-            <table className="w-full text-sm min-w-[480px]">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm min-w-[400px]">
               <thead>
                 <tr style={{ borderBottom: "1px solid var(--border-subtle)" }}>
                   {["Descricao", "Categoria", "Periodo", "Valor"].map((h) => (
-                    <th key={h} className={`py-3 px-3 sm:py-4 sm:px-5 lg:py-5 lg:px-6 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)] ${h === "Valor" ? "text-right" : "text-left"}`}>{h}</th>
+                    <th key={h} className={`py-2.5 px-3 sm:py-3 sm:px-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)] ${h === "Valor" ? "text-right" : "text-left"}`}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -135,22 +135,22 @@ export default function Dashboard() {
                   const cat = categorias.find((c) => c.id === g.categoria_id);
                   return (
                     <tr key={g.id} className="table-row" style={{ borderBottom: "1px solid var(--border-subtle)" }}>
-                      <td className="py-4 px-3 sm:py-5 sm:px-5 lg:py-6 lg:px-6 font-bold text-[var(--text-primary)]">{g.descricao}</td>
-                      <td className="py-4 px-3 sm:py-5 sm:px-5 lg:py-6 lg:px-6">
-                        <span className="flex items-center gap-2 sm:gap-2.5">
-                          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full flex-shrink-0" style={{ background: cat?.cor }} />
-                          <span className="text-[var(--text-secondary)] font-medium text-xs sm:text-sm">{cat?.nome || "—"}</span>
+                      <td className="py-3 px-3 sm:py-3.5 sm:px-4 font-bold text-[12px] sm:text-[13px] text-[var(--text-primary)]">{g.descricao}</td>
+                      <td className="py-3 px-3 sm:py-3.5 sm:px-4">
+                        <span className="flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: cat?.cor }} />
+                          <span className="text-[var(--text-secondary)] font-medium text-[11px] sm:text-[12px]">{cat?.nome || "—"}</span>
                         </span>
                       </td>
-                      <td className="py-4 px-3 sm:py-5 sm:px-5 lg:py-6 lg:px-6">
-                        <span className="badge text-[10px] sm:text-xs" style={{
+                      <td className="py-3 px-3 sm:py-3.5 sm:px-4">
+                        <span className="badge text-[9px] sm:text-[10px]" style={{
                           background: g.periodicidade === "semanal" ? "var(--accent-primary-light)" : g.periodicidade === "mensal" ? "rgba(124,92,252,0.1)" : "var(--warning-light)",
                           color: g.periodicidade === "semanal" ? "var(--accent-primary)" : g.periodicidade === "mensal" ? "#7c5cfc" : "var(--warning)",
                         }}>
                           {g.periodicidade}
                         </span>
                       </td>
-                      <td className="py-4 px-3 sm:py-5 sm:px-5 lg:py-6 lg:px-6 text-right font-extrabold text-[13px] sm:text-[14px] lg:text-[15px]" style={{ color: "var(--danger)" }}>{fmt(g.valor)}</td>
+                      <td className="py-3 px-3 sm:py-3.5 sm:px-4 text-right font-extrabold text-[12px] sm:text-[13px]" style={{ color: "var(--danger)" }}>{fmt(g.valor)}</td>
                     </tr>
                   );
                 })}
@@ -158,11 +158,11 @@ export default function Dashboard() {
             </table>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-16 sm:py-20 text-[var(--text-tertiary)]">
-            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-4 sm:mb-5" style={{ background: "var(--bg-inset)" }}>
-              <FileText size={24} strokeWidth={1.5} className="opacity-30" />
+          <div className="flex flex-col items-center justify-center py-12 sm:py-16 text-[var(--text-tertiary)]">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center mb-3" style={{ background: "var(--bg-inset)" }}>
+              <FileText size={20} strokeWidth={1.5} className="opacity-30" />
             </div>
-            <p className="text-sm font-semibold">Nenhum registro ainda</p>
+            <p className="text-[13px] font-semibold">Nenhum registro ainda</p>
           </div>
         )}
       </div>

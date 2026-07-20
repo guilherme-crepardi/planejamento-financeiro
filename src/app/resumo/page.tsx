@@ -108,19 +108,13 @@ export default function ResumoPage() {
   if (gastos.length === 0 && renda.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] sm:min-h-[60vh] gap-4 p-4 sm:p-8">
-        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center" style={{ background: "var(--bg-surface)", border: "1px solid var(--border-subtle)" }}>
-          <Activity size={24} className="sm:w-7 sm:h-7" style={{ color: "var(--text-secondary)" }} />
+        <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-2xl flex items-center justify-center" style={{ background: "var(--bg-surface)", border: "1px solid var(--border-subtle)" }}>
+          <Activity size={22} style={{ color: "var(--text-secondary)" }} />
         </div>
-        <h1
-          className="text-[22px] sm:text-[26px] font-bold tracking-tight text-center"
-          style={{ color: "var(--text-primary)" }}
-        >
+        <h1 className="text-[20px] sm:text-[24px] font-bold tracking-tight text-center" style={{ color: "var(--text-primary)" }}>
           Nenhum dado encontrado
         </h1>
-        <p
-          className="text-center max-w-md text-xs sm:text-sm"
-          style={{ color: "var(--text-secondary)" }}
-        >
+        <p className="text-center max-w-md text-[12px] sm:text-[14px]" style={{ color: "var(--text-secondary)" }}>
           Adicione suas receitas e despesas para visualizar o resumo financeiro completo.
         </p>
       </div>
@@ -128,100 +122,68 @@ export default function ResumoPage() {
   }
 
   return (
-    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
-      <h1
-        className="text-[24px] sm:text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight animate-fade-in-up"
-      >
+    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+      <h1 className="text-[22px] sm:text-[26px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight animate-fade-in-up">
         Resumo Financeiro
       </h1>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: "40px" }}>
-        <div
-          className="card animate-fade-in-up"
-          style={{ border: "2px solid var(--success)", padding: "20px" }}
-        >
-          <div className="flex items-center gap-3" style={{ marginBottom: "20px" }}>
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-green-500/10">
-              <TrendingUp size={18} className="text-green-500" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: "16px" }}>
+        <div className="card animate-fade-in-up" style={{ border: "2px solid var(--success)", padding: "20px" }}>
+          <div className="flex items-center gap-2.5" style={{ marginBottom: "16px" }}>
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-green-500/10">
+              <TrendingUp size={16} className="text-green-500" />
             </div>
-            <p className="text-sm sm:text-base font-bold text-[var(--text-primary)] tracking-tight uppercase">
+            <p className="text-[12px] sm:text-[14px] font-bold text-[var(--text-primary)] tracking-tight uppercase">
               Renda Total
             </p>
           </div>
-          <p className="text-2xl sm:text-3xl font-bold text-green-500">
+          <p className="text-[18px] sm:text-[22px] lg:text-[28px] font-bold text-green-500">
             {currency(totalR)}
           </p>
         </div>
-        <div
-          className="card animate-fade-in-up"
-          style={{ border: "2px solid var(--danger)", padding: "20px" }}
-        >
-          <div className="flex items-center gap-3" style={{ marginBottom: "20px" }}>
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-red-500/10">
-              <TrendingDown size={18} className="text-red-500" />
+        <div className="card animate-fade-in-up" style={{ border: "2px solid var(--danger)", padding: "20px" }}>
+          <div className="flex items-center gap-2.5" style={{ marginBottom: "16px" }}>
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-red-500/10">
+              <TrendingDown size={16} className="text-red-500" />
             </div>
-            <p className="text-sm sm:text-base font-bold text-[var(--text-primary)] tracking-tight uppercase">
+            <p className="text-[12px] sm:text-[14px] font-bold text-[var(--text-primary)] tracking-tight uppercase">
               Gastos Totais
             </p>
           </div>
-          <p className="text-2xl sm:text-3xl font-bold text-red-500">
+          <p className="text-[18px] sm:text-[22px] lg:text-[28px] font-bold text-red-500">
             {currency(totalG)}
           </p>
         </div>
-        <div
-          className="card animate-fade-in-up sm:col-span-2 lg:col-span-1"
-          style={{ border: `2px solid ${saldoFinal >= 0 ? "var(--success)" : "var(--danger)"}`, padding: "20px" }}
-        >
-          <div className="flex items-center gap-3" style={{ marginBottom: "20px" }}>
-            <div
-              className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center"
-              style={{ background: saldoFinal >= 0 ? "rgba(34,197,94,0.1)" : "rgba(239,68,68,0.1)" }}
-            >
-              <Wallet
-                size={18}
-                style={{ color: saldoFinal >= 0 ? "var(--success)" : "var(--danger)" }}
-              />
+        <div className="card animate-fade-in-up sm:col-span-2 lg:col-span-1" style={{ border: `2px solid ${saldoFinal >= 0 ? "var(--success)" : "var(--danger)"}`, padding: "20px" }}>
+          <div className="flex items-center gap-2.5" style={{ marginBottom: "16px" }}>
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center" style={{ background: saldoFinal >= 0 ? "rgba(34,197,94,0.1)" : "rgba(239,68,68,0.1)" }}>
+              <Wallet size={16} style={{ color: saldoFinal >= 0 ? "var(--success)" : "var(--danger)" }} />
             </div>
-            <p className="text-sm sm:text-base font-bold text-[var(--text-primary)] tracking-tight uppercase">
+            <p className="text-[12px] sm:text-[14px] font-bold text-[var(--text-primary)] tracking-tight uppercase">
               Saldo Final
             </p>
           </div>
-          <p
-            className="text-2xl sm:text-3xl font-bold"
-            style={{ color: saldoFinal >= 0 ? "var(--success)" : "var(--danger)" }}
-          >
+          <p className="text-[18px] sm:text-[22px] lg:text-[28px] font-bold" style={{ color: saldoFinal >= 0 ? "var(--success)" : "var(--danger)" }}>
             {currency(saldoFinal)}
           </p>
         </div>
       </div>
 
       {/* Comparativo Renda vs Gastos */}
-      <section
-        className="card animate-fade-in-up"
-        style={{ padding: "20px" }}
-      >
-        <div className="flex items-center gap-3" style={{ marginBottom: "20px" }}>
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-blue-500/10">
-            <PieChart size={18} className="text-blue-500" />
+      <section className="card animate-fade-in-up" style={{ padding: "20px" }}>
+        <div className="flex items-center gap-2.5" style={{ marginBottom: "16px" }}>
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-blue-500/10">
+            <PieChart size={16} className="text-blue-500" />
           </div>
-          <h2 className="text-sm sm:text-base font-bold text-[var(--text-primary)] tracking-tight">
+          <h2 className="text-[13px] sm:text-[15px] font-bold text-[var(--text-primary)] tracking-tight">
             Comparativo Renda vs Gastos
           </h2>
         </div>
-        <ResponsiveContainer width="100%" height={280}>
+        <ResponsiveContainer width="100%" height={240}>
           <RechartsPie>
-            <Pie
-              data={comparativoData}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              innerRadius={60}
-              outerRadius={100}
-              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-              labelLine
-            >
+            <Pie data={comparativoData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={50} outerRadius={85}
+              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`} labelLine>
               <Cell fill="#10b981" />
               <Cell fill="#ef4444" />
             </Pie>
@@ -232,44 +194,28 @@ export default function ResumoPage() {
       </section>
 
       {/* Gastos por Categoria */}
-      <section
-        className="card animate-fade-in-up"
-        style={{ padding: "20px" }}
-      >
-        <div className="flex items-center gap-3" style={{ marginBottom: "20px" }}>
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-violet-500/10">
-            <BarChart3 size={18} className="text-violet-500" />
+      <section className="card animate-fade-in-up" style={{ padding: "20px" }}>
+        <div className="flex items-center gap-2.5" style={{ marginBottom: "16px" }}>
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-violet-500/10">
+            <BarChart3 size={16} className="text-violet-500" />
           </div>
-          <h2 className="text-sm sm:text-base font-bold text-[var(--text-primary)] tracking-tight">
+          <h2 className="text-[13px] sm:text-[15px] font-bold text-[var(--text-primary)] tracking-tight">
             Gastos por Categoria
           </h2>
         </div>
         {categoriaData.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-10 gap-4">
-            <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: "var(--bg-surface)", border: "1px solid var(--border-subtle)" }}>
-              <PieChart size={24} style={{ color: "var(--text-secondary)" }} />
+          <div className="flex flex-col items-center justify-center py-8 gap-3">
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: "var(--bg-surface)", border: "1px solid var(--border-subtle)" }}>
+              <PieChart size={20} style={{ color: "var(--text-secondary)" }} />
             </div>
-            <p className="text-center text-sm" style={{ color: "var(--text-secondary)" }}>
-              Nenhum gasto registrado.
-            </p>
+            <p className="text-center text-[13px]" style={{ color: "var(--text-secondary)" }}>Nenhum gasto registrado.</p>
           </div>
         ) : (
-          <ResponsiveContainer width="100%" height={280}>
+          <ResponsiveContainer width="100%" height={240}>
             <RechartsPie>
-              <Pie
-                data={categoriaData}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                innerRadius={40}
-                outerRadius={75}
-                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                labelLine
-              >
-                {categoriaData.map((entry, i) => (
-                  <Cell key={i} fill={entry.color} />
-                ))}
+              <Pie data={categoriaData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={35} outerRadius={65}
+                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`} labelLine>
+                {categoriaData.map((entry, i) => <Cell key={i} fill={entry.color} />)}
               </Pie>
               <Tooltip formatter={(v: number) => currency(v)} contentStyle={tooltipStyle} />
               <Legend />
@@ -278,39 +224,32 @@ export default function ResumoPage() {
         )}
       </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: "40px" }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: "16px" }}>
         {/* Gastos por Periodicidade */}
-        <section
-          className="card animate-fade-in-up"
-          style={{ padding: "20px" }}
-        >
-          <div className="flex items-center gap-3" style={{ marginBottom: "20px" }}>
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-amber-500/10">
-              <BarChart3 size={18} className="text-amber-500" />
+        <section className="card animate-fade-in-up" style={{ padding: "20px" }}>
+          <div className="flex items-center gap-2.5" style={{ marginBottom: "16px" }}>
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-amber-500/10">
+              <BarChart3 size={16} className="text-amber-500" />
             </div>
-            <h2 className="text-sm sm:text-base font-bold text-[var(--text-primary)] tracking-tight">
+            <h2 className="text-[13px] sm:text-[15px] font-bold text-[var(--text-primary)] tracking-tight">
               Gastos por Periodicidade
             </h2>
           </div>
           {periodicidadeData.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-10 gap-4">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: "var(--bg-surface)", border: "1px solid var(--border-subtle)" }}>
-                <FileBarChart size={24} style={{ color: "var(--text-secondary)" }} />
+            <div className="flex flex-col items-center justify-center py-8 gap-3">
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: "var(--bg-surface)", border: "1px solid var(--border-subtle)" }}>
+                <FileBarChart size={20} style={{ color: "var(--text-secondary)" }} />
               </div>
-              <p className="text-center text-sm" style={{ color: "var(--text-secondary)" }}>
-                Sem dados de periodicidade.
-              </p>
+              <p className="text-center text-[13px]" style={{ color: "var(--text-secondary)" }}>Sem dados de periodicidade.</p>
             </div>
           ) : (
-            <ResponsiveContainer width="100%" height={240}>
+            <ResponsiveContainer width="100%" height={200}>
               <BarChart data={periodicidadeData}>
                 <XAxis dataKey="name" tick={{ fill: textColor, fontSize: 11 }} />
-                <YAxis tick={{ fill: textColor, fontSize: 11 }} tickFormatter={(v: number) => `R$${(v / 1000).toFixed(0)}k`} />
+                <YAxis tick={{ fill: textColor, fontSize: 10 }} tickFormatter={(v: number) => `R$${(v / 1000).toFixed(0)}k`} />
                 <Tooltip formatter={(v: number) => currency(v)} contentStyle={tooltipStyle} />
                 <Bar dataKey="value" radius={[8, 8, 0, 0]}>
-                  {periodicidadeData.map((entry, i) => (
-                    <Cell key={i} fill={entry.fill} />
-                  ))}
+                  {periodicidadeData.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
@@ -318,78 +257,55 @@ export default function ResumoPage() {
         </section>
 
         {/* Resumo Mensal Estimado */}
-        <section
-          className="card animate-fade-in-up"
-          style={{ padding: "20px" }}
-        >
-          <div className="flex items-center gap-3" style={{ marginBottom: "20px" }}>
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-cyan-500/10">
-              <Calculator size={18} className="text-cyan-500" />
+        <section className="card animate-fade-in-up" style={{ padding: "20px" }}>
+          <div className="flex items-center gap-2.5" style={{ marginBottom: "16px" }}>
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-cyan-500/10">
+              <Calculator size={16} className="text-cyan-500" />
             </div>
-            <h2 className="text-sm sm:text-base font-bold text-[var(--text-primary)] tracking-tight">
+            <h2 className="text-[13px] sm:text-[15px] font-bold text-[var(--text-primary)] tracking-tight">
               Resumo Mensal Estimado
             </h2>
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
             <div className="flex items-center justify-between">
-              <span className="font-medium text-sm" style={{ color: "var(--text-secondary)" }}>
-                Renda Mensal (media)
-              </span>
-              <span className="font-bold text-base text-green-500">
-                {currency(monthlyRenda)}
-              </span>
+              <span className="font-medium text-[12px] sm:text-[13px]" style={{ color: "var(--text-secondary)" }}>Renda Mensal (media)</span>
+              <span className="font-bold text-[13px] sm:text-[14px] text-green-500">{currency(monthlyRenda)}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="font-medium text-sm" style={{ color: "var(--text-secondary)" }}>
-                Gastos Mensais (media)
-              </span>
-              <span className="font-bold text-base text-red-500">
-                {currency(monthlyGastos)}
-              </span>
+              <span className="font-medium text-[12px] sm:text-[13px]" style={{ color: "var(--text-secondary)" }}>Gastos Mensais (media)</span>
+              <span className="font-bold text-[13px] sm:text-[14px] text-red-500">{currency(monthlyGastos)}</span>
             </div>
             <div className="h-px w-full" style={{ background: "var(--border-subtle)" }} />
             <div className="flex items-center justify-between">
-              <span className="font-medium text-sm" style={{ color: "var(--text-secondary)" }}>
-                Saldo Mensal (estimado)
-              </span>
-              <span
-                className="font-bold text-base"
-                style={{ color: monthlySaldo >= 0 ? "var(--success)" : "var(--danger)" }}
-              >
-                {currency(monthlySaldo)}
-              </span>
+              <span className="font-medium text-[12px] sm:text-[13px]" style={{ color: "var(--text-secondary)" }}>Saldo Mensal (estimado)</span>
+              <span className="font-bold text-[13px] sm:text-[14px]" style={{ color: monthlySaldo >= 0 ? "var(--success)" : "var(--danger)" }}>{currency(monthlySaldo)}</span>
             </div>
           </div>
         </section>
       </div>
 
       {/* Evolucao Mensal */}
-      <section
-        className="card animate-fade-in-up"
-        style={{ padding: "20px" }}
-      >
-        <div className="flex items-center gap-3" style={{ marginBottom: "20px" }}>
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-indigo-500/10">
-            <LineChart size={18} className="text-indigo-500" />
+      <section className="card animate-fade-in-up" style={{ padding: "20px" }}>
+        <div className="flex items-center gap-2.5" style={{ marginBottom: "16px" }}>
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-indigo-500/10">
+            <LineChart size={16} className="text-indigo-500" />
           </div>
-          <h2 className="text-sm sm:text-base font-bold text-[var(--text-primary)] tracking-tight">
+          <h2 className="text-[13px] sm:text-[15px] font-bold text-[var(--text-primary)] tracking-tight">
             Evolucao Mensal
           </h2>
         </div>
         {evolucaoData.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-10 gap-4">
-            <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: "var(--bg-surface)", border: "1px solid var(--border-subtle)" }}>
-              <LineChart size={24} style={{ color: "var(--text-secondary)" }} />
+          <div className="flex flex-col items-center justify-center py-8 gap-3">
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: "var(--bg-surface)", border: "1px solid var(--border-subtle)" }}>
+              <LineChart size={20} style={{ color: "var(--text-secondary)" }} />
             </div>
-            <p className="text-center text-sm" style={{ color: "var(--text-secondary)" }}>
-              Adicione dados de renda e gastos para ver a evolucao.
-            </p>
+            <p className="text-center text-[13px]" style={{ color: "var(--text-secondary)" }}>Adicione dados de renda e gastos para ver a evolucao.</p>
           </div>
         ) : (
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={240}>
             <RechartsLine data={evolucaoData}>
-              <XAxis dataKey="mes" tick={{ fill: textColor, fontSize: 11 }} />
-              <YAxis tick={{ fill: textColor, fontSize: 11 }} tickFormatter={(v: number) => `R$${(v / 1000).toFixed(0)}k`} />
+              <XAxis dataKey="mes" tick={{ fill: textColor, fontSize: 10 }} />
+              <YAxis tick={{ fill: textColor, fontSize: 10 }} tickFormatter={(v: number) => `R$${(v / 1000).toFixed(0)}k`} />
               <Tooltip formatter={(v: number) => currency(v)} contentStyle={tooltipStyle} />
               <Legend />
               <Line type="monotone" dataKey="renda" stroke="#10b981" strokeWidth={2} dot={false} name="Renda" />
@@ -401,54 +317,35 @@ export default function ResumoPage() {
       </section>
 
       {/* Detalhamento por Categoria */}
-      <section
-        className="card animate-fade-in-up"
-        style={{ padding: "20px" }}
-      >
-        <div className="flex items-center gap-3" style={{ marginBottom: "20px" }}>
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-pink-500/10">
-            <ListOrdered size={18} className="text-pink-500" />
+      <section className="card animate-fade-in-up" style={{ padding: "20px" }}>
+        <div className="flex items-center gap-2.5" style={{ marginBottom: "16px" }}>
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-pink-500/10">
+            <ListOrdered size={16} className="text-pink-500" />
           </div>
-          <h2 className="text-sm sm:text-base font-bold text-[var(--text-primary)] tracking-tight">
+          <h2 className="text-[13px] sm:text-[15px] font-bold text-[var(--text-primary)] tracking-tight">
             Detalhamento por Categoria
           </h2>
         </div>
         {porCategoria.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-10 gap-4">
-            <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: "var(--bg-surface)", border: "1px solid var(--border-subtle)" }}>
-              <ListOrdered size={24} style={{ color: "var(--text-secondary)" }} />
+          <div className="flex flex-col items-center justify-center py-8 gap-3">
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: "var(--bg-surface)", border: "1px solid var(--border-subtle)" }}>
+              <ListOrdered size={20} style={{ color: "var(--text-secondary)" }} />
             </div>
-            <p className="text-center text-sm" style={{ color: "var(--text-secondary)" }}>
-              Nenhum gasto por categoria para exibir.
-            </p>
+            <p className="text-center text-[13px]" style={{ color: "var(--text-secondary)" }}>Nenhum gasto por categoria para exibir.</p>
           </div>
         ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             {porCategoria.map((cat, i) => (
-              <div key={i} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                <div className="flex items-center justify-between text-sm">
+              <div key={i} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <div className="flex items-center justify-between text-[12px] sm:text-[13px]">
                   <span className="font-medium flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
-                    <span
-                      className="inline-block w-3 h-3 rounded-full"
-                      style={{ background: cat.cor }}
-                    />
+                    <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ background: cat.cor }} />
                     {cat.nome}
                   </span>
-                  <span className="text-sm" style={{ color: "var(--text-secondary)" }}>
-                    {currency(cat.valor)}
-                  </span>
+                  <span style={{ color: "var(--text-secondary)" }}>{currency(cat.valor)}</span>
                 </div>
-                <div
-                  className="h-2 rounded-full overflow-hidden"
-                  style={{ background: "var(--border-subtle)" }}
-                >
-                  <div
-                    className="h-full rounded-full transition-all duration-500"
-                    style={{
-                      width: `${(cat.valor / maxCategoria) * 100}%`,
-                      background: cat.cor,
-                    }}
-                  />
+                <div className="h-2 rounded-full overflow-hidden" style={{ background: "var(--border-subtle)" }}>
+                  <div className="h-full rounded-full transition-all duration-500" style={{ width: `${(cat.valor / maxCategoria) * 100}%`, background: cat.cor }} />
                 </div>
               </div>
             ))}

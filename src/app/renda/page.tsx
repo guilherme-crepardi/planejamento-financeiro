@@ -137,7 +137,7 @@ export default function RendaPage() {
   }
 
   return (
-    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
+    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 animate-fade-in-up">
         <div>
           <h1 className="text-[24px] sm:text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">
@@ -153,7 +153,7 @@ export default function RendaPage() {
         </button>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 animate-fade-in-up" style={{ gap: "40px", animationDelay: "80ms" }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 animate-fade-in-up" style={{ gap: "16px", animationDelay: "80ms" }}>
         <div className="card text-center" style={{ padding: "20px" }}>
           <div className="flex items-center justify-center gap-2 mb-4">
             <Briefcase size={18} className="text-[var(--text-muted)]" />
@@ -205,22 +205,22 @@ export default function RendaPage() {
       ) : (
         <div className="card overflow-hidden animate-fade-in-up" style={{ padding: "20px" }}>
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[520px]">
+            <table className="w-full min-w-[480px]">
               <thead>
                 <tr className="border-b border-[var(--border-color)]">
-                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-5 py-5 text-[var(--text-muted)]">
+                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 sm:px-5 py-3 sm:py-4 text-[var(--text-muted)]">
                     Tipo
                   </th>
-                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-5 py-5 text-[var(--text-muted)]">
+                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 sm:px-5 py-3 sm:py-4 text-[var(--text-muted)]">
                     Descricao
                   </th>
-                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-5 py-5 text-[var(--text-muted)]">
+                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 sm:px-5 py-3 sm:py-4 text-[var(--text-muted)]">
                     Valor
                   </th>
-                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-5 py-5 text-[var(--text-muted)]">
+                  <th className="text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 sm:px-5 py-3 sm:py-4 text-[var(--text-muted)]">
                     Data
                   </th>
-                  <th className="text-right text-[10px] sm:text-xs font-bold uppercase tracking-wider px-5 py-5 text-[var(--text-muted)]">
+                  <th className="text-right text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 sm:px-5 py-3 sm:py-4 text-[var(--text-muted)]">
                     Acoes
                   </th>
                 </tr>
@@ -234,7 +234,7 @@ export default function RendaPage() {
                       className="table-row"
                       style={{ borderBottom: "1px solid var(--border-subtle)" }}
                     >
-                      <td className="px-5 py-6">
+                      <td className="px-3 py-3 sm:px-5 sm:py-4">
                         <span
                           className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full"
                           style={{ backgroundColor: cor.bg, color: cor.color }}
@@ -243,30 +243,30 @@ export default function RendaPage() {
                           {tipoLabel(item.tipo)}
                         </span>
                       </td>
-                      <td className="px-5 py-6 text-[var(--text-primary)] text-sm font-semibold">
+                      <td className="px-3 py-3 sm:px-5 sm:py-4 text-[var(--text-primary)] text-sm font-semibold">
                         {item.descricao}
                       </td>
-                      <td className="px-5 py-6 text-[var(--success)] font-bold text-base">
+                      <td className="px-3 py-3 sm:px-5 sm:py-4 text-[var(--success)] font-bold text-sm sm:text-base">
                         {formatCurrency(item.valor)}
                       </td>
-                      <td className="px-5 py-6 text-[var(--text-secondary)] text-sm">
+                      <td className="px-3 py-3 sm:px-5 sm:py-4 text-[var(--text-secondary)] text-xs sm:text-sm">
                         {formatDate(item.data)}
                       </td>
-                      <td className="px-5 py-6">
+                      <td className="px-3 py-3 sm:px-5 sm:py-4">
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => openEdit(item.id)}
-                            className="p-2.5 rounded-xl hover:bg-[var(--bg-tertiary)] transition-colors text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                            className="p-2 rounded-xl hover:bg-[var(--bg-tertiary)] transition-colors text-[var(--text-muted)] hover:text-[var(--text-primary)]"
                             title="Editar"
                           >
-                            <Pencil size={18} />
+                            <Pencil size={16} />
                           </button>
                           <button
                             onClick={() => setConfirmDeleteId(item.id)}
-                            className="p-2.5 rounded-xl hover:bg-[var(--danger-light)] transition-colors text-[var(--text-muted)] hover:text-[var(--danger)]"
+                            className="p-2 rounded-xl hover:bg-[var(--danger-light)] transition-colors text-[var(--text-muted)] hover:text-[var(--danger)]"
                             title="Excluir"
                           >
-                            <Trash2 size={18} />
+                            <Trash2 size={16} />
                           </button>
                         </div>
                       </td>
@@ -280,12 +280,12 @@ export default function RendaPage() {
       )}
 
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editingId ? "Editar Renda" : "Adicionar Renda"}>
-        <div style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
           <div>
             <label className="block text-sm font-medium text-[var(--text-secondary)] mb-3">
               Tipo
             </label>
-            <div className="grid grid-cols-3" style={{ gap: "40px" }}>
+            <div className="grid grid-cols-3" style={{ gap: "16px" }}>
               {(["salario1", "salario2", "extra"] as RendaTipo[]).map(
                 (tipo) => (
                   <button
@@ -345,10 +345,10 @@ export default function RendaPage() {
             />
           </div>
 
-          <div className="flex justify-end" style={{ gap: "40px" }}>
+          <div className="flex justify-end" style={{ gap: "16px" }}>
             <button
               onClick={() => setModalOpen(false)}
-              className="px-5 py-2.5 rounded-xl text-sm font-medium text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] transition-all flex items-center gap-2"
+              className="px-4 py-2.5 rounded-xl text-sm font-medium text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] transition-all flex items-center gap-2"
             >
               <X size={14} />
               Cancelar
@@ -378,14 +378,14 @@ export default function RendaPage() {
         onClose={() => setConfirmDeleteId(null)}
         title="Confirmar Exclusao"
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
           <div className="flex items-start gap-4">
             <AlertTriangle size={20} className="text-[var(--danger)] mt-0.5 shrink-0" />
             <p className="text-sm text-[var(--text-secondary)]">
               Tem certeza que deseja excluir esta renda? Esta acao nao pode ser desfeita.
             </p>
           </div>
-          <div className="flex justify-end" style={{ gap: "40px" }}>
+          <div className="flex justify-end" style={{ gap: "16px" }}>
             <button
               onClick={() => setConfirmDeleteId(null)}
               className="px-5 py-2.5 rounded-xl text-sm font-medium text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] transition-all flex items-center gap-2"
