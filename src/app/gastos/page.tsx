@@ -14,6 +14,7 @@ import {
   Tag,
   Clock,
   FileText,
+  Filter,
 } from "lucide-react";
 
 type GastoFormData = {
@@ -124,36 +125,35 @@ export default function GastosPage() {
     new Date(dateStr + "T00:00:00").toLocaleDateString("pt-BR");
 
   return (
-    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-10 lg:space-y-14 animate-fade-in-up">
+    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", flexDirection: "column", gap: "25px" }}>
       <div
-        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
-        style={{ animationDelay: "0ms" }}
+        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 animate-fade-in-up"
       >
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[var(--danger)]/10 flex items-center justify-center">
-              <Receipt size={22} className="text-[var(--danger)]" />
-            </div>
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-red-500/10 flex items-center justify-center">
+            <Receipt size={22} className="text-red-500" />
+          </div>
+          <div>
             <h1 className="text-[24px] sm:text-[28px] md:text-[32px] font-extrabold text-[var(--text-primary)] tracking-tight">
               Gastos
             </h1>
+            <p className="text-[var(--text-tertiary)] text-xs sm:text-sm font-medium">
+              Gerencie seus gastos e despesas
+            </p>
           </div>
-          <p className="text-[var(--text-tertiary)] text-xs sm:text-sm mt-1 ml-[52px]">
-            Gerencie seus gastos e despesas
-          </p>
         </div>
         <button
           onClick={openAddModal}
-          className="btn-primary self-start sm:self-auto px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2"
+          className="btn-primary self-start sm:self-auto flex items-center gap-2 text-xs sm:text-sm px-4 py-2.5 rounded-xl font-semibold"
         >
-          <Plus size={16} className="sm:w-[18px] sm:h-[18px]" />
+          <Plus size={16} />
           Novo Gasto
         </button>
       </div>
 
       <div
         className="card animate-fade-in-up"
-        style={{ padding: "20px", animationDelay: "60ms" }}
+        style={{ padding: "25px", animationDelay: "60ms" }}
       >
         <div className="flex items-center justify-between">
           <div>
@@ -174,13 +174,13 @@ export default function GastosPage() {
       </div>
 
       <div
-        className="flex flex-wrap items-center gap-3 animate-fade-in-up"
-        style={{ animationDelay: "120ms" }}
+        className="card animate-fade-in-up"
+        style={{ padding: "25px", animationDelay: "100ms" }}
       >
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)]">
-          <Tag size={14} className="text-[var(--text-tertiary)]" />
+        <div className="flex items-center gap-2.5 mb-4">
+          <Filter size={14} className="text-[var(--text-tertiary)]" />
           <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-            Filtro
+            Filtrar por periodicidade
           </span>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -193,7 +193,7 @@ export default function GastosPage() {
             <button
               key={f.key}
               onClick={() => setFiltro(f.key)}
-              className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 flex items-center gap-1.5 sm:gap-2 ${
+              className={`px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
                 filtro === f.key
                   ? "text-white"
                   : "bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] border border-[var(--border-color)]"
@@ -217,44 +217,42 @@ export default function GastosPage() {
       {gastosFiltrados.length === 0 ? (
         <div
           className="card flex flex-col items-center justify-center animate-fade-in-up"
-          style={{ padding: "20px", animationDelay: "180ms" }}
+          style={{ padding: "60px 25px", animationDelay: "140ms" }}
         >
           <div
-            className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-3"
+            className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
             style={{ background: "var(--bg-inset)" }}
           >
-            <Receipt size={24} className="text-[var(--text-tertiary)]" />
+            <Receipt size={28} className="text-[var(--text-tertiary)] opacity-40" />
           </div>
-          <p className="text-[var(--text-primary)] font-semibold text-sm sm:text-base">Nenhum gasto encontrado</p>
-          <p className="text-xs sm:text-sm text-[var(--text-tertiary)] mt-1">Adicione um novo gasto para comecar</p>
+          <p className="text-[var(--text-primary)] font-bold text-sm sm:text-base">Nenhum gasto encontrado</p>
+          <p className="text-xs sm:text-sm text-[var(--text-tertiary)] mt-1.5">Adicione um novo gasto para comecar</p>
         </div>
       ) : (
         <div
           className="card overflow-hidden animate-fade-in-up"
-          style={{ padding: "20px", animationDelay: "180ms" }}
+          style={{ padding: "25px", animationDelay: "140ms" }}
         >
           <div className="overflow-x-auto">
             <table className="w-full min-w-[580px]">
               <thead>
                 <tr>
-                  <th className="text-left px-3 sm:px-5 lg:px-6 py-3 sm:py-3.5 lg:py-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-                    Data
-                  </th>
-                  <th className="text-left px-3 sm:px-5 lg:px-6 py-3 sm:py-3.5 lg:py-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-                    Descricao
-                  </th>
-                  <th className="text-left px-3 sm:px-5 lg:px-6 py-3 sm:py-3.5 lg:py-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-                    Categoria
-                  </th>
-                  <th className="text-left px-3 sm:px-5 lg:px-6 py-3 sm:py-3.5 lg:py-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-                    Periodicidade
-                  </th>
-                  <th className="text-right px-3 sm:px-5 lg:px-6 py-3 sm:py-3.5 lg:py-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-                    Valor
-                  </th>
-                  <th className="text-right px-3 sm:px-5 lg:px-6 py-3 sm:py-3.5 lg:py-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-                    Acoes
-                  </th>
+                  {[
+                    { label: "Data", align: "text-left" },
+                    { label: "Descricao", align: "text-left" },
+                    { label: "Categoria", align: "text-left" },
+                    { label: "Periodicidade", align: "text-left" },
+                    { label: "Valor", align: "text-right" },
+                    { label: "Acoes", align: "text-right" },
+                  ].map((h) => (
+                    <th
+                      key={h.label}
+                      className={`${h.align} px-4 sm:px-5 lg:px-6 py-3 sm:py-3.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--text-tertiary)]`}
+                      style={{ borderBottom: "2px solid var(--border-subtle)" }}
+                    >
+                      {h.label}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
@@ -264,36 +262,36 @@ export default function GastosPage() {
                     <tr
                       key={gasto.id}
                       className="table-row"
-                      style={{ animationDelay: `${200 + index * 40}ms` }}
+                      style={{ animationDelay: `${160 + index * 40}ms` }}
                     >
-                      <td className="px-3 sm:px-5 lg:px-6 py-3 sm:py-4 lg:py-5 text-xs sm:text-sm text-[var(--text-secondary)] whitespace-nowrap">
-                        <span className="flex items-center gap-1.5 sm:gap-2">
-                          <Calendar size={12} className="text-[var(--text-tertiary)] sm:w-3.5 sm:h-3.5" />
+                      <td className="px-4 sm:px-5 lg:px-6 py-3.5 sm:py-4 lg:py-5 text-xs sm:text-sm text-[var(--text-secondary)] whitespace-nowrap">
+                        <span className="flex items-center gap-2">
+                          <Calendar size={13} className="text-[var(--text-tertiary)]" />
                           {formatDate(gasto.data)}
                         </span>
                       </td>
-                      <td className="px-3 sm:px-5 lg:px-6 py-3 sm:py-4 lg:py-5 text-xs sm:text-sm text-[var(--text-primary)] font-medium">
-                        <span className="flex items-center gap-1.5 sm:gap-2">
-                          <FileText size={12} className="text-[var(--text-tertiary)] sm:w-3.5 sm:h-3.5" />
+                      <td className="px-4 sm:px-5 lg:px-6 py-3.5 sm:py-4 lg:py-5 text-xs sm:text-sm text-[var(--text-primary)] font-semibold">
+                        <span className="flex items-center gap-2">
+                          <FileText size={13} className="text-[var(--text-tertiary)]" />
                           {gasto.descricao}
                         </span>
                       </td>
-                      <td className="px-3 sm:px-5 lg:px-6 py-3 sm:py-4 lg:py-5 text-xs sm:text-sm text-[var(--text-secondary)] whitespace-nowrap">
+                      <td className="px-4 sm:px-5 lg:px-6 py-3.5 sm:py-4 lg:py-5 text-xs sm:text-sm text-[var(--text-secondary)] whitespace-nowrap">
                         {cat && (
-                          <span className="inline-flex items-center gap-1.5 sm:gap-2">
+                          <span className="inline-flex items-center gap-2">
                             <span
-                              className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full flex-shrink-0"
+                              className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                               style={{ backgroundColor: cat.cor }}
                             />
                             {cat.icone} {cat.nome}
                           </span>
                         )}
                       </td>
-                      <td className="px-3 sm:px-5 lg:px-6 py-3 sm:py-4 lg:py-5 whitespace-nowrap">
+                      <td className="px-4 sm:px-5 lg:px-6 py-3.5 sm:py-4 lg:py-5 whitespace-nowrap">
                         <span
-                          className="badge inline-flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs"
+                          className="badge inline-flex items-center gap-1.5 text-[10px] sm:text-xs px-3 py-1.5 rounded-full font-semibold"
                           style={{
-                            backgroundColor: `${periodicidadeColors[gasto.periodicidade] || "#666"}20`,
+                            backgroundColor: `${periodicidadeColors[gasto.periodicidade] || "#666"}18`,
                             color: periodicidadeColors[gasto.periodicidade] || "#666",
                           }}
                         >
@@ -301,24 +299,24 @@ export default function GastosPage() {
                           {periodicidadeLabels[gasto.periodicidade]}
                         </span>
                       </td>
-                      <td className="px-3 sm:px-5 lg:px-6 py-3 sm:py-4 lg:py-5 text-xs sm:text-sm text-[var(--danger)] font-semibold text-right whitespace-nowrap">
+                      <td className="px-4 sm:px-5 lg:px-6 py-3.5 sm:py-4 lg:py-5 text-xs sm:text-sm text-[var(--danger)] font-bold text-right whitespace-nowrap">
                         {formatCurrency(gasto.valor)}
                       </td>
-                      <td className="px-3 sm:px-5 lg:px-6 py-3 sm:py-4 lg:py-5 text-right whitespace-nowrap">
-                        <div className="flex items-center justify-end gap-1 sm:gap-1">
+                      <td className="px-4 sm:px-5 lg:px-6 py-3.5 sm:py-4 lg:py-5 text-right whitespace-nowrap">
+                        <div className="flex items-center justify-end gap-1">
                           <button
                             onClick={() => openEditModal(gasto)}
-                            className="text-[var(--text-tertiary)] hover:text-[var(--accent)] transition-colors p-1.5 sm:p-2 rounded-lg hover:bg-[var(--bg-inset)]"
+                            className="text-[var(--text-tertiary)] hover:text-[var(--accent)] transition-colors p-2 rounded-lg hover:bg-[var(--bg-inset)]"
                             title="Editar"
                           >
-                            <Pencil size={16} className="sm:w-[18px] sm:h-[18px]" />
+                            <Pencil size={16} />
                           </button>
                           <button
                             onClick={() => setConfirmDeleteId(gasto.id)}
-                            className="text-[var(--text-tertiary)] hover:text-[var(--danger)] transition-colors p-1.5 sm:p-2 rounded-lg hover:bg-[var(--bg-inset)]"
+                            className="text-[var(--text-tertiary)] hover:text-[var(--danger)] transition-colors p-2 rounded-lg hover:bg-[var(--bg-inset)]"
                             title="Excluir"
                           >
-                            <Trash2 size={16} className="sm:w-[18px] sm:h-[18px]" />
+                            <Trash2 size={16} />
                           </button>
                         </div>
                       </td>
@@ -327,11 +325,11 @@ export default function GastosPage() {
                 })}
               </tbody>
               <tfoot>
-                <tr className="border-t-2 border-[var(--border-color)]">
-                  <td colSpan={4} className="px-3 sm:px-5 lg:px-6 py-3 sm:py-4 text-xs sm:text-sm font-bold text-[var(--text-primary)] text-right uppercase tracking-[0.12em]">
+                <tr style={{ borderTop: "2px solid var(--border-subtle)" }}>
+                  <td colSpan={4} className="px-4 sm:px-5 lg:px-6 py-4 text-xs sm:text-sm font-bold text-[var(--text-primary)] text-right uppercase tracking-[0.12em]">
                     Total
                   </td>
-                  <td className="px-3 sm:px-5 lg:px-6 py-3 sm:py-4 text-xs sm:text-sm font-bold text-[var(--danger)] text-right">
+                  <td className="px-4 sm:px-5 lg:px-6 py-4 text-xs sm:text-sm font-bold text-[var(--danger)] text-right">
                     {formatCurrency(totalFiltrado)}
                   </td>
                   <td />
@@ -347,9 +345,9 @@ export default function GastosPage() {
         onClose={() => setModalOpen(false)}
         title={editingId ? "Editar Gasto" : "Novo Gasto"}
       >
-        <div className="flex flex-col gap-4">
+        <div style={{ display: "flex", flexDirection: "column", gap: "25px" }}>
           <div>
-            <label className="block text-xs sm:text-sm font-medium text-[var(--text-secondary)] mb-2">
+            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2.5">
               Descricao
             </label>
             <input
@@ -362,7 +360,7 @@ export default function GastosPage() {
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm font-medium text-[var(--text-secondary)] mb-2">
+            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2.5">
               Valor (R$)
             </label>
             <input
@@ -377,7 +375,7 @@ export default function GastosPage() {
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm font-medium text-[var(--text-secondary)] mb-2">
+            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2.5">
               Data
             </label>
             <input
@@ -389,7 +387,7 @@ export default function GastosPage() {
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm font-medium text-[var(--text-secondary)] mb-2">
+            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2.5">
               Categoria
             </label>
             <select
@@ -407,16 +405,16 @@ export default function GastosPage() {
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm font-medium text-[var(--text-secondary)] mb-2">
+            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2.5">
               Periodicidade
             </label>
-            <div className="flex gap-2">
+            <div className="flex gap-2.5">
               {(["semanal", "mensal", "anual"] as const).map((p) => (
                 <button
                   key={p}
                   type="button"
                   onClick={() => setForm({ ...form, periodicidade: p })}
-                  className={`flex-1 px-3 py-2.5 sm:px-4 sm:py-3 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 border flex items-center justify-center gap-1.5 sm:gap-2 ${
+                  className={`flex-1 px-3 py-2.5 sm:px-4 sm:py-3 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 border flex items-center justify-center gap-2 ${
                     form.periodicidade === p
                       ? "text-white border-transparent"
                       : "bg-[var(--bg-primary)] text-[var(--text-secondary)] border-[var(--border-color)] hover:bg-[var(--bg-tertiary)]"
@@ -434,7 +432,7 @@ export default function GastosPage() {
             </div>
           </div>
 
-          <div className="flex gap-3 mt-4">
+          <div className="flex gap-3">
             <button
               onClick={() => setModalOpen(false)}
               className="btn-primary flex-1 px-4 py-2.5 sm:px-5"
@@ -466,20 +464,22 @@ export default function GastosPage() {
         onClose={() => setConfirmDeleteId(null)}
         title="Confirmar Exclusao"
       >
-        <div className="flex flex-col items-center text-center gap-4">
+        <div style={{ display: "flex", flexDirection: "column", gap: "25px", alignItems: "center", textAlign: "center" }}>
           <div
-            className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-3"
+            className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center"
             style={{ background: "rgba(239, 68, 68, 0.1)" }}
           >
             <AlertTriangle size={24} className="text-[var(--danger)]" />
           </div>
-          <p className="text-sm sm:text-base text-[var(--text-primary)] font-medium">
-            Tem certeza que deseja excluir este gasto?
-          </p>
-          <p className="text-xs sm:text-sm text-[var(--text-tertiary)]">
-            Esta acao nao pode ser desfeita.
-          </p>
-          <div className="flex gap-3 w-full mt-2">
+          <div>
+            <p className="text-sm sm:text-base text-[var(--text-primary)] font-semibold">
+              Tem certeza que deseja excluir este gasto?
+            </p>
+            <p className="text-xs sm:text-sm text-[var(--text-tertiary)] mt-1.5">
+              Esta acao nao pode ser desfeita.
+            </p>
+          </div>
+          <div className="flex gap-3 w-full">
             <button
               onClick={() => setConfirmDeleteId(null)}
               className="btn-primary flex-1 px-4 py-2.5 sm:px-5"
