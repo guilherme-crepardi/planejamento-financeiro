@@ -231,7 +231,7 @@ export default function GastosPage() {
       ) : (
         <div
           className="card overflow-hidden animate-fade-in-up"
-          style={{ animationDelay: "180ms" }}
+          style={{ padding: "20px", animationDelay: "180ms" }}
         >
           <div className="overflow-x-auto">
             <table className="w-full min-w-[580px]">

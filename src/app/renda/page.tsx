@@ -203,8 +203,8 @@ export default function RendaPage() {
           </p>
         </div>
       ) : (
-        <div className="card overflow-hidden animate-fade-in-up">
-          <div className="overflow-x-auto" style={{ padding: "20px" }}>
+        <div className="card overflow-hidden animate-fade-in-up" style={{ padding: "20px" }}>
+          <div className="overflow-x-auto">
             <table className="w-full min-w-[520px]">
               <thead>
                 <tr className="border-b border-[var(--border-color)]">
