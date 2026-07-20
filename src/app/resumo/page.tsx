@@ -139,9 +139,9 @@ export default function ResumoPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: "40px" }}>
         <div
           className="card animate-fade-in-up"
-          style={{ border: "2px solid var(--success)", padding: "40px" }}
+          style={{ border: "2px solid var(--success)", padding: "20px" }}
         >
-          <div className="flex items-center gap-3" style={{ marginBottom: "40px" }}>
+          <div className="flex items-center gap-3" style={{ marginBottom: "20px" }}>
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-green-500/10">
               <TrendingUp size={18} className="text-green-500" />
             </div>
@@ -155,9 +155,9 @@ export default function ResumoPage() {
         </div>
         <div
           className="card animate-fade-in-up"
-          style={{ border: "2px solid var(--danger)", padding: "40px" }}
+          style={{ border: "2px solid var(--danger)", padding: "20px" }}
         >
-          <div className="flex items-center gap-3" style={{ marginBottom: "40px" }}>
+          <div className="flex items-center gap-3" style={{ marginBottom: "20px" }}>
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-red-500/10">
               <TrendingDown size={18} className="text-red-500" />
             </div>
@@ -171,9 +171,9 @@ export default function ResumoPage() {
         </div>
         <div
           className="card animate-fade-in-up sm:col-span-2 lg:col-span-1"
-          style={{ border: `2px solid ${saldoFinal >= 0 ? "var(--success)" : "var(--danger)"}`, padding: "40px" }}
+          style={{ border: `2px solid ${saldoFinal >= 0 ? "var(--success)" : "var(--danger)"}`, padding: "20px" }}
         >
-          <div className="flex items-center gap-3" style={{ marginBottom: "40px" }}>
+          <div className="flex items-center gap-3" style={{ marginBottom: "20px" }}>
             <div
               className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center"
               style={{ background: saldoFinal >= 0 ? "rgba(34,197,94,0.1)" : "rgba(239,68,68,0.1)" }}
