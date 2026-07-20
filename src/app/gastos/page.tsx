@@ -193,7 +193,7 @@ export default function GastosPage() {
             <button
               key={f.key}
               onClick={() => setFiltro(f.key)}
-              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
+              className={`px-5 py-5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
                 filtro === f.key
                   ? "text-white"
                   : "bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] border border-[var(--border-color)]"
