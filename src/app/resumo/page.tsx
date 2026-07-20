@@ -138,7 +138,7 @@ export default function ResumoPage() {
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: "40px" }}>
         <div
-          className="card px-6 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10 animate-fade-in-up"
+          className="card px-8 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12 animate-fade-in-up"
           style={{ border: "2px solid var(--success)" }}
         >
           <div className="flex items-center gap-3 mb-4">
@@ -154,7 +154,7 @@ export default function ResumoPage() {
           </p>
         </div>
         <div
-          className="card px-6 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10 animate-fade-in-up"
+          className="card px-8 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12 animate-fade-in-up"
           style={{ border: "2px solid var(--danger)" }}
         >
           <div className="flex items-center gap-3 mb-4">
@@ -170,7 +170,7 @@ export default function ResumoPage() {
           </p>
         </div>
         <div
-          className="card px-6 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10 animate-fade-in-up sm:col-span-2 lg:col-span-1"
+          className="card px-8 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12 animate-fade-in-up sm:col-span-2 lg:col-span-1"
           style={{ border: `2px solid ${saldoFinal >= 0 ? "var(--success)" : "var(--danger)"}` }}
         >
           <div className="flex items-center gap-3 mb-4">
@@ -198,7 +198,7 @@ export default function ResumoPage() {
 
       {/* Comparativo Renda vs Gastos */}
       <section
-        className="card px-6 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10 animate-fade-in-up"
+        className="card px-8 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12 animate-fade-in-up"
       >
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-blue-500/10">
@@ -232,7 +232,7 @@ export default function ResumoPage() {
 
       {/* Gastos por Categoria */}
       <section
-        className="card px-6 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10 animate-fade-in-up"
+        className="card px-8 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12 animate-fade-in-up"
       >
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-violet-500/10">
@@ -279,7 +279,7 @@ export default function ResumoPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: "40px" }}>
         {/* Gastos por Periodicidade */}
         <section
-          className="card px-6 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10 animate-fade-in-up"
+          className="card px-8 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12 animate-fade-in-up"
         >
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-amber-500/10">
@@ -316,7 +316,7 @@ export default function ResumoPage() {
 
         {/* Resumo Mensal Estimado */}
         <section
-          className="card px-6 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10 animate-fade-in-up"
+          className="card px-8 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12 animate-fade-in-up"
         >
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-cyan-500/10">
@@ -361,7 +361,7 @@ export default function ResumoPage() {
 
       {/* Evolucao Mensal */}
       <section
-        className="card px-6 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10 animate-fade-in-up"
+        className="card px-8 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12 animate-fade-in-up"
       >
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-indigo-500/10">
@@ -397,7 +397,7 @@ export default function ResumoPage() {
 
       {/* Detalhamento por Categoria */}
       <section
-        className="card px-6 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10 animate-fade-in-up"
+        className="card px-8 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12 animate-fade-in-up"
       >
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-pink-500/10">
